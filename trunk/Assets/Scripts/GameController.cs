@@ -11,9 +11,11 @@ public class GameController : MonoBehaviour {
 		/*UnitAppearance ua = new UnitAppearance(u);
 		Debug.Log("unit added");*/
 		Field f = new Field(3, 4);
-		f.AddShip(2, 2, u);
+		//f.AddShip(2, 2, u);
+		FieldAppearance fa = new FieldAppearance(f);
+
 	}
-	
+
 	// Update is called once per frame
 	void Update () {
 		

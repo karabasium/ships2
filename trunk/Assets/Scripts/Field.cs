@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class Field
 {
-	private int height;
-	private int width;
+	public int height;
+	public int width;
 	private List<Cell> cells = new List<Cell>();
 
 	public Field(int w, int h)
@@ -20,7 +20,7 @@ public class Field
 			}
 		}
 		Debug.Log("field created. cells count = " + cells.Count.ToString());
-		showCells();
+		//showCells();
 	}
 
 	private void showCells()
