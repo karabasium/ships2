@@ -8,7 +8,7 @@ public class Field
 	public int width;
 	private List<Cell> cells = new List<Cell>();
 
-	public Field(int w, int h)
+	public Field(int h, int w)
 	{
 		height = h;
 		width = w;
