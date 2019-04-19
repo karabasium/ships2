@@ -4,9 +4,10 @@ using UnityEngine;
 
 public class FieldAppearance {
 	private Field f;
-	private float cellWidth;
-	private float cellHeight;
-	private float angle;
+	private float cellWidth = 1.0f;
+	private float cellHeight = 1.0f;
+	private float angle = 45.0f;
+	private float scaleY = 0.5f;
 	private float fieldZeroX = -2;
 	private float fieldZeroY = -2;
 
@@ -15,12 +16,8 @@ public class FieldAppearance {
 	public FieldAppearance( Field f)
 	{
 		this.f = f;
-		float cellHeight = 1.0f;
-		float cellWidth = 1.0f;
-		float angle = 45.0f;
-		float scale_y = 0.5f;
 
-		DrawField(cellHeight, cellWidth, angle, scale_y);
+		DrawField(cellHeight, cellWidth, angle, scaleY);
 
 		Debug.Log("Field drawed");
 	}
