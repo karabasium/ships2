@@ -23,6 +23,11 @@ public class Field
 		//showCells();
 	}
 
+	public List<Cell> GetCells()
+	{
+		return cells;
+	}
+
 	private void showCells()
 	{
 		for (int i=0; i<cells.Count; i++)
@@ -44,6 +49,6 @@ public class Field
 			c.units.Add(u);
 		}
 		Debug.Log("cells:" + cells.ToString());
-		showCells();
+		//showCells();
 	}
 }

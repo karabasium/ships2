@@ -7,29 +7,38 @@ public class FieldAppearance {
 	private float cellWidth = 1.0f;
 	private float cellHeight = 1.0f;
 	private float angle = 45.0f;
+	private float angle_rad;
 	private float scaleY = 0.5f;
 	private float fieldZeroX = -2;
 	private float fieldZeroY = -2;
 
 
-
 	public FieldAppearance( Field f)
 	{
 		this.f = f;
+		angle_rad = Mathf.PI * (angle / 180);
 
 		DrawField(cellHeight, cellWidth, angle, scaleY);
-
-		Debug.Log("Field drawed");
+		DrawShips();
 	}
 
-
+	private void DrawShips()
+	{
+		
+		foreach (Cell cell in f.GetCells())
+		{
+			foreach (Unit u in cell.units) {
+				if (cell.units.Count == 1)
+				{
+					Vector2 pos = new Vector2(fieldZeroX + cell.x * cellWidth + 3*cellWidth / 4, fieldZeroY + cell.y * cellHeight + 3 * cellHeight / 4);
+					UnitAppearance ua = new UnitAppearance(u, scale_y(rotate(pos, angle_rad), scaleY));
+				}
+			}
+		}
+	}
 
 	private void DrawField(float cellHeight, float cellWidth, float angle, float y_scale)
 	{ 
-		float angle_rad = Mathf.PI * (angle / 180);
-
-		float horizontal_line_x_offset = cellHeight * Mathf.Tan(Mathf.PI * (angle / 180));
-		float vertical_line_x_offset = horizontal_line_x_offset * f.height;
 		for (int i = 0; i < f.height + 1; i++)//draw grid horizontal lines
 		{
 			Vector2 start = new Vector2(fieldZeroX, fieldZeroY + cellHeight * i);

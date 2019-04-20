@@ -8,10 +8,8 @@ public class GameController : MonoBehaviour {
 	void Start () {
 		Debug.Log("game started");
 		Unit u = new Unit("brig", Vector2.zero, 1);
-		/*UnitAppearance ua = new UnitAppearance(u);
-		Debug.Log("unit added");*/
 		Field f = new Field(3, 4);
-		//f.AddShip(2, 2, u);
+		f.AddShip(1, 2, u);
 		FieldAppearance fa = new FieldAppearance(f);
 
 	}
