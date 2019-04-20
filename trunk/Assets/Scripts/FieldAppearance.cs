@@ -27,13 +27,22 @@ public class FieldAppearance {
 		
 		foreach (Cell cell in f.GetCells())
 		{
-			foreach (Unit u in cell.units) {
-				if (cell.units.Count == 1)
-				{
-					Vector2 pos = new Vector2(fieldZeroX + cell.x * cellWidth + 3*cellWidth / 4, fieldZeroY + cell.y * cellHeight + 3 * cellHeight / 4);
-					UnitAppearance ua = new UnitAppearance(u, scale_y(rotate(pos, angle_rad), scaleY));
-				}
+			if (cell.units.Count == 0) continue;
+
+			float verticalOffset = 3 * cellHeight / 3;
+			if (cell.units.Count == 1)
+			{
+				verticalOffset = 3 * cellHeight / 4;
 			}
+			else if (cell.units.Count == 2)
+			{
+				verticalOffset = 9 * cellHeight / 10;
+				Debug.Log(verticalOffset);
+			}
+			for (int i=0; i<cell.units.Count; i++) {
+				Vector2 pos = new Vector2(fieldZeroX + cell.x * cellWidth + 3*cellWidth / 4, fieldZeroY + cell.y * cellHeight + verticalOffset - (1*verticalOffset/3)*i);
+				UnitAppearance ua = new UnitAppearance(cell.units[i], scale_y(rotate(pos, angle_rad), scaleY));
+			}			
 		}
 	}
 

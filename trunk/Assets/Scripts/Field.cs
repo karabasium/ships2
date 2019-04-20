@@ -48,6 +48,10 @@ public class Field
 		{
 			c.units.Add(u);
 		}
+		else
+		{
+			Debug.Log("ERROR! Attempt to add more than 2 ships on the same cell!");
+		}
 		Debug.Log("cells:" + cells.ToString());
 		//showCells();
 	}
