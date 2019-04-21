@@ -85,4 +85,9 @@ public class Unit  {
 		position = newPosition;
 		movementDone = true;
 	}
+
+	public void SetPosition( Vector2 new_pos)
+	{
+		position = new_pos;
+	}
 }
