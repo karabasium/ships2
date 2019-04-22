@@ -12,8 +12,8 @@ public class GameController : MonoBehaviour {
 		Unit u2 = new Unit("brig", Vector2.zero, 1);
 		Unit u3 = new Unit("brig", Vector2.zero, 1);
 		f = new Field(3, 4);
-		f.AddShip(0, 3, u1);
-		//f.AddShip(1, 2, u2);
+		f.AddUnit(0, 0, u1);
+		f.AddUnit(0, 0, u2);
 		//f.AddShip(0, 0, u3);
 		fieldObject = new GameObject();
 		fieldObject.AddComponent<FieldAppearance>();

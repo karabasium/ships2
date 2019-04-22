@@ -17,6 +17,9 @@ public class Unit  {
 	private Vector2 position;
 	private bool movementDone;
 	private bool fireDone;
+	public int cellIndex;
+	public bool hasGameObject;
+	public GameObject gameObject;
 
 	public Unit( string ship_class, Vector2 startPosition, int player )
 	{
@@ -35,6 +38,8 @@ public class Unit  {
 		hp = max_hp;
 		position = startPosition;
 		damage_per_shot = 1;
+		cellIndex = -1;
+		hasGameObject = false;
 		refresh();
 	}
 

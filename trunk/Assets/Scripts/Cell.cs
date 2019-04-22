@@ -4,19 +4,21 @@ using UnityEngine;
 
 public class Cell
 {
-	public List<Unit> units = new List<Unit>();
+	//public List<Unit> units = new List<Unit>();
 	public int x;
 	public int y;
+	public int slotsOccupied;
 
 	public Cell(int x, int y)
 	{
 		this.x = x;
 		this.y = y;
+		slotsOccupied = 0;
 	}
 
 	public bool isOccupied()
 	{
-		if (units.Count == 2)
+		if (slotsOccupied == 2)
 		{
 			return true;
 		}

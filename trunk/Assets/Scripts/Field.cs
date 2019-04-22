@@ -7,6 +7,7 @@ public class Field
 	public int height;
 	public int width;
 	private List<Cell> cells = new List<Cell>();
+	private List<Unit> units = new List<Unit>();
 	private Unit selectedUnit;
 
 	public Field(int w, int h)
@@ -30,36 +31,38 @@ public class Field
 		return cells;
 	}
 
-	private void showCells()
-	{
-		for (int i=0; i<cells.Count; i++)
-		{
-			Debug.Log(cells[i].units.Count);
-		}
-	}
-
 	private Cell getCell(int x, int y)
 	{
-		Debug.Log("getCell. height = " + height.ToString());
-		int i = width * y + x;
-		Debug.Log("getCell i="+i.ToString());
-		return cells[i];
+		return cells[CellIndex(x,y)];
 	}
 
-	public void AddShip(int x, int y, Unit u)
+	private int CellIndex(int x, int y)
+	{
+		return width * y + x;
+	}
+
+	public void AddUnit(int x, int y, Unit u)
 	{
 		Cell c = getCell(x, y);
+		GameObject g = new GameObject();
+		u.gameObject = g;
+		units.Add(u);
+		u.cellIndex = CellIndex(x, y);
 		Debug.Log("AddShip: x = " + x.ToString() + "y = " + y.ToString());
 		if (!c.isOccupied())
 		{
-			c.units.Add(u);
+			c.slotsOccupied += 1;
 		}
 		else
 		{
 			Debug.Log("ERROR! Attempt to add more than 2 ships on the same cell!");
 		}
 		//Debug.Log("cells:" + cells.ToString());
-		//showCells();
+	}
+
+	public List<Unit> GetUnits()
+	{
+		return units;
 	}
 
 	public void SetSelectedUnit(Unit u)
@@ -70,7 +73,8 @@ public class Field
 	public void ChangeUnitPosition( Vector2 new_pos)
 	{
 		//selectedUnit.SetPosition(new_pos);
-		AddShip((int)new_pos.x, (int)new_pos.y, selectedUnit);
+		//AddUnit((int)new_pos.x, (int)new_pos.y, selectedUnit);
+		selectedUnit.cellIndex = CellIndex((int)new_pos.x, (int)new_pos.y);
 		Debug.Log("ChangeUnitPosition. selected unit moved to " + ((int)new_pos.x).ToString() + ", " + ((int)new_pos.y).ToString());
 	}
 }

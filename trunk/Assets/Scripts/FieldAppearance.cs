@@ -78,34 +78,32 @@ public class FieldAppearance : MonoBehaviour {
 
 	private void DrawShips()
 	{
-		foreach( GameObject g in unitsObjects)
-		{
-			Destroy(g);
-		}
+		List<int> occupiedWithOneInitCellsIndexes = new List<int>();
+		int i = 0;
 
-		foreach (Cell cell in field.GetCells())
+		foreach (Unit unit in field.GetUnits())
+		//foreach (Cell cell in field.GetCells())
 		{
-			if (cell.units.Count == 0) continue;
+			Cell cell = field.GetCells()[unit.cellIndex];
 
 			float verticalOffset = 3 * cellHeight / 3;
-			if (cell.units.Count == 1)
-			{
-				verticalOffset = 3 * cellHeight / 4;
-			}
-			else if (cell.units.Count == 2)
-			{
+
+			if ( !occupiedWithOneInitCellsIndexes.Contains(unit.cellIndex) )
+			{				
+				Debug.Log("No slots occupied");
 				verticalOffset = 9 * cellHeight / 10;
-				Debug.Log(verticalOffset);
 			}
-			for (int i=0; i<cell.units.Count; i++) {
-				Debug.Log("DrawShips. cell.x = " + cell.x.ToString() + ", cell.y = " + cell.y.ToString());
-				Vector2 pos = new Vector2(fieldZeroX + cell.x * cellWidth + 3*cellWidth / 4, fieldZeroY + cell.y * cellHeight + verticalOffset - (1*verticalOffset/3)*i);
-				GameObject g = new GameObject();
-				unitsObjects.Add(g);
-				g.AddComponent<UnitAppearance>();
-				g.GetComponent<UnitAppearance>().PlaceUnit(cell.units[i], scale_y(rotate(pos, angle_rad), scaleY));
-				//UnitAppearance ua = new UnitAppearance(cell.units[i], scale_y(rotate(pos, angle_rad), scaleY));
-			}			
+			else
+			{				
+				verticalOffset = 1 * cellHeight / 2;
+				Debug.Log("1 slot occupied");
+			}
+
+			Debug.Log("DrawShips. cell.x = " + cell.x.ToString() + ", cell.y = " + cell.y.ToString());
+			Vector2 pos = new Vector2(fieldZeroX + cell.x * cellWidth + 3*cellWidth / 4, fieldZeroY + cell.y * cellHeight + verticalOffset);
+			unit.gameObject.AddComponent<UnitAppearance>();
+			unit.gameObject.GetComponent<UnitAppearance>().PlaceUnit(unit, scale_y(rotate(pos, angle_rad), scaleY));
+			occupiedWithOneInitCellsIndexes.Add(unit.cellIndex);
 		}
 	}
 
