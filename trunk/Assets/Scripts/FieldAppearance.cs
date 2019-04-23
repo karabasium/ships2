@@ -21,8 +21,8 @@ public class FieldAppearance : MonoBehaviour {
 		cellHeight = 1.0f;
 		angle = 45.0f;
 		scaleY = 0.5f;
-		fieldZeroX = 0;
-		fieldZeroY = 0;
+		fieldZeroX = -3;
+		fieldZeroY = -2;
 		angle_rad = Mathf.PI * (angle / 180);
 
 		DrawField(cellHeight, cellWidth, angle, scaleY);
@@ -35,38 +35,56 @@ public class FieldAppearance : MonoBehaviour {
 		{
 			Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 			Vector2 mousePos2D = new Vector2(mousePos.x, mousePos.y);
-			Debug.Log("Mouse click: " + mousePos2D.ToString());
+			//Debug.Log("Mouse click: " + mousePos2D.ToString());
 
 			RaycastHit2D hit = Physics2D.Raycast(mousePos2D, Vector2.zero);
 			if (hit.collider != null)
 			{
-				Debug.Log("click on " + hit.collider.gameObject.name);
+				//Debug.Log("click on " + hit.collider.gameObject.name);
 				SpriteRenderer sr = hit.collider.gameObject.GetComponent<SpriteRenderer>();
 				sr.color = new Color(0.38f, 1.0f, 0.55f, 1.0f);
 
-				Unit u = hit.collider.gameObject.GetComponent<UnitAppearance>().unit;
-				field.SetSelectedUnit(u);
+				Unit u = hit.collider.gameObject.GetComponent<UnitAppearance>().u;
+				field.AddUnitToSelectedUnits(u);
 			}
 			else
 			{
-				Vector2 cellXY = GetCellXY(mousePos2D);
-				Debug.Log("cellXY = " + cellXY.ToString());
-				field.ChangeUnitPosition( cellXY );
-				DrawShips();
+				if (field.GetSelectedUnits().Count > 0)
+				{
+					Vector2 cellXY = GetCellXY(mousePos2D);
+					//Debug.Log("cellXY = " + cellXY.ToString());
+					if (cellXY.x <= field.width && cellXY.y <= field.height && cellXY.x >= 0 && cellXY.y >= 0)
+					{
+						field.ChangeUnitPosition(cellXY);
+						ResetSelectedUnitsHighlight();
+						field.ReleaseUnitsSelection();
+						DrawShips();
+					}
+					else
+					{
+						Debug.Log("WARNING: Attempt to place unit outside the battlefield");
+					}
+				}
 			}
+		}
+	}
+
+	private void ResetSelectedUnitsHighlight()
+	{
+		foreach (Unit u in field.GetSelectedUnits())
+		{
+			u.gameObject.GetComponent<SpriteRenderer>().color = new Color(1.0f, 1.0f, 1.0f, 1.0f);
+			Debug.Log("reset selection");
 		}
 	}
 
 	private Vector2 GetCellXY( Vector2 xy)
 	{
 		Vector2 undistortedCellXY = rotate(scale_y(xy, 1 / scaleY), -angle_rad);
-		Debug.Log("undistortedCellXY = " + undistortedCellXY.ToString());
 		undistortedCellXY.x -= fieldZeroX;
 		undistortedCellXY.y -= fieldZeroY;
 		int new_cell_x = (int)Mathf.Floor( undistortedCellXY.x / cellWidth);
-		int new_cell_y = (int)Mathf.Floor(undistortedCellXY.y / cellHeight);
-		//Debug.Log("new_cell_x = " + new_cell_x.ToString());
-		Debug.Log("New Cell x = " + new_cell_x.ToString() + ". New cell y =  " + new_cell_y.ToString());
+		int new_cell_y = (int)Mathf.Floor( undistortedCellXY.y / cellHeight);
 		return new Vector2(new_cell_x, new_cell_y);
 	}
 
@@ -79,10 +97,8 @@ public class FieldAppearance : MonoBehaviour {
 	private void DrawShips()
 	{
 		List<int> occupiedWithOneInitCellsIndexes = new List<int>();
-		int i = 0;
 
 		foreach (Unit unit in field.GetUnits())
-		//foreach (Cell cell in field.GetCells())
 		{
 			Cell cell = field.GetCells()[unit.cellIndex];
 
@@ -101,8 +117,11 @@ public class FieldAppearance : MonoBehaviour {
 
 			Debug.Log("DrawShips. cell.x = " + cell.x.ToString() + ", cell.y = " + cell.y.ToString());
 			Vector2 pos = new Vector2(fieldZeroX + cell.x * cellWidth + 3*cellWidth / 4, fieldZeroY + cell.y * cellHeight + verticalOffset);
-			unit.gameObject.AddComponent<UnitAppearance>();
-			unit.gameObject.GetComponent<UnitAppearance>().PlaceUnit(unit, scale_y(rotate(pos, angle_rad), scaleY));
+			if (!unit.gameObject.GetComponent<UnitAppearance>())
+			{
+				unit.gameObject.AddComponent<UnitAppearance>();
+			}
+			unit.gameObject.GetComponent<UnitAppearance>().PlaceUnit( unit, scale_y(rotate(pos, angle_rad), scaleY) );
 			occupiedWithOneInitCellsIndexes.Add(unit.cellIndex);
 		}
 	}

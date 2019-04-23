@@ -4,23 +4,24 @@ using UnityEngine;
 
 public class UnitAppearance : MonoBehaviour {
 	private SpriteRenderer sr;
-	public Unit unit;
+	public Unit u;
 
-	public void PlaceUnit( Unit u, Vector2 pos)
+	void Start()
 	{
-		unit = u;
 		gameObject.name = "UnitAppeareance";
 		sr = gameObject.AddComponent<SpriteRenderer>();
 		Sprite shipSprite = Resources.Load<Sprite>("Sprites/brig");
-		Debug.Log(shipSprite);
 		gameObject.GetComponent<SpriteRenderer>().sprite = shipSprite;
-		Debug.Log("PlaceUnit pos = " + pos.ToString());
-		gameObject.transform.localPosition = pos;
-
 		Collider2D c2d = gameObject.AddComponent<BoxCollider2D>();
 		c2d.isTrigger = true;
-		//gameObject.AddComponent<UnitMouseEvents>();
-	
+		Debug.Log(shipSprite);
+	}
+
+	public void PlaceUnit( Unit u, Vector2 pos)
+	{
+		this.u = u;
+		//Debug.Log("PlaceUnit pos = " + pos.ToString());
+		gameObject.transform.localPosition = pos;
 	}
 
 	public void SetSelectedColor()

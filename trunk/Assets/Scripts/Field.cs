@@ -8,7 +8,7 @@ public class Field
 	public int width;
 	private List<Cell> cells = new List<Cell>();
 	private List<Unit> units = new List<Unit>();
-	private Unit selectedUnit;
+	private List<Unit> selectedUnits = new List<Unit>();
 
 	public Field(int w, int h)
 	{
@@ -65,16 +65,29 @@ public class Field
 		return units;
 	}
 
-	public void SetSelectedUnit(Unit u)
+	public void SetSelectedUnits( List<Unit> units)
 	{
-		selectedUnit = u;
+		selectedUnits = units;
+	}
+
+	public void AddUnitToSelectedUnits( Unit u)
+	{
+		selectedUnits.Add(u);
+	}
+
+	public List<Unit> GetSelectedUnits()
+	{
+		return selectedUnits;
+	}
+
+	public void ReleaseUnitsSelection()
+	{
+		selectedUnits = new List<Unit>();
 	}
 
 	public void ChangeUnitPosition( Vector2 new_pos)
 	{
-		//selectedUnit.SetPosition(new_pos);
-		//AddUnit((int)new_pos.x, (int)new_pos.y, selectedUnit);
-		selectedUnit.cellIndex = CellIndex((int)new_pos.x, (int)new_pos.y);
+		selectedUnits[selectedUnits.Count-1].cellIndex = CellIndex((int)new_pos.x, (int)new_pos.y);
 		Debug.Log("ChangeUnitPosition. selected unit moved to " + ((int)new_pos.x).ToString() + ", " + ((int)new_pos.y).ToString());
 	}
 }
