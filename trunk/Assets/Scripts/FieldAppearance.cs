@@ -55,7 +55,7 @@ public class FieldAppearance : MonoBehaviour {
 					//Debug.Log("cellXY = " + cellXY.ToString());
 					if (cellXY.x <= field.width && cellXY.y <= field.height && cellXY.x >= 0 && cellXY.y >= 0)
 					{
-						field.ChangeUnitPosition(cellXY);
+						field.ChangeSelectedUnitPosition(cellXY);
 						ResetSelectedUnitsHighlight();
 						field.ReleaseUnitsSelection();
 						DrawShips();
@@ -117,11 +117,13 @@ public class FieldAppearance : MonoBehaviour {
 
 			Debug.Log("DrawShips. cell.x = " + cell.x.ToString() + ", cell.y = " + cell.y.ToString());
 			Vector2 pos = new Vector2(fieldZeroX + cell.x * cellWidth + 3*cellWidth / 4, fieldZeroY + cell.y * cellHeight + verticalOffset);
-			if (!unit.gameObject.GetComponent<UnitAppearance>())
+			UnitAppearance ua = unit.gameObject.GetComponent<UnitAppearance>();
+			if (!ua)
 			{
-				unit.gameObject.AddComponent<UnitAppearance>();
+				ua = unit.gameObject.AddComponent<UnitAppearance>();
+				ua.Init( unit );
 			}
-			unit.gameObject.GetComponent<UnitAppearance>().PlaceUnit( unit, scale_y(rotate(pos, angle_rad), scaleY) );
+			ua.PlaceUnit( scale_y(rotate(pos, angle_rad), scaleY) );
 			occupiedWithOneInitCellsIndexes.Add(unit.cellIndex);
 		}
 	}

@@ -17,10 +17,12 @@ public class UnitAppearance : MonoBehaviour {
 		Debug.Log(shipSprite);
 	}
 
-	public void PlaceUnit( Unit u, Vector2 pos)
-	{
+	public void Init(Unit u) {
 		this.u = u;
-		//Debug.Log("PlaceUnit pos = " + pos.ToString());
+	}
+
+	public void PlaceUnit( Vector2 pos)
+	{
 		gameObject.transform.localPosition = pos;
 	}
 
