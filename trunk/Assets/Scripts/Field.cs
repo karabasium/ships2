@@ -85,7 +85,14 @@ public class Field
 		selectedUnits = new List<Unit>();
 	}
 
-	public void ChangeSelectedUnitPosition( Vector2 new_pos)
+	public void UnselectUnit( Unit u)
+	{
+		Debug.Log("selected units before removal: " + selectedUnits.Count.ToString());
+		selectedUnits.Remove(u);
+		Debug.Log("selected units after removal: " + selectedUnits.Count.ToString());
+	}
+
+	public void ChangeLastSelectedUnitPosition( Vector2 new_pos)
 	{
 		selectedUnits[selectedUnits.Count-1].cellIndex = CellIndex((int)new_pos.x, (int)new_pos.y);
 		Debug.Log("ChangeUnitPosition. selected unit moved to " + ((int)new_pos.x).ToString() + ", " + ((int)new_pos.y).ToString());

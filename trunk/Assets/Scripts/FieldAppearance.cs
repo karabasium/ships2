@@ -40,12 +40,24 @@ public class FieldAppearance : MonoBehaviour {
 			RaycastHit2D hit = Physics2D.Raycast(mousePos2D, Vector2.zero);
 			if (hit.collider != null)
 			{
-				//Debug.Log("click on " + hit.collider.gameObject.name);
 				SpriteRenderer sr = hit.collider.gameObject.GetComponent<SpriteRenderer>();
 				sr.color = new Color(0.38f, 1.0f, 0.55f, 1.0f);
 
 				Unit u = hit.collider.gameObject.GetComponent<UnitAppearance>().u;
-				field.AddUnitToSelectedUnits(u);
+
+				if (field.GetSelectedUnits().Contains(u)) //unselect unit if clicked again
+				{
+					Debug.Log("This unit is already selected");
+					field.UnselectUnit(u);
+					u.gameObject.GetComponent<SpriteRenderer>().color = new Color(1.0f, 1.0f, 1.0f, 1.0f);
+				}
+				else
+				{
+					ResetSelectedUnitsHighlight();
+					field.ReleaseUnitsSelection();
+
+					field.AddUnitToSelectedUnits(u);
+				}
 			}
 			else
 			{
@@ -55,7 +67,7 @@ public class FieldAppearance : MonoBehaviour {
 					//Debug.Log("cellXY = " + cellXY.ToString());
 					if (cellXY.x <= field.width && cellXY.y <= field.height && cellXY.x >= 0 && cellXY.y >= 0)
 					{
-						field.ChangeSelectedUnitPosition(cellXY);
+						field.ChangeLastSelectedUnitPosition(cellXY);
 						ResetSelectedUnitsHighlight();
 						field.ReleaseUnitsSelection();
 						DrawShips();
