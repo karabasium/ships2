@@ -10,6 +10,7 @@ public class FieldAppearance : MonoBehaviour {
 	private float angle;
 	private float angle_rad;
 	private float scaleY;
+	private float viewAngle;
 	private float fieldZeroX;
 	private float fieldZeroY;
 	private List<GameObject> unitsObjects = new List<GameObject>();
@@ -24,9 +25,22 @@ public class FieldAppearance : MonoBehaviour {
 		fieldZeroX = -3;
 		fieldZeroY = -2;
 		angle_rad = Mathf.PI * (angle / 180);
+		viewAngle = 90 - 180 * Mathf.Asin(scaleY) / Mathf.PI;
+
+		AddCellAppearance( new Vector2(0,0));
+		AddCellAppearance(new Vector2(1, 1));
+		AddCellAppearance(new Vector2(2, 1));
 
 		DrawField(cellHeight, cellWidth, angle, scaleY);
 		DrawShips();
+	}
+
+	private void AddCellAppearance( Vector2 pos)
+	{
+		GameObject cellGameObject = new GameObject();
+		CellAppearance ca = cellGameObject.AddComponent<CellAppearance>();
+		ca.Init(angle, viewAngle, cellWidth, cellHeight);
+		ca.SetPosition( pos, new Vector2(fieldZeroX, fieldZeroY));
 	}
 
 	void Update()
@@ -63,7 +77,7 @@ public class FieldAppearance : MonoBehaviour {
 			{
 				if (field.GetSelectedUnits().Count > 0)
 				{
-					Vector2 cellXY = GetCellXY(mousePos2D);
+					Vector2 cellXY = GetCellLogicalXY(mousePos2D);
 					//Debug.Log("cellXY = " + cellXY.ToString());
 					if (cellXY.x <= field.width && cellXY.y <= field.height && cellXY.x >= 0 && cellXY.y >= 0)
 					{
@@ -90,9 +104,9 @@ public class FieldAppearance : MonoBehaviour {
 		}
 	}
 
-	private Vector2 GetCellXY( Vector2 xy)
+	private Vector2 GetCellLogicalXY( Vector2 xy)
 	{
-		Vector2 undistortedCellXY = rotate(scale_y(xy, 1 / scaleY), -angle_rad);
+		Vector2 undistortedCellXY = Utils.rotate(Utils.scale_y(xy, 1 / scaleY), -angle_rad);
 		undistortedCellXY.x -= fieldZeroX;
 		undistortedCellXY.y -= fieldZeroY;
 		int new_cell_x = (int)Mathf.Floor( undistortedCellXY.x / cellWidth);
@@ -135,9 +149,15 @@ public class FieldAppearance : MonoBehaviour {
 				ua = unit.gameObject.AddComponent<UnitAppearance>();
 				ua.Init( unit );
 			}
-			ua.PlaceUnit( scale_y(rotate(pos, angle_rad), scaleY) );
+			ua.PlaceUnit(Utils.scale_y(Utils.rotate(pos, angle_rad), scaleY) );
 			occupiedWithOneInitCellsIndexes.Add(unit.cellIndex);
 		}
+	}
+
+	private Vector2 GetWorldPositionByLogicalXY( int field_x, int field_y)
+	{
+		Vector2 pos = new Vector2(fieldZeroX + field_x * cellWidth + cellWidth/2, fieldZeroY + field_y  * cellHeight+cellHeight/2);
+		return Utils.scale_y(Utils.rotate(pos, angle_rad), scaleY);
 	}
 
 	private void DrawField(float cellHeight, float cellWidth, float angle, float y_scale)
@@ -146,13 +166,13 @@ public class FieldAppearance : MonoBehaviour {
 		{
 			Vector2 start = new Vector2(fieldZeroX, fieldZeroY + cellHeight * i);
 			Vector2 end = new Vector2(fieldZeroX + field.width * cellWidth, fieldZeroY + cellHeight * i);
-			DrawLine(scale_y(rotate(start, angle_rad), y_scale), scale_y(rotate(end, angle_rad), y_scale));
+			DrawLine(Utils.scale_y(Utils.rotate(start, angle_rad), y_scale), Utils.scale_y(Utils.rotate(end, angle_rad), y_scale));
 		}
 		for (int i = 0; i < field.width + 1; i++)//draw grid vertical lines
 		{
 			Vector2 start = new Vector2(fieldZeroX + cellWidth * i, fieldZeroY);
 			Vector2 end = new Vector2(fieldZeroX + cellWidth * i, fieldZeroY + field.height * cellHeight);
-			DrawLine(scale_y(rotate(start, angle_rad), y_scale), scale_y(rotate(end, angle_rad), y_scale));
+			DrawLine(Utils.scale_y(Utils.rotate(start, angle_rad), y_scale), Utils.scale_y(Utils.rotate(end, angle_rad), y_scale));
 		}
 	}
 
@@ -167,18 +187,5 @@ public class FieldAppearance : MonoBehaviour {
 
 		lr.SetPosition(0, new Vector3(start.x, start.y, 0));
 		lr.SetPosition(1, new Vector3(end.x, end.y, 0));
-	}
-
-	private Vector2 rotate(Vector2 v, float angle)
-	{
-		Vector2 rotated_vector2 = new Vector2();
-		rotated_vector2.x = v.x * Mathf.Cos(angle) - v.y * Mathf.Sin(angle);
-		rotated_vector2.y = v.x * Mathf.Sin(angle) + v.y * Mathf.Cos(angle);
-		return rotated_vector2;
-	}
-
-	private Vector2 scale_y(Vector2 v, float y_scale)
-	{
-		return new Vector2(v.x, v.y * y_scale);
 	}
 }
