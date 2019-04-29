@@ -27,21 +27,23 @@ public class FieldAppearance : MonoBehaviour {
 		angle_rad = Mathf.PI * (angle / 180);
 		viewAngle = 90 - 180 * Mathf.Asin(scaleY) / Mathf.PI;
 
-		AddCellAppearance( new Vector2(0,0));
-		AddCellAppearance(new Vector2(1, 1));
-		AddCellAppearance(new Vector2(2, 1));
+		//AddCellAppearance( new Vector2(0,0));
+		//AddCellAppearance(new Vector2(1, 1));
+		//AddCellAppearance(new Vector2(2, 1));
+		Highlight hl = new Highlight(angle, scaleY, fieldZeroX, fieldZeroY, new Vector2(field.width, field.height), cellWidth, cellHeight);
+		hl.HighlightArea(new Vector2(5, 4), 5, "move");
 
 		DrawField(cellHeight, cellWidth, angle, scaleY);
 		DrawShips();
 	}
 
-	private void AddCellAppearance( Vector2 pos)
+	/*private void AddCellAppearance( Vector2 pos)
 	{
 		GameObject cellGameObject = new GameObject();
 		CellAppearance ca = cellGameObject.AddComponent<CellAppearance>();
 		ca.Init(angle, viewAngle, cellWidth, cellHeight);
 		ca.SetPosition( pos, new Vector2(fieldZeroX, fieldZeroY));
-	}
+	}*/
 
 	void Update()
 	{
