@@ -41,7 +41,7 @@ public class Highlight {
 			{
 				if (Mathf.Abs(rel_x) == Mathf.Abs(rel_y) || rel_x == 0 || rel_y == 0)
 				{
-					if (x + rel_x <= fieldSize.x && x + rel_x >= 1 && y + rel_y <= fieldSize.y && y + rel_y >= 1)
+					if (x + rel_x < fieldSize.x && x + rel_x >= 0 && y + rel_y < fieldSize.y && y + rel_y >= 0)
 					{
 						if (type == "move")
 						{
