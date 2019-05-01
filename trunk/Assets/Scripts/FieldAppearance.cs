@@ -15,6 +15,8 @@ public class FieldAppearance : MonoBehaviour {
 	private float fieldZeroY;
 	private Highlight move_hl = new Highlight();
 	private List<GameObject> unitsObjects = new List<GameObject>();
+	private GameObject gridParent;
+	private GameObject shipsParent;
 
 	void Awake()
 	{
@@ -122,6 +124,10 @@ public class FieldAppearance : MonoBehaviour {
 		angle_rad = Mathf.PI * (angle / 180);
 		viewAngle = 90 - 180 * Mathf.Asin(scaleY) / Mathf.PI;
 
+		gridParent = new GameObject();
+		shipsParent = new GameObject();
+		gridParent.name = "grid";
+		shipsParent.name = "ships";
 
 		//move_hl.HighlightArea(new Vector2(field.width-1, 0), 5, "move");
 
@@ -194,6 +200,8 @@ public class FieldAppearance : MonoBehaviour {
 	private void DrawLine(Vector2 start, Vector2 end)
 	{
 		GameObject g = new GameObject();
+		g.name = "grid line";
+		g.transform.parent = gridParent.transform;
 		LineRenderer lr = g.AddComponent<LineRenderer>();
 		lr.startWidth = 0.05f;
 		lr.endWidth = 0.05f;

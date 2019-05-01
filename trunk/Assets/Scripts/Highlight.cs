@@ -13,6 +13,7 @@ public class Highlight : MonoBehaviour {
 	private float cellHeight;
 	private Vector2 fieldSize;
 	private List<GameObject> cellGameObjects;
+	private GameObject cellParent;
 
 	/*public Highlight(float angle, float scaleY, float fieldZeroX, float fieldZeroY, Vector2 fieldSize, float cellWidth, float cellHeight)
 	{
@@ -44,6 +45,8 @@ public class Highlight : MonoBehaviour {
 		angle_rad = Mathf.PI * (angle / 180);
 		viewAngle = 90 - 180 * Mathf.Asin(scaleY) / Mathf.PI;
 		Debug.Log("Highlight constructor: angle = " + this.angle.ToString() + " viewAngle = " + viewAngle.ToString());
+		cellParent = new GameObject();
+		cellParent.name = "highlightCellsParent";
 	}
 
 	public void HighlightArea(Vector2Int positionOnField, int radius, string type)
@@ -96,9 +99,13 @@ public class Highlight : MonoBehaviour {
 	private void AddCellAppearance(Vector2 pos)
 	{
 		GameObject cellGameObject = new GameObject();
+		cellGameObject.name = "cellGameObject";
 		CellAppearance ca = cellGameObject.AddComponent<CellAppearance>();
+
+		cellGameObject.transform.parent = cellParent.transform;
+
 		cellGameObjects.Add(cellGameObject);
-		ca.Init(angle, viewAngle, cellWidth, cellHeight);
+		ca.Init(angle, viewAngle, cellWidth, cellHeight, cellGameObject);
 		ca.SetPosition(pos, new Vector2(fieldZeroX, fieldZeroY));
 	}
 

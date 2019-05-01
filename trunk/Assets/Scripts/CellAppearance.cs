@@ -15,7 +15,7 @@ public class CellAppearance : MonoBehaviour {
 		cube = GameObject.CreatePrimitive(PrimitiveType.Cube);
 	}
 
-	public void Init( float gridAngle, float viewAngle, float cellWidth, float cellHeight)
+	public void Init( float gridAngle, float viewAngle, float cellWidth, float cellHeight, GameObject go)
 	{
 		width = cellHeight;
 		height = cellHeight;
@@ -28,6 +28,8 @@ public class CellAppearance : MonoBehaviour {
 		Debug.Log("CA Init: viewAngle = " + viewAngle.ToString() + ". gridAngle = " + gridAngle.ToString());
 		cube.transform.Rotate(new Vector3(viewAngle, 0, gridAngle));
 		float angle_rad = Mathf.PI * gridAngle / 180;
+
+		cube.transform.parent = go.transform;
 	}
 	
 	public void SetPosition( Vector2 field_pos, Vector2 field_zero_pos )
