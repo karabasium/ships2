@@ -22,7 +22,7 @@ public class Field
 				cells.Add(new Cell(col, row));
 			}
 		}
-		Debug.Log("field created. cells count = " + cells.Count.ToString());
+		//Debug.Log("field created. cells count = " + cells.Count.ToString());
 		//showCells();
 	}
 
@@ -41,23 +41,24 @@ public class Field
 		return width * y + x;
 	}
 
-	public void AddUnit(int x, int y, Unit u)
+	public void AddUnit( Vector2Int positionOnField, Unit u)
 	{
-		Cell c = getCell(x, y);
+		Cell c = getCell(positionOnField.x, positionOnField.y);
 		GameObject g = new GameObject();
 		u.gameObject = g;
 		units.Add(u);
-		u.cellIndex = CellIndex(x, y);
-		Debug.Log("AddShip: x = " + x.ToString() + "y = " + y.ToString());
+		u.cellIndex = CellIndex(positionOnField.x, positionOnField.y);
+		u.SetPosition(positionOnField);
+		//Debug.Log("AddShip: x = " + positionOnField.x.ToString() + "y = " + positionOnField.y.ToString());
 		if (!c.isOccupied())
 		{
 			c.slotsOccupied += 1;
 		}
 		else
 		{
-			Debug.Log("ERROR! Attempt to add more than 2 ships on the same cell!");
+			//Debug.Log("ERROR! Attempt to add more than 2 ships on the same cell!");
 		}
-		//Debug.Log("cells:" + cells.ToString());
+		////Debug.Log("cells:" + cells.ToString());
 	}
 
 	public List<Unit> GetUnits()
@@ -87,14 +88,15 @@ public class Field
 
 	public void UnselectUnit( Unit u)
 	{
-		Debug.Log("selected units before removal: " + selectedUnits.Count.ToString());
+		//Debug.Log("selected units before removal: " + selectedUnits.Count.ToString());
 		selectedUnits.Remove(u);
-		Debug.Log("selected units after removal: " + selectedUnits.Count.ToString());
+		//Debug.Log("selected units after removal: " + selectedUnits.Count.ToString());
 	}
 
-	public void ChangeLastSelectedUnitPosition( Vector2 new_pos)
+	public void ChangeLastSelectedUnitPosition( Vector2Int new_pos)
 	{
 		selectedUnits[selectedUnits.Count-1].cellIndex = CellIndex((int)new_pos.x, (int)new_pos.y);
-		Debug.Log("ChangeUnitPosition. selected unit moved to " + ((int)new_pos.x).ToString() + ", " + ((int)new_pos.y).ToString());
+		selectedUnits[selectedUnits.Count - 1].SetPosition( new_pos );
+		//Debug.Log("ChangeUnitPosition. selected unit moved to " + ((int)new_pos.x).ToString() + ", " + ((int)new_pos.y).ToString());
 	}
 }

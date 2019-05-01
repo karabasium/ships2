@@ -14,7 +14,7 @@ public class UnitAppearance : MonoBehaviour {
 		gameObject.GetComponent<SpriteRenderer>().sprite = shipSprite;
 		Collider2D c2d = gameObject.AddComponent<BoxCollider2D>();
 		c2d.isTrigger = true;
-		Debug.Log(shipSprite);
+		//Debug.Log(shipSprite);
 	}
 
 	public void Init(Unit u) {

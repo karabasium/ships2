@@ -5,7 +5,7 @@ using UnityEngine;
 public class Unit  {
 	private int max_hp;
 	private int hp;
-	private int move_range;
+	public int move_range;
 	private int calm_move_range;
 	private int fire_range;
 	private int storm_drift_range;
@@ -14,14 +14,14 @@ public class Unit  {
 	private int max_shots;
 	private string ship_class;
 	private int player;
-	private Vector2 position;
+	private Vector2Int position;
 	private bool movementDone;
 	private bool fireDone;
 	public int cellIndex;
 	public bool hasGameObject;
 	public GameObject gameObject;
 
-	public Unit( string ship_class, Vector2 startPosition, int player )
+	public Unit( string ship_class, Vector2Int startPosition, int player )
 	{
 		this.ship_class = ship_class;
 		if (ship_class == "brig")
@@ -36,6 +36,7 @@ public class Unit  {
 		}
 		this.player = player;
 		hp = max_hp;
+		//Debug.Log("Unit: start position = " + startPosition.ToString());
 		position = startPosition;
 		damage_per_shot = 1;
 		cellIndex = -1;
@@ -85,14 +86,20 @@ public class Unit  {
 		return false;
 	}
 
-	public void move( Vector2 newPosition )
+	public void move( Vector2Int newPosition )
 	{
 		position = newPosition;
 		movementDone = true;
 	}
 
-	public void SetPosition( Vector2 new_pos)
+	public void SetPosition( Vector2Int new_pos)
 	{
 		position = new_pos;
+	}
+
+	public Vector2Int GetPosition()
+	{
+		//Debug.Log("Unit: position = " + position.ToString());
+		return position;
 	}
 }

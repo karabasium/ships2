@@ -32,7 +32,7 @@ public class Weather
 		dirs.Add(new int[] { 0, -1 });
 		dirs.Add(new int[] { -1, -1 });
 		dirs.Add(new int[] { -1, 0 });
-		Debug.Log("dirs initialized");
+		//Debug.Log("dirs initialized");
 		//SetWeather();
 	}
 
@@ -49,8 +49,8 @@ public class Weather
 		}
 		int len1 = System.Math.Abs(curWindIndex - dirIndex);
 		int len2 = System.Math.Abs((dirs.Count) - len1);
-		//Debug.Log("len1 = " + len1.ToString());
-		//Debug.Log("len2 = " + len2.ToString());
+		////Debug.Log("len1 = " + len1.ToString());
+		////Debug.Log("len2 = " + len2.ToString());
 		return System.Math.Min(len1, len2);
 	}
 
@@ -76,7 +76,7 @@ public class Weather
 
 		currentWeatherType = weather_type.WIND; // FOR DEBUG ONLY!!!
 
-		Debug.Log("WEATHER: " + currentWeatherType.ToString());
+		//Debug.Log("WEATHER: " + currentWeatherType.ToString());
 		if (currentWeatherType == weather_type.WIND || currentWeatherType == weather_type.STORM)
 		{
 			curWindIndex = Random.Range(0, dirs.Count - 1);

@@ -25,15 +25,15 @@ public class CellAppearance : MonoBehaviour {
 		scaleY = Mathf.Sin(Mathf.PI * (90 - view_angle) / 180);
 
 		cube.transform.localScale = new Vector3(height, width, 0.00001f);
+		Debug.Log("CA Init: viewAngle = " + viewAngle.ToString() + ". gridAngle = " + gridAngle.ToString());
 		cube.transform.Rotate(new Vector3(viewAngle, 0, gridAngle));
 		float angle_rad = Mathf.PI * gridAngle / 180;
-
-
 	}
 	
 	public void SetPosition( Vector2 field_pos, Vector2 field_zero_pos )
 	{
 		Vector2 pos = new Vector2(field_zero_pos.x + field_pos.x * width + width / 2, field_zero_pos.y + field_pos.y * height + height / 2);
+		Debug.Log("CA setPosition: pos = " + pos.ToString());
 		cube.transform.position = Utils.scale_y(Utils.rotate(pos, grid_angle_rad), scaleY);
 		cube.transform.position = new Vector3(cube.transform.position.x, cube.transform.position.y, cube.transform.position.z + 1); //changing Z position for placing cube below units and grid
 	}

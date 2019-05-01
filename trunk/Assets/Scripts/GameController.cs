@@ -6,30 +6,31 @@ public class GameController : MonoBehaviour {
 	public static GameController instance;
 	GameObject fieldObject;
 	public Weather currentWeather;
+	private FieldAppearance fa;
 	Field f;
 
 	void Awake()
 	{
-		Unit u1 = new Unit("brig", Vector2.zero, 1);
-		Unit u2 = new Unit("brig", Vector2.zero, 1);
-		Unit u3 = new Unit("brig", Vector2.zero, 1);
+		Unit u1 = new Unit("brig", Vector2Int.zero, 1);
+		Unit u2 = new Unit("brig", Vector2Int.zero, 1);
+		Unit u3 = new Unit("brig", Vector2Int.zero, 1);
 		f = new Field(10, 12);
-		f.AddUnit(0, 0, u1);
-		f.AddUnit(0, 0, u2);
+		f.AddUnit(new Vector2Int(1, 2), u1);
+		f.AddUnit(new Vector2Int(3, 4), u2);
 		//f.AddShip(0, 0, u3);
 		fieldObject = new GameObject();
-		fieldObject.AddComponent<FieldAppearance>();
+		fa = fieldObject.AddComponent<FieldAppearance>();
 
 		currentWeather = new Weather();
 		currentWeather.Init();
 		currentWeather.SetWeather();
 	}
 	void Start () {
-		//Debug.Log("game started");
+		////Debug.Log("game started");
 
 
 		//FieldAppearance.instance.SetField(f);
-		fieldObject.GetComponent<FieldAppearance>().SetField(f);
+		fa.Init( f );
 		//FieldAppearance fa = new FieldAppearance(f);
 
 	}
