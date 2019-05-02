@@ -11,9 +11,10 @@ public class Highlight : MonoBehaviour {
 	private float fieldZeroY;
 	private float cellWidth;
 	private float cellHeight;
-	private Vector2 fieldSize;
+	private Vector2Int fieldSize;
 	private List<GameObject> cellGameObjects;
 	private GameObject cellParent;
+	private List<Vector2Int> highlightedCellsIndexes;
 
 	/*public Highlight(float angle, float scaleY, float fieldZeroX, float fieldZeroY, Vector2 fieldSize, float cellWidth, float cellHeight)
 	{
@@ -31,7 +32,7 @@ public class Highlight : MonoBehaviour {
 		Debug.Log("Highlight constructor: angle = " + this.angle.ToString() + " viewAngle = " + viewAngle.ToString());
 	}*/
 
-	public void Init(float angle, float scaleY, float fieldZeroX, float fieldZeroY, Vector2 fieldSize, float cellWidth, float cellHeight)
+	public void Init(float angle, float scaleY, float fieldZeroX, float fieldZeroY, Vector2Int fieldSize, float cellWidth, float cellHeight)
 	{
 		this.angle = angle;
 		this.scaleY = scaleY;
@@ -41,6 +42,7 @@ public class Highlight : MonoBehaviour {
 		this.cellWidth = cellWidth;
 		this.cellHeight = cellHeight;
 		cellGameObjects = new List<GameObject>();
+		highlightedCellsIndexes = new List<Vector2Int>();
 
 		angle_rad = Mathf.PI * (angle / 180);
 		viewAngle = 90 - 180 * Mathf.Asin(scaleY) / Mathf.PI;
@@ -56,7 +58,6 @@ public class Highlight : MonoBehaviour {
 		Weather currentWeather = new Weather();
 		currentWeather.Init();
 		currentWeather.SetWeather();
-		////Debug.Log("HighlightArea: radius = " + radius.ToString() + ". type = " + type + " Position = " + positionOnField.ToString());
 		for (int rel_x = -radius; rel_x <= radius; rel_x++)
 		{
 			for (int rel_y = -radius; rel_y <= radius; rel_y++)
@@ -70,11 +71,10 @@ public class Highlight : MonoBehaviour {
 							if (currentWeather.currentWeatherType == Weather.weather_type.WIND)
 							{
 								int rad = Mathf.Max(Mathf.Abs(rel_x), Mathf.Abs(rel_y));
-								//////Debug.Log("HighlightArea: rad = " + rad.ToString());
 								if (rad <= radius - currentWeather.DistanceToCurrentWind(rel_x, rel_y))
 								{									
 									AddCellAppearance( new Vector2(x + rel_x, y + rel_y));
-									//////Debug.Log("cell added");
+									highlightedCellsIndexes.Add( new Vector2Int(x + rel_x, y + rel_y) );
 								}
 								
 							}
@@ -113,7 +113,13 @@ public class Highlight : MonoBehaviour {
 	{
 		foreach(GameObject go in cellGameObjects)
 		{
-			Destroy(go); // not working yet
+			Destroy(go);
 		}
+		highlightedCellsIndexes = new List<Vector2Int>();
+	}
+
+	public List<Vector2Int> GetHighlightedCellsIndexes()
+	{
+		return highlightedCellsIndexes;
 	}
 }

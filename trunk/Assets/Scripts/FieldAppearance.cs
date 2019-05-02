@@ -58,15 +58,25 @@ public class FieldAppearance : MonoBehaviour {
 				if (field.GetSelectedUnits().Count > 0) //if any unit is selected
 				{
 					Vector2Int cellXY = GetCellLogicalXY(mousePos2D);
-					if (cellXY.x <= field.width && cellXY.y <= field.height && cellXY.x >= 0 && cellXY.y >= 0) //if desired location is valid field cell
+					List<Vector2Int> availableCells = move_hl.GetHighlightedCellsIndexes();
+
+					if (availableCells.Contains(cellXY))
 					{
-						field.ChangeLastSelectedUnitPosition(cellXY); //move selected unit in desired cell
-						ResetSelectedUnits();
-						DrawShips();
+
+						if (cellXY.x <= field.width && cellXY.y <= field.height && cellXY.x >= 0 && cellXY.y >= 0) //if desired location is valid field cell
+						{
+							field.ChangeLastSelectedUnitPosition(cellXY); //move selected unit in desired cell
+							ResetSelectedUnits();
+							DrawShips();
+						}
+						else
+						{
+							//Debug.Log("WARNING: Attempt to place unit outside the battlefield");
+						}
 					}
 					else
 					{
-						//Debug.Log("WARNING: Attempt to place unit outside the battlefield");
+						Debug.Log("This cell is not available for movement");
 					}
 				}
 			}
@@ -115,7 +125,7 @@ public class FieldAppearance : MonoBehaviour {
 		DrawShips();
 
 		Debug.Log("FieldAppearance Init: angle = " + angle.ToString() + ". scaleY = " + scaleY.ToString());
-		move_hl.Init(angle, scaleY, fieldZeroX, fieldZeroY, new Vector2(field.width, field.height), cellWidth, cellHeight);
+		move_hl.Init(angle, scaleY, fieldZeroX, fieldZeroY, new Vector2Int(field.width, field.height), cellWidth, cellHeight);
 	}
 
 
