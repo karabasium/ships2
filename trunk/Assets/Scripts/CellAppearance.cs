@@ -40,7 +40,12 @@ public class CellAppearance : MonoBehaviour {
 		cube.transform.position = new Vector3(cube.transform.position.x, cube.transform.position.y, cube.transform.position.z + 1); //changing Z position for placing cube below units and grid
 	}
 
-	// Update is called once per frame
+	public void SetColor( Color color)
+	{
+		MeshRenderer mr = cube.GetComponent<MeshRenderer>();
+		mr.material.color = color;
+	}
+
 	void Update () {
 		
 	}

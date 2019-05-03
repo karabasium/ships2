@@ -15,6 +15,8 @@ public class Highlight : MonoBehaviour {
 	private List<GameObject> cellGameObjects;
 	private GameObject cellParent;
 	private List<Vector2Int> highlightedCellsIndexes;
+	private Color canMoveColor;
+	private Color canFireColor;
 
 	/*public Highlight(float angle, float scaleY, float fieldZeroX, float fieldZeroY, Vector2 fieldSize, float cellWidth, float cellHeight)
 	{
@@ -49,6 +51,9 @@ public class Highlight : MonoBehaviour {
 		Debug.Log("Highlight constructor: angle = " + this.angle.ToString() + " viewAngle = " + viewAngle.ToString());
 		cellParent = new GameObject();
 		cellParent.name = "highlightCellsParent";
+
+		canMoveColor = new Color(152f / 255f, 205f / 255f, 250f / 255f);
+		canFireColor = new Color(250f / 255f, 136f / 255f, 136f / 255f);
 	}
 
 	public void HighlightArea(Vector2Int positionOnField, int radius, string type)
@@ -73,7 +78,7 @@ public class Highlight : MonoBehaviour {
 								int rad = Mathf.Max(Mathf.Abs(rel_x), Mathf.Abs(rel_y));
 								if (rad <= radius - currentWeather.DistanceToCurrentWind(rel_x, rel_y))
 								{									
-									AddCellAppearance( new Vector2(x + rel_x, y + rel_y));
+									AddCellAppearance( new Vector2(x + rel_x, y + rel_y), type);
 									highlightedCellsIndexes.Add( new Vector2Int(x + rel_x, y + rel_y) );
 								}
 								
@@ -82,13 +87,13 @@ public class Highlight : MonoBehaviour {
 							{
 								if (currentWeather.currentWeatherType == Weather.weather_type.CALM)
 								{
-									AddCellAppearance(new Vector2(x + rel_x, y + rel_y));
+									AddCellAppearance(new Vector2(x + rel_x, y + rel_y), type);
 								}
 							}
 						}
 						else
 						{
-							AddCellAppearance(new Vector2(x + rel_x, y + rel_y));
+							AddCellAppearance(new Vector2(x + rel_x, y + rel_y), type);
 						}
 					}
 				}
@@ -96,7 +101,7 @@ public class Highlight : MonoBehaviour {
 		}
 	}
 
-	private void AddCellAppearance(Vector2 pos)
+	private void AddCellAppearance(Vector2 pos, string type)
 	{
 		GameObject cellGameObject = new GameObject();
 		cellGameObject.name = "cellGameObject";
@@ -107,6 +112,21 @@ public class Highlight : MonoBehaviour {
 		cellGameObjects.Add(cellGameObject);
 		ca.Init(angle, viewAngle, cellWidth, cellHeight, cellGameObject);
 		ca.SetPosition(pos, new Vector2(fieldZeroX, fieldZeroY));
+
+		Color defaultColor = new Color(1f, 1f, 1f);
+
+		if (type == "move")
+		{
+			ca.SetColor(canMoveColor);
+		}
+		else if (type == "fire")
+		{
+			ca.SetColor( canFireColor );
+		}
+		else
+		{
+			ca.SetColor( defaultColor );
+		}
 	}
 
 	public void ResetHighlight()
