@@ -51,6 +51,7 @@ public class FieldAppearance : MonoBehaviour {
 					ResetSelectedUnits();
 					field.AddUnitToSelectedUnits(u);
 					move_hl.HighlightArea( u.GetPosition(), u.move_range, "move");
+					move_hl.HighlightArea( u.GetPosition(), u.fire_range, "fire");
 				}
 			}
 			else //click in the field
@@ -110,9 +111,9 @@ public class FieldAppearance : MonoBehaviour {
 		cellWidth = 1.0f;
 		cellHeight = 1.0f;
 		angle = 40.0f;
-		scaleY = 0.70f;
-		fieldZeroX = -3;
-		fieldZeroY = -2;
+		scaleY = 0.7f;
+		fieldZeroX = -2;
+		fieldZeroY = -3;
 		angle_rad = Mathf.PI * (angle / 180);
 		viewAngle = 90 - 180 * Mathf.Asin(scaleY) / Mathf.PI;
 

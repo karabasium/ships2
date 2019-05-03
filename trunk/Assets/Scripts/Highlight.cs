@@ -18,22 +18,6 @@ public class Highlight : MonoBehaviour {
 	private Color canMoveColor;
 	private Color canFireColor;
 
-	/*public Highlight(float angle, float scaleY, float fieldZeroX, float fieldZeroY, Vector2 fieldSize, float cellWidth, float cellHeight)
-	{
-		this.angle = angle;
-		this.scaleY = scaleY;
-		this.fieldZeroX = fieldZeroX;
-		this.fieldZeroY = fieldZeroY;
-		this.fieldSize = fieldSize;
-		this.cellWidth = cellWidth;
-		this.cellHeight = cellHeight;
-		cellGameObjects = new List<GameObject>();
-
-		angle_rad = Mathf.PI * (angle / 180);
-		viewAngle = 90 - 180 * Mathf.Asin(scaleY) / Mathf.PI;
-		Debug.Log("Highlight constructor: angle = " + this.angle.ToString() + " viewAngle = " + viewAngle.ToString());
-	}*/
-
 	public void Init(float angle, float scaleY, float fieldZeroX, float fieldZeroY, Vector2Int fieldSize, float cellWidth, float cellHeight)
 	{
 		this.angle = angle;
@@ -93,7 +77,7 @@ public class Highlight : MonoBehaviour {
 						}
 						else
 						{
-							AddCellAppearance(new Vector2(x + rel_x, y + rel_y), type);
+							AddCellAppearance(new Vector2(x + rel_x, y + rel_y), type); //Cells under fire highlight
 						}
 					}
 				}
@@ -110,7 +94,8 @@ public class Highlight : MonoBehaviour {
 		cellGameObject.transform.parent = cellParent.transform;
 
 		cellGameObjects.Add(cellGameObject);
-		ca.Init(angle, viewAngle, cellWidth, cellHeight, cellGameObject);
+
+		ca.Init(angle, viewAngle, cellWidth, cellHeight, cellGameObject, type);
 		ca.SetPosition(pos, new Vector2(fieldZeroX, fieldZeroY));
 
 		Color defaultColor = new Color(1f, 1f, 1f);

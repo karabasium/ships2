@@ -7,7 +7,7 @@ public class Unit  {
 	private int hp;
 	public int move_range;
 	private int calm_move_range;
-	private int fire_range;
+	public int fire_range;
 	private int storm_drift_range;
 	private int shots;
 	private int damage_per_shot;

@@ -10,12 +10,14 @@ public class CellAppearance : MonoBehaviour {
 	private float grid_angle_rad;
 	private float view_angle;
 	private float scaleY;
+	private float scaleFactor;
+	private float zOffset;
 
 	void Awake() {
 		cube = GameObject.CreatePrimitive(PrimitiveType.Cube);
 	}
 
-	public void Init( float gridAngle, float viewAngle, float cellWidth, float cellHeight, GameObject go)
+	public void Init( float gridAngle, float viewAngle, float cellWidth, float cellHeight, GameObject go, string type)
 	{
 		width = cellHeight;
 		height = cellHeight;
@@ -24,7 +26,15 @@ public class CellAppearance : MonoBehaviour {
 		view_angle = viewAngle;
 		scaleY = Mathf.Sin(Mathf.PI * (90 - view_angle) / 180);
 
-		cube.transform.localScale = new Vector3(height, width, 0.00001f);
+		zOffset = 1.0f;
+		scaleFactor = 1.0f;
+		if (type == "fire")
+		{
+			scaleFactor = 0.7f;
+			zOffset = 0.8f;
+		}
+
+		cube.transform.localScale = new Vector3(height * scaleFactor, width * scaleFactor, 0.00001f);
 		Debug.Log("CA Init: viewAngle = " + viewAngle.ToString() + ". gridAngle = " + gridAngle.ToString());
 		cube.transform.Rotate(new Vector3(viewAngle, 0, gridAngle));
 		float angle_rad = Mathf.PI * gridAngle / 180;
@@ -32,12 +42,14 @@ public class CellAppearance : MonoBehaviour {
 		cube.transform.parent = go.transform;
 	}
 	
-	public void SetPosition( Vector2 field_pos, Vector2 field_zero_pos )
+	public void SetPosition( Vector2 field_pos, Vector2 field_zero_pos)
 	{
+		//Vector2 pos = new Vector2(field_zero_pos.x + field_pos.x * width + width / 2, field_zero_pos.y + field_pos.y * height + height / 2
+		
 		Vector2 pos = new Vector2(field_zero_pos.x + field_pos.x * width + width / 2, field_zero_pos.y + field_pos.y * height + height / 2);
 		Debug.Log("CA setPosition: pos = " + pos.ToString());
 		cube.transform.position = Utils.scale_y(Utils.rotate(pos, grid_angle_rad), scaleY);
-		cube.transform.position = new Vector3(cube.transform.position.x, cube.transform.position.y, cube.transform.position.z + 1); //changing Z position for placing cube below units and grid
+		cube.transform.position = new Vector3(cube.transform.position.x, cube.transform.position.y, cube.transform.position.z + zOffset); //changing Z position for placing cube below units and grid
 	}
 
 	public void SetColor( Color color)
