@@ -27,6 +27,31 @@ public class FieldAppearance : MonoBehaviour {
 
 	}
 
+	public void Init(Field f)
+	{
+		this.field = f;
+
+		cellWidth = 1.0f;
+		cellHeight = 1.0f;
+		angle = 40.0f;
+		scaleY = 0.7f;
+		fieldZeroX = -2;
+		fieldZeroY = -3;
+		angle_rad = Mathf.PI * (angle / 180);
+		viewAngle = 90 - 180 * Mathf.Asin(scaleY) / Mathf.PI;
+
+		gridParent = new GameObject();
+		shipsParent = new GameObject();
+		gridParent.name = "grid";
+		shipsParent.name = "ships";
+
+		DrawField(cellHeight, cellWidth, angle, scaleY);
+		DrawShips();
+
+		Debug.Log("FieldAppearance Init: angle = " + angle.ToString() + ". scaleY = " + scaleY.ToString());
+		move_hl.Init(angle, scaleY, fieldZeroX, fieldZeroY, cellWidth, cellHeight, field);
+	}
+
 	void Update()
 	{
 		if (Input.GetMouseButtonDown(0))
@@ -50,8 +75,8 @@ public class FieldAppearance : MonoBehaviour {
 				{
 					ResetSelectedUnits();
 					field.AddUnitToSelectedUnits(u);
-					move_hl.HighlightArea( u.GetPosition(), u.move_range, "move");
-					move_hl.HighlightArea( u.GetPosition(), u.fire_range, "fire");
+					MakeNeccessaryHighlights(u);
+					DrawShips();
 				}
 			}
 			else //click in the field
@@ -67,7 +92,9 @@ public class FieldAppearance : MonoBehaviour {
 						if (cellXY.x <= field.width && cellXY.y <= field.height && cellXY.x >= 0 && cellXY.y >= 0) //if desired location is valid field cell
 						{
 							field.ChangeLastSelectedUnitPosition(cellXY); //move selected unit in desired cell
-							ResetSelectedUnits();
+							//ResetSelectedUnits();
+							field.GetLastSelectedUnit().movementDone = true;
+							MakeNeccessaryHighlights(field.GetLastSelectedUnit() );
 							DrawShips();
 						}
 						else
@@ -94,6 +121,20 @@ public class FieldAppearance : MonoBehaviour {
 		field.ReleaseUnitsSelection();
 	}
 
+	private void MakeNeccessaryHighlights( Unit u)
+	{
+		move_hl.ResetHighlight();
+		if (!u.movementDone)
+		{
+			move_hl.HighlightArea(u.GetPosition(), u.move_range, "move");
+		}
+		if (!u.fireDone)
+		{
+			move_hl.HighlightArea(u.GetPosition(), u.fire_range, "fire");
+		}
+	}
+
+
 	private Vector2Int GetCellLogicalXY( Vector2 xy)
 	{
 		Vector2 undistortedCellXY = Utils.rotate(Utils.scale_y(xy, 1 / scaleY), -angle_rad);
@@ -104,30 +145,7 @@ public class FieldAppearance : MonoBehaviour {
 		return new Vector2Int(new_cell_x, new_cell_y);
 	}
 
-	public void Init( Field f)
-	{
-		this.field = f;
 
-		cellWidth = 1.0f;
-		cellHeight = 1.0f;
-		angle = 40.0f;
-		scaleY = 0.7f;
-		fieldZeroX = -2;
-		fieldZeroY = -3;
-		angle_rad = Mathf.PI * (angle / 180);
-		viewAngle = 90 - 180 * Mathf.Asin(scaleY) / Mathf.PI;
-
-		gridParent = new GameObject();
-		shipsParent = new GameObject();
-		gridParent.name = "grid";
-		shipsParent.name = "ships";
-
-		DrawField(cellHeight, cellWidth, angle, scaleY);
-		DrawShips();
-
-		Debug.Log("FieldAppearance Init: angle = " + angle.ToString() + ". scaleY = " + scaleY.ToString());
-		move_hl.Init(angle, scaleY, fieldZeroX, fieldZeroY, new Vector2Int(field.width, field.height), cellWidth, cellHeight);
-	}
 
 
 	private void DrawShips()
@@ -136,7 +154,7 @@ public class FieldAppearance : MonoBehaviour {
 
 		foreach (Unit unit in field.GetUnits())
 		{
-			Cell cell = field.GetCells()[unit.cellIndex];
+			Cell cell = field.GetAllCells()[unit.cellIndex];
 
 			float verticalOffset = 3 * cellHeight / 3;
 
@@ -157,6 +175,17 @@ public class FieldAppearance : MonoBehaviour {
 				ua.Init( unit );
 			}
 			ua.PlaceUnit(Utils.scale_y(Utils.rotate(pos, angle_rad), scaleY) );
+			if (!field.GetSelectedUnits().Contains(unit))
+			{
+				if (cell.isUnderFire)
+				{
+					ua.ColorAsUnderFireUnit();
+				}
+				else
+				{
+					ua.ResetColor();
+				}
+			}
 			occupiedWithOneInitCellsIndexes.Add(unit.cellIndex);
 		}
 	}

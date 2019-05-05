@@ -15,8 +15,8 @@ public class Unit  {
 	private string ship_class;
 	private int player;
 	private Vector2Int position;
-	private bool movementDone;
-	private bool fireDone;
+	public bool movementDone;
+	public bool fireDone;
 	public int cellIndex;
 	public bool hasGameObject;
 	public GameObject gameObject;

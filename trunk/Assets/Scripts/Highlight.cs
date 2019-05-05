@@ -17,16 +17,18 @@ public class Highlight : MonoBehaviour {
 	private List<Vector2Int> highlightedCellsIndexes;
 	private Color canMoveColor;
 	private Color canFireColor;
+	private Field field;
 
-	public void Init(float angle, float scaleY, float fieldZeroX, float fieldZeroY, Vector2Int fieldSize, float cellWidth, float cellHeight)
+	public void Init(float angle, float scaleY, float fieldZeroX, float fieldZeroY, float cellWidth, float cellHeight, Field field)
 	{
 		this.angle = angle;
 		this.scaleY = scaleY;
 		this.fieldZeroX = fieldZeroX;
 		this.fieldZeroY = fieldZeroY;
-		this.fieldSize = fieldSize;
+		fieldSize = new Vector2Int( field.width, field.height);
 		this.cellWidth = cellWidth;
 		this.cellHeight = cellHeight;
+		this.field = field;
 		cellGameObjects = new List<GameObject>();
 		highlightedCellsIndexes = new List<Vector2Int>();
 
@@ -78,6 +80,7 @@ public class Highlight : MonoBehaviour {
 						else
 						{
 							AddCellAppearance(new Vector2(x + rel_x, y + rel_y), type); //Cells under fire highlight
+							field.getCell(x + rel_x, y + rel_y).isUnderFire = true;
 						}
 					}
 				}
@@ -121,6 +124,10 @@ public class Highlight : MonoBehaviour {
 			Destroy(go);
 		}
 		highlightedCellsIndexes = new List<Vector2Int>();
+		foreach(Cell cell in field.GetAllCells())
+		{
+			cell.isUnderFire = false;
+		}
 	}
 
 	public List<Vector2Int> GetHighlightedCellsIndexes()

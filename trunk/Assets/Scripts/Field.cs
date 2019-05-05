@@ -26,12 +26,12 @@ public class Field
 		//showCells();
 	}
 
-	public List<Cell> GetCells()
+	public List<Cell> GetAllCells()
 	{
 		return cells;
 	}
 
-	private Cell getCell(int x, int y)
+	public Cell getCell(int x, int y)
 	{
 		return cells[CellIndex(x,y)];
 	}
@@ -49,16 +49,14 @@ public class Field
 		units.Add(u);
 		u.cellIndex = CellIndex(positionOnField.x, positionOnField.y);
 		u.SetPosition(positionOnField);
-		//Debug.Log("AddShip: x = " + positionOnField.x.ToString() + "y = " + positionOnField.y.ToString());
 		if (!c.isOccupied())
 		{
 			c.slotsOccupied += 1;
 		}
 		else
 		{
-			//Debug.Log("ERROR! Attempt to add more than 2 ships on the same cell!");
+			Debug.Log("ERROR! Attempt to add more than 2 ships on the same cell!");
 		}
-		////Debug.Log("cells:" + cells.ToString());
 	}
 
 	public List<Unit> GetUnits()
@@ -88,15 +86,17 @@ public class Field
 
 	public void UnselectUnit( Unit u)
 	{
-		//Debug.Log("selected units before removal: " + selectedUnits.Count.ToString());
 		selectedUnits.Remove(u);
-		//Debug.Log("selected units after removal: " + selectedUnits.Count.ToString());
 	}
 
 	public void ChangeLastSelectedUnitPosition( Vector2Int new_pos)
 	{
 		selectedUnits[selectedUnits.Count-1].cellIndex = CellIndex((int)new_pos.x, (int)new_pos.y);
 		selectedUnits[selectedUnits.Count - 1].SetPosition( new_pos );
-		//Debug.Log("ChangeUnitPosition. selected unit moved to " + ((int)new_pos.x).ToString() + ", " + ((int)new_pos.y).ToString());
+	}
+
+	public Unit GetLastSelectedUnit()
+	{
+		return selectedUnits[selectedUnits.Count - 1];
 	}
 }

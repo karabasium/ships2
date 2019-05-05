@@ -8,6 +8,7 @@ public class Cell
 	public int x;
 	public int y;
 	public int slotsOccupied;
+	public bool isUnderFire = false;
 
 	public Cell(int x, int y)
 	{
