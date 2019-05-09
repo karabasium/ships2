@@ -2,6 +2,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum Player
+{
+	PLAYER_1,
+	PLAYER_2
+}
+
 public class GameController : MonoBehaviour {
 	public static GameController instance;
 	GameObject fieldObject;
@@ -9,12 +15,17 @@ public class GameController : MonoBehaviour {
 	private FieldAppearance fa;
 	Field f;
 
+
+
+
 	void Awake()
 	{
-		Unit u1 = new Unit("brig", Vector2Int.zero, 1);
-		Unit u2 = new Unit("brig", Vector2Int.zero, 1);
-		Unit u3 = new Unit("brig", Vector2Int.zero, 1);
 		f = new Field(8, 9);
+
+		Unit u1 = new Unit("brig", Vector2Int.zero, Player.PLAYER_1 );
+		Unit u2 = new Unit("brig", Vector2Int.zero, Player.PLAYER_2 );
+		Unit u3 = new Unit("brig", Vector2Int.zero, Player.PLAYER_1 );
+
 		f.AddUnit(new Vector2Int(0, 0), u1);
 		f.AddUnit(new Vector2Int(3, 4), u2);
 		//f.AddShip(0, 0, u3);

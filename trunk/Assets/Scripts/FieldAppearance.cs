@@ -60,22 +60,38 @@ public class FieldAppearance : MonoBehaviour {
 			Vector2 mousePos2D = new Vector2(mousePos.x, mousePos.y);
 
 			RaycastHit2D hit = Physics2D.Raycast(mousePos2D, Vector2.zero);
+
 			if (hit.collider != null) // if clicked on unit
 			{
-				SpriteRenderer sr = hit.collider.gameObject.GetComponent<SpriteRenderer>();
-				sr.color = new Color(0.38f, 1.0f, 0.55f, 1.0f);
-
-				Unit u = hit.collider.gameObject.GetComponent<UnitAppearance>().u;				
-
-				if (field.GetSelectedUnits().Contains(u)) //unselect unit if clicked again
+				Unit u = hit.collider.gameObject.GetComponent<UnitAppearance>().u;
+				Debug.Log("click on unit");
+				
+				if ( field.GetLastSelectedUnit() == null || u.player == field.GetLastSelectedUnit().player) //click on Player's unit
 				{
-					ResetSelectedUnits();
+
+					SpriteRenderer sr = hit.collider.gameObject.GetComponent<SpriteRenderer>();
+					sr.color = new Color(0.38f, 1.0f, 0.55f, 1.0f);
+
+					if (field.GetSelectedUnits().Contains(u)) //unselect unit if clicked again
+					{
+						ResetSelectedUnits();
+					}
+					else //select unit
+					{
+						ResetSelectedUnits();
+						field.AddUnitToSelectedUnits(u);
+						MakeNeccessaryHighlights(u);
+						DrawShips();
+					}
 				}
-				else //select unit
+				else //click on Enemy unit
 				{
-					ResetSelectedUnits();
-					field.AddUnitToSelectedUnits(u);
-					MakeNeccessaryHighlights(u);
+					Unit playerUnit = field.GetLastSelectedUnit();
+					Unit enemyUnit = u;
+					playerUnit.fire( enemyUnit ); //fire on enemy unit
+					Debug.Log("FieldAppearance: unit is alive = " + u.isAlive());
+					RemoveDeadUnits();
+					MakeNeccessaryHighlights( playerUnit );
 					DrawShips();
 				}
 			}
@@ -121,8 +137,9 @@ public class FieldAppearance : MonoBehaviour {
 		field.ReleaseUnitsSelection();
 	}
 
-	private void MakeNeccessaryHighlights( Unit u)
+	private void MakeNeccessaryHighlights( Unit u )
 	{
+		//sr.color = new Color(0.38f, 1.0f, 0.55f, 1.0f);
 		move_hl.ResetHighlight();
 		if (!u.movementDone)
 		{
@@ -145,12 +162,25 @@ public class FieldAppearance : MonoBehaviour {
 		return new Vector2Int(new_cell_x, new_cell_y);
 	}
 
-
-
+	private void RemoveDeadUnits()
+	{
+		List<Unit> units = field.GetUnits();
+		for (int i = units.Count-1; i >= 0; i--)
+		{
+			Unit u = units[i];
+			if (!u.isAlive())
+			{
+				field.RemoveUnit(u);
+				Debug.Log("unit removed from units list");
+				Destroy(u.gameObject);
+				continue;
+			}
+		}
+	}
 
 	private void DrawShips()
 	{
-		List<int> occupiedWithOneInitCellsIndexes = new List<int>();
+		List<int> occupiedWithOneInitCellsIndexes = new List<int>();		
 
 		foreach (Unit unit in field.GetUnits())
 		{

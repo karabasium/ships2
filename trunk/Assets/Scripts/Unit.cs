@@ -13,15 +13,16 @@ public class Unit  {
 	private int damage_per_shot;
 	private int max_shots;
 	private string ship_class;
-	private int player;
+	public Player player;
 	private Vector2Int position;
 	public bool movementDone;
 	public bool fireDone;
 	public int cellIndex;
 	public bool hasGameObject;
 	public GameObject gameObject;
+	public float HIT_PROBABILITY = 0.5f;
 
-	public Unit( string ship_class, Vector2Int startPosition, int player )
+	public Unit( string ship_class, Vector2Int startPosition, Player player )
 	{
 		this.ship_class = ship_class;
 		if (ship_class == "brig")
@@ -30,7 +31,7 @@ public class Unit  {
 			calm_move_range = 1;
 			storm_drift_range = 2;
 
-			max_hp = 3;
+			max_hp = 1;
 			fire_range = 3;
 			max_shots = 1;
 		}
@@ -54,16 +55,31 @@ public class Unit  {
 	public void getDamage( int dmg)
 	{
 		hp -= dmg;
-		if (hp < 0) hp = 0;
+		if (hp < 0) {
+			hp = 0;
+			Debug.Log("Unit destroyed");
+		}
+		Debug.Log("getDamage: hp = " + hp.ToString());
 	}
 
-	public void fire( Unit enemy, int shots_count )
+	public void fire( Unit enemy  )
 	{
-		for (int i = 0; i<shots_count; i++)
+		Debug.Log("UNIT: fire!");
+		for (int i = 0; i<shots; i++)
 		{
-			if (enemy.isAlive())
+			float rnd = Random.Range(0.0f, 1.0f);
+			Debug.Log("rnd = " + rnd.ToString());
+			Debug.Log("HIT_PROBABILITY = " + HIT_PROBABILITY.ToString());
+			if (hp > 0)
 			{
-				enemy.getDamage( damage_per_shot );
+				if (rnd < HIT_PROBABILITY)
+				{
+					enemy.getDamage(damage_per_shot);
+					Debug.Log("Hit!");
+				}
+				{
+					Debug.Log("Miss!");
+				}
 				shots -= 1;
 			}
 			else

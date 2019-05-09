@@ -95,8 +95,20 @@ public class Field
 		selectedUnits[selectedUnits.Count - 1].SetPosition( new_pos );
 	}
 
+	public void RemoveUnit(Unit u)
+	{
+		units.Remove(u);
+		//u = null;
+	}
+
 	public Unit GetLastSelectedUnit()
 	{
-		return selectedUnits[selectedUnits.Count - 1];
+		if (selectedUnits.Count > 0) {
+			return selectedUnits[selectedUnits.Count - 1];
+		}
+		else
+		{
+			return null;
+		}
 	}
 }
