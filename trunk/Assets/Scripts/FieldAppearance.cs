@@ -13,7 +13,7 @@ public class FieldAppearance : MonoBehaviour {
 	private float viewAngle;
 	private float fieldZeroX;
 	private float fieldZeroY;
-	private Highlight move_hl = new Highlight();
+	public Highlight move_hl = new Highlight();
 	private List<GameObject> unitsObjects = new List<GameObject>();
 	private GameObject gridParent;
 	private GameObject shipsParent;
@@ -54,80 +54,10 @@ public class FieldAppearance : MonoBehaviour {
 
 	void Update()
 	{
-		if (Input.GetMouseButtonDown(0))
-		{
-			Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-			Vector2 mousePos2D = new Vector2(mousePos.x, mousePos.y);
-
-			RaycastHit2D hit = Physics2D.Raycast(mousePos2D, Vector2.zero);
-
-			if (hit.collider != null) // if clicked on unit
-			{
-				Unit u = hit.collider.gameObject.GetComponent<UnitAppearance>().u;
-				Debug.Log("click on unit");
-				
-				if ( field.GetLastSelectedUnit() == null || u.player == field.GetLastSelectedUnit().player) //click on Player's unit
-				{
-
-					SpriteRenderer sr = hit.collider.gameObject.GetComponent<SpriteRenderer>();
-					sr.color = new Color(0.38f, 1.0f, 0.55f, 1.0f);
-
-					if (field.GetSelectedUnits().Contains(u)) //unselect unit if clicked again
-					{
-						ResetSelectedUnits();
-					}
-					else //select unit
-					{
-						ResetSelectedUnits();
-						field.AddUnitToSelectedUnits(u);
-						MakeNeccessaryHighlights(u);
-						DrawShips();
-					}
-				}
-				else //click on Enemy unit
-				{
-					Unit playerUnit = field.GetLastSelectedUnit();
-					Unit enemyUnit = u;
-					playerUnit.fire( enemyUnit ); //fire on enemy unit
-					Debug.Log("FieldAppearance: unit is alive = " + u.isAlive());
-					RemoveDeadUnits();
-					MakeNeccessaryHighlights( playerUnit );
-					DrawShips();
-				}
-			}
-			else //click in the field
-			{
-				if (field.GetSelectedUnits().Count > 0) //if any unit is selected
-				{
-					Vector2Int cellXY = GetCellLogicalXY(mousePos2D);
-					List<Vector2Int> availableCells = move_hl.GetHighlightedCellsIndexes();
-
-					if (availableCells.Contains(cellXY))
-					{
-
-						if (cellXY.x <= field.width && cellXY.y <= field.height && cellXY.x >= 0 && cellXY.y >= 0) //if desired location is valid field cell
-						{
-							field.ChangeLastSelectedUnitPosition(cellXY); //move selected unit in desired cell
-							//ResetSelectedUnits();
-							field.GetLastSelectedUnit().movementDone = true;
-							MakeNeccessaryHighlights(field.GetLastSelectedUnit() );
-							DrawShips();
-						}
-						else
-						{
-							//Debug.Log("WARNING: Attempt to place unit outside the battlefield");
-						}
-					}
-					else
-					{
-						Debug.Log("This cell is not available for movement");
-					}
-				}
-			}
-		}
+		
 	}
 
-	private void ResetSelectedUnits()
+	public void ResetSelectedUnits()
 	{
 		move_hl.ResetHighlight();		
 		foreach (Unit u in field.GetSelectedUnits())
@@ -137,9 +67,8 @@ public class FieldAppearance : MonoBehaviour {
 		field.ReleaseUnitsSelection();
 	}
 
-	private void MakeNeccessaryHighlights( Unit u )
+	public void MakeNeccessaryHighlights( Unit u )
 	{
-		//sr.color = new Color(0.38f, 1.0f, 0.55f, 1.0f);
 		move_hl.ResetHighlight();
 		if (!u.movementDone)
 		{
@@ -152,7 +81,7 @@ public class FieldAppearance : MonoBehaviour {
 	}
 
 
-	private Vector2Int GetCellLogicalXY( Vector2 xy)
+	public Vector2Int GetCellLogicalXY( Vector2 xy)
 	{
 		Vector2 undistortedCellXY = Utils.rotate(Utils.scale_y(xy, 1 / scaleY), -angle_rad);
 		undistortedCellXY.x -= fieldZeroX;
@@ -162,7 +91,7 @@ public class FieldAppearance : MonoBehaviour {
 		return new Vector2Int(new_cell_x, new_cell_y);
 	}
 
-	private void RemoveDeadUnits()
+	public void RemoveDeadUnits()
 	{
 		List<Unit> units = field.GetUnits();
 		for (int i = units.Count-1; i >= 0; i--)
@@ -178,7 +107,7 @@ public class FieldAppearance : MonoBehaviour {
 		}
 	}
 
-	private void DrawShips()
+	public void DrawShips()
 	{
 		List<int> occupiedWithOneInitCellsIndexes = new List<int>();		
 

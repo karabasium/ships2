@@ -53,14 +53,13 @@
   <ItemGroup>
      <Compile Include="Assets\Scripts\Cell.cs" />
      <Compile Include="Assets\Scripts\CellAppearance.cs" />
+     <Compile Include="Assets\Scripts\ClickEventsController.cs" />
      <Compile Include="Assets\Scripts\Field.cs" />
      <Compile Include="Assets\Scripts\FieldAppearance.cs" />
-     <Compile Include="Assets\Scripts\FieldMouseEvents.cs" />
      <Compile Include="Assets\Scripts\GameController.cs" />
      <Compile Include="Assets\Scripts\Highlight.cs" />
      <Compile Include="Assets\Scripts\Unit.cs" />
      <Compile Include="Assets\Scripts\UnitAppearance.cs" />
-     <Compile Include="Assets\Scripts\UnitMouseEvents.cs" />
      <Compile Include="Assets\Scripts\Utils.cs" />
      <Compile Include="Assets\Scripts\Weather.cs" />
  <Reference Include="UnityEngine.UI">

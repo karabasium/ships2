@@ -10,10 +10,11 @@ public enum Player
 
 public class GameController : MonoBehaviour {
 	public static GameController instance;
-	GameObject fieldObject;
+	private GameObject fieldObject;
 	public Weather currentWeather;
 	private FieldAppearance fa;
-	Field f;
+	private Field f;
+	private ClickEventsController clickEventsController;
 
 
 
@@ -28,21 +29,18 @@ public class GameController : MonoBehaviour {
 
 		f.AddUnit(new Vector2Int(0, 0), u1);
 		f.AddUnit(new Vector2Int(3, 4), u2);
-		//f.AddShip(0, 0, u3);
+
 		fieldObject = new GameObject();
 		fa = fieldObject.AddComponent<FieldAppearance>();
+		clickEventsController = fieldObject.AddComponent<ClickEventsController>();
 
 		currentWeather = new Weather();
 		currentWeather.Init();
 		currentWeather.SetWeather();
 	}
 	void Start () {
-		////Debug.Log("game started");
-
-
-		//FieldAppearance.instance.SetField(f);
 		fa.Init( f );
-		//FieldAppearance fa = new FieldAppearance(f);
+		clickEventsController.Init( fa, f);
 
 	}
 

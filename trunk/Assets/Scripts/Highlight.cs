@@ -34,7 +34,7 @@ public class Highlight : MonoBehaviour {
 
 		angle_rad = Mathf.PI * (angle / 180);
 		viewAngle = 90 - 180 * Mathf.Asin(scaleY) / Mathf.PI;
-		Debug.Log("Highlight constructor: angle = " + this.angle.ToString() + " viewAngle = " + viewAngle.ToString());
+
 		cellParent = new GameObject();
 		cellParent.name = "highlightCellsParent";
 

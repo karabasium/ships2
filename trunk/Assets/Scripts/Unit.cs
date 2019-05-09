@@ -37,7 +37,7 @@ public class Unit  {
 		}
 		this.player = player;
 		hp = max_hp;
-		//Debug.Log("Unit: start position = " + startPosition.ToString());
+
 		position = startPosition;
 		damage_per_shot = 1;
 		cellIndex = -1;
@@ -59,7 +59,6 @@ public class Unit  {
 			hp = 0;
 			Debug.Log("Unit destroyed");
 		}
-		Debug.Log("getDamage: hp = " + hp.ToString());
 	}
 
 	public void fire( Unit enemy  )
@@ -68,8 +67,7 @@ public class Unit  {
 		for (int i = 0; i<shots; i++)
 		{
 			float rnd = Random.Range(0.0f, 1.0f);
-			Debug.Log("rnd = " + rnd.ToString());
-			Debug.Log("HIT_PROBABILITY = " + HIT_PROBABILITY.ToString());
+
 			if (hp > 0)
 			{
 				if (rnd < HIT_PROBABILITY)
