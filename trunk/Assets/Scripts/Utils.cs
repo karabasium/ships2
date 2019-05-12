@@ -16,4 +16,14 @@ public class Utils {
 	{
 		return new Vector2(v.x, v.y * y_scale);
 	}
+
+	public static Vector2Int GetFieldLogicalXY(Vector2 xy, FieldAppearance fa)
+	{
+		Vector2 undistortedCellXY = Utils.rotate(Utils.scale_y(xy, 1 / fa.scaleY), -fa.angle_rad);
+		undistortedCellXY.x -= fa.fieldZeroX;
+		undistortedCellXY.y -= fa.fieldZeroY;
+		int new_cell_x = (int)Mathf.Floor(undistortedCellXY.x / fa.cellWidth);
+		int new_cell_y = (int)Mathf.Floor(undistortedCellXY.y / fa.cellHeight);
+		return new Vector2Int(new_cell_x, new_cell_y);
+	}
 }

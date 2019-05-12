@@ -5,15 +5,15 @@ using UnityEngine;
 public class FieldAppearance : MonoBehaviour {
 	public static FieldAppearance instance;
 	private Field field;
-	private float cellWidth;
-	private float cellHeight;
-	private float angle;
-	private float angle_rad;
-	private float scaleY;
+	public float cellWidth;
+	public float cellHeight;
+	public float angle;
+	public float angle_rad;
+	public float scaleY;
 	private float viewAngle;
-	private float fieldZeroX;
-	private float fieldZeroY;
-	public Highlight move_hl = new Highlight();
+	public float fieldZeroX;
+	public float fieldZeroY;
+	public HighlightAppearance hla;
 	private List<GameObject> unitsObjects = new List<GameObject>();
 	private GameObject gridParent;
 	private GameObject shipsParent;
@@ -49,7 +49,10 @@ public class FieldAppearance : MonoBehaviour {
 		DrawShips();
 
 		Debug.Log("FieldAppearance Init: angle = " + angle.ToString() + ". scaleY = " + scaleY.ToString());
-		move_hl.Init(angle, scaleY, fieldZeroX, fieldZeroY, cellWidth, cellHeight, field);
+
+		//move_hl.Init(angle, scaleY, fieldZeroX, fieldZeroY, cellWidth, cellHeight, field);
+		hla = new HighlightAppearance();
+		hla.Init(angle, scaleY, fieldZeroX, fieldZeroY, cellWidth, cellHeight, field);
 	}
 
 	void Update()
@@ -57,27 +60,25 @@ public class FieldAppearance : MonoBehaviour {
 		
 	}
 
+	public void UpdateField()
+	{
+		DrawShips();
+		DrawHighlights();
+	}
+
+	private void DrawHighlights()
+	{
+		hla.CreateHighlightAppearance();
+	}
+
 	public void ResetSelectedUnits()
 	{
-		move_hl.ResetHighlight();		
+		//move_hl.ResetHighlight();		
 		foreach (Unit u in field.GetSelectedUnits())
 		{
 			u.gameObject.GetComponent<SpriteRenderer>().color = new Color(1.0f, 1.0f, 1.0f, 1.0f);
 		}
 		field.ReleaseUnitsSelection();
-	}
-
-	public void MakeNeccessaryHighlights( Unit u )
-	{
-		move_hl.ResetHighlight();
-		if (!u.movementDone)
-		{
-			move_hl.HighlightArea(u.GetPosition(), u.move_range, "move");
-		}
-		if (!u.fireDone)
-		{
-			move_hl.HighlightArea(u.GetPosition(), u.fire_range, "fire");
-		}
 	}
 
 
@@ -136,7 +137,7 @@ public class FieldAppearance : MonoBehaviour {
 			ua.PlaceUnit(Utils.scale_y(Utils.rotate(pos, angle_rad), scaleY) );
 			if (!field.GetSelectedUnits().Contains(unit))
 			{
-				if (cell.isUnderFire)
+				if ( field.hl.canFireCells.Contains( cell ))
 				{
 					ua.ColorAsUnderFireUnit();
 				}

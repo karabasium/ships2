@@ -2,53 +2,32 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Highlight : MonoBehaviour {
-	private float angle;
-	private float angle_rad;
-	private float scaleY;
-	private float viewAngle;
-	private float fieldZeroX;
-	private float fieldZeroY;
-	private float cellWidth;
-	private float cellHeight;
+public class Highlight {
 	private Vector2Int fieldSize;
-	private List<GameObject> cellGameObjects;
-	private GameObject cellParent;
-	private List<Vector2Int> highlightedCellsIndexes;
-	private Color canMoveColor;
-	private Color canFireColor;
-	private Field field;
+	public List<Cell> canFireCells;
+	public List<Cell> canMoveCells;
+	private List<Cell> allFieldCells;
 
-	public void Init(float angle, float scaleY, float fieldZeroX, float fieldZeroY, float cellWidth, float cellHeight, Field field)
+	public Highlight(int fieldWidth, int fieldHeight, List<Cell> cells)
 	{
-		this.angle = angle;
-		this.scaleY = scaleY;
-		this.fieldZeroX = fieldZeroX;
-		this.fieldZeroY = fieldZeroY;
-		fieldSize = new Vector2Int( field.width, field.height);
-		this.cellWidth = cellWidth;
-		this.cellHeight = cellHeight;
-		this.field = field;
-		cellGameObjects = new List<GameObject>();
-		highlightedCellsIndexes = new List<Vector2Int>();
+		
+		fieldSize = new Vector2Int( fieldWidth, fieldHeight);
 
-		angle_rad = Mathf.PI * (angle / 180);
-		viewAngle = 90 - 180 * Mathf.Asin(scaleY) / Mathf.PI;
-
-		cellParent = new GameObject();
-		cellParent.name = "highlightCellsParent";
-
-		canMoveColor = new Color(152f / 255f, 205f / 255f, 250f / 255f);
-		canFireColor = new Color(250f / 255f, 136f / 255f, 136f / 255f);
+		canFireCells = new List<Cell>();
+		canMoveCells = new List<Cell>();
+		allFieldCells = cells;
 	}
 
-	public void HighlightArea(Vector2Int positionOnField, int radius, string type)
+	public List<Cell> GetHighlightedCells(Vector2Int positionOnField, int radius, string type)
 	{
 		int x = positionOnField.x;
 		int y = positionOnField.y;
 		Weather currentWeather = new Weather();
 		currentWeather.Init();
 		currentWeather.SetWeather();
+
+		List<Cell> cells = new List<Cell>();
+
 		for (int rel_x = -radius; rel_x <= radius; rel_x++)
 		{
 			for (int rel_y = -radius; rel_y <= radius; rel_y++)
@@ -63,75 +42,62 @@ public class Highlight : MonoBehaviour {
 							{
 								int rad = Mathf.Max(Mathf.Abs(rel_x), Mathf.Abs(rel_y));
 								if (rad <= radius - currentWeather.DistanceToCurrentWind(rel_x, rel_y))
-								{									
-									AddCellAppearance( new Vector2(x + rel_x, y + rel_y), type);
-									highlightedCellsIndexes.Add( new Vector2Int(x + rel_x, y + rel_y) );
+								{
+									cells.Add(allFieldCells[fieldSize.x * (y + rel_y) + (x + rel_x)]);
 								}
-								
+
 							}
 							else
 							{
 								if (currentWeather.currentWeatherType == Weather.weather_type.CALM)
 								{
-									AddCellAppearance(new Vector2(x + rel_x, y + rel_y), type);
+									cells.Add(allFieldCells[fieldSize.x * (y + rel_y) + (x + rel_x)]);
 								}
 							}
 						}
 						else
 						{
-							AddCellAppearance(new Vector2(x + rel_x, y + rel_y), type); //Cells under fire highlight
-							field.getCell(x + rel_x, y + rel_y).isUnderFire = true;
+							cells.Add(allFieldCells[fieldSize.x * (y + rel_y) + (x + rel_x)]); //Cells under fire highlight
 						}
 					}
 				}
 			}
 		}
+
+		return cells;
 	}
 
-	private void AddCellAppearance(Vector2 pos, string type)
+	public void CreateHighlightedCellsLists(Unit u)
 	{
-		GameObject cellGameObject = new GameObject();
-		cellGameObject.name = "cellGameObject";
-		CellAppearance ca = cellGameObject.AddComponent<CellAppearance>();
+		
+		if (!u.movementDone)
+		{
+			canMoveCells = GetHighlightedCells(u.GetPosition(), u.move_range, "move");
+		}
+		if (!u.fireDone)
+		{
+			canFireCells = GetHighlightedCells(u.GetPosition(), u.fire_range, "fire");
+		}
+	}
 
-		cellGameObject.transform.parent = cellParent.transform;
-
-		cellGameObjects.Add(cellGameObject);
-
-		ca.Init(angle, viewAngle, cellWidth, cellHeight, cellGameObject, type);
-		ca.SetPosition(pos, new Vector2(fieldZeroX, fieldZeroY));
-
-		Color defaultColor = new Color(1f, 1f, 1f);
-
+	public void ResetHighlightedCellsLists( string type="all" )
+	{
 		if (type == "move")
 		{
-			ca.SetColor(canMoveColor);
+			canMoveCells = new List<Cell>();
 		}
 		else if (type == "fire")
 		{
-			ca.SetColor( canFireColor );
+			canFireCells = new List<Cell>();
+		}
+		else if (type == "all")
+		{
+			canFireCells = new List<Cell>();
+			canMoveCells = new List<Cell>();
 		}
 		else
 		{
-			ca.SetColor( defaultColor );
+			Debug.Log("ERROR! ResetHighlightedCellsPositionsLists(): Unknown reset highlight type = " + type.ToString());
 		}
-	}
-
-	public void ResetHighlight()
-	{
-		foreach(GameObject go in cellGameObjects)
-		{
-			Destroy(go);
-		}
-		highlightedCellsIndexes = new List<Vector2Int>();
-		foreach(Cell cell in field.GetAllCells())
-		{
-			cell.isUnderFire = false;
-		}
-	}
-
-	public List<Vector2Int> GetHighlightedCellsIndexes()
-	{
-		return highlightedCellsIndexes;
 	}
 }

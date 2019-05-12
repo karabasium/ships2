@@ -25,7 +25,6 @@ public class GameController : MonoBehaviour {
 
 		Unit u1 = new Unit("brig", Vector2Int.zero, Player.PLAYER_1 );
 		Unit u2 = new Unit("brig", Vector2Int.zero, Player.PLAYER_2 );
-		Unit u3 = new Unit("brig", Vector2Int.zero, Player.PLAYER_1 );
 
 		f.AddUnit(new Vector2Int(0, 0), u1);
 		f.AddUnit(new Vector2Int(3, 4), u2);

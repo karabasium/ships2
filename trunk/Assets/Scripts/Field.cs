@@ -9,6 +9,7 @@ public class Field
 	private List<Cell> cells = new List<Cell>();
 	private List<Unit> units = new List<Unit>();
 	private List<Unit> selectedUnits = new List<Unit>();
+	public Highlight hl;
 
 	public Field(int w, int h)
 	{
@@ -22,6 +23,7 @@ public class Field
 				cells.Add(new Cell(col, row));
 			}
 		}
+		hl = new Highlight( width, height, cells);
 		//Debug.Log("field created. cells count = " + cells.Count.ToString());
 		//showCells();
 	}
@@ -72,6 +74,7 @@ public class Field
 	public void AddUnitToSelectedUnits( Unit u)
 	{
 		selectedUnits.Add(u);
+		hl.CreateHighlightedCellsLists(u);
 	}
 
 	public List<Unit> GetSelectedUnits()
@@ -82,23 +85,34 @@ public class Field
 	public void ReleaseUnitsSelection()
 	{
 		selectedUnits = new List<Unit>();
+		hl.ResetHighlightedCellsLists();
 	}
 
 	public void UnselectUnit( Unit u)
 	{
 		selectedUnits.Remove(u);
+		hl.ResetHighlightedCellsLists();
+	}
+
+	public void UnitAttacksUnit( Unit attacker, Unit target)
+	{
+		attacker.fire(target);
+		hl.ResetHighlightedCellsLists("fire");
 	}
 
 	public void ChangeLastSelectedUnitPosition( Vector2Int new_pos)
 	{
-		selectedUnits[selectedUnits.Count-1].cellIndex = CellIndex((int)new_pos.x, (int)new_pos.y);
-		selectedUnits[selectedUnits.Count - 1].SetPosition( new_pos );
+		Unit u = GetLastSelectedUnit();
+		u.cellIndex = CellIndex( new_pos.x, new_pos.y);
+		u.SetPosition( new_pos );
+		u.movementDone = true;
+		hl.ResetHighlightedCellsLists();
+		hl.CreateHighlightedCellsLists(u);
 	}
 
 	public void RemoveUnit(Unit u)
 	{
 		units.Remove(u);
-		//u = null;
 	}
 
 	public Unit GetLastSelectedUnit()

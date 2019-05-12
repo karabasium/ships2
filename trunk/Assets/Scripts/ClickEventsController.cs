@@ -19,8 +19,10 @@ public class ClickEventsController : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+		bool needUpdate = false;
 		if (Input.GetMouseButtonDown(0))
 		{
+			needUpdate = true;
 			Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 			Vector2 mousePos2D = new Vector2(mousePos.x, mousePos.y);
 
@@ -39,56 +41,34 @@ public class ClickEventsController : MonoBehaviour {
 
 					if (field.GetSelectedUnits().Contains(u)) //unselect unit if clicked again
 					{
-						fa.ResetSelectedUnits();
+						field.ReleaseUnitsSelection();
 					}
 					else //select unit
 					{
-						fa.ResetSelectedUnits();
+						field.ReleaseUnitsSelection();
 						field.AddUnitToSelectedUnits(u);
-						fa.MakeNeccessaryHighlights(u);
-						fa.DrawShips();
 					}
 				}
 				else //click on Enemy unit
 				{
 					Unit playerUnit = field.GetLastSelectedUnit();
-					Unit enemyUnit = u;
-					playerUnit.fire(enemyUnit); //fire on enemy unit
+					Unit enemyUnit = u;					
+					field.UnitAttacksUnit( playerUnit, enemyUnit );
 					Debug.Log("FieldAppearance: unit is alive = " + u.isAlive());
-					fa.RemoveDeadUnits();
-					fa.MakeNeccessaryHighlights(playerUnit);
-					fa.DrawShips();
 				}
 			}
 			else //click in the field
 			{
 				if (field.GetSelectedUnits().Count > 0) //if any unit is selected
 				{
-					Vector2Int cellXY = fa.GetCellLogicalXY(mousePos2D);
-					List<Vector2Int> availableCells = fa.move_hl.GetHighlightedCellsIndexes();
-
-					if (availableCells.Contains(cellXY))
-					{
-
-						if (cellXY.x <= field.width && cellXY.y <= field.height && cellXY.x >= 0 && cellXY.y >= 0) //if desired location is valid field cell
-						{
-							field.ChangeLastSelectedUnitPosition(cellXY); //move selected unit in desired cell
-																		  //ResetSelectedUnits();
-							field.GetLastSelectedUnit().movementDone = true;
-							fa.MakeNeccessaryHighlights(field.GetLastSelectedUnit());
-							fa.DrawShips();
-						}
-						else
-						{
-							//Debug.Log("WARNING: Attempt to place unit outside the battlefield");
-						}
-					}
-					else
-					{
-						Debug.Log("This cell is not available for movement");
-					}
+					field.ChangeLastSelectedUnitPosition( Utils.GetFieldLogicalXY( mousePos2D, fa) );
 				}
 			}
+		}
+
+		if (needUpdate)
+		{
+			fa.UpdateField();
 		}
 	}
 }
