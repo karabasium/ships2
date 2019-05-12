@@ -14,9 +14,9 @@ public class FieldAppearance : MonoBehaviour {
 	public float fieldZeroX;
 	public float fieldZeroY;
 	public HighlightAppearance hla;
-	private List<GameObject> unitsObjects = new List<GameObject>();
 	private GameObject gridParent;
 	private GameObject shipsParent;
+	private List<UnitAppearance> unitsAppearances;
 
 	void Awake()
 	{
@@ -45,12 +45,13 @@ public class FieldAppearance : MonoBehaviour {
 		gridParent.name = "grid";
 		shipsParent.name = "ships";
 
+		unitsAppearances = new List<UnitAppearance>();
+
 		DrawField(cellHeight, cellWidth, angle, scaleY);
 		DrawShips();
 
 		Debug.Log("FieldAppearance Init: angle = " + angle.ToString() + ". scaleY = " + scaleY.ToString());
 
-		//move_hl.Init(angle, scaleY, fieldZeroX, fieldZeroY, cellWidth, cellHeight, field);
 		hla = new HighlightAppearance();
 		hla.Init(angle, scaleY, fieldZeroX, fieldZeroY, cellWidth, cellHeight, field);
 	}
@@ -72,8 +73,7 @@ public class FieldAppearance : MonoBehaviour {
 	}
 
 	public void ResetSelectedUnits()
-	{
-		//move_hl.ResetHighlight();		
+	{	
 		foreach (Unit u in field.GetSelectedUnits())
 		{
 			u.gameObject.GetComponent<SpriteRenderer>().color = new Color(1.0f, 1.0f, 1.0f, 1.0f);
@@ -81,35 +81,9 @@ public class FieldAppearance : MonoBehaviour {
 		field.ReleaseUnitsSelection();
 	}
 
-
-	public Vector2Int GetCellLogicalXY( Vector2 xy)
-	{
-		Vector2 undistortedCellXY = Utils.rotate(Utils.scale_y(xy, 1 / scaleY), -angle_rad);
-		undistortedCellXY.x -= fieldZeroX;
-		undistortedCellXY.y -= fieldZeroY;
-		int new_cell_x = (int)Mathf.Floor( undistortedCellXY.x / cellWidth);
-		int new_cell_y = (int)Mathf.Floor( undistortedCellXY.y / cellHeight);
-		return new Vector2Int(new_cell_x, new_cell_y);
-	}
-
-	public void RemoveDeadUnits()
-	{
-		List<Unit> units = field.GetUnits();
-		for (int i = units.Count-1; i >= 0; i--)
-		{
-			Unit u = units[i];
-			if (!u.isAlive())
-			{
-				field.RemoveUnit(u);
-				Debug.Log("unit removed from units list");
-				Destroy(u.gameObject);
-				continue;
-			}
-		}
-	}
-
 	public void DrawShips()
 	{
+		RemoveDeadUnitsAppearances();
 		List<int> occupiedWithOneInitCellsIndexes = new List<int>();		
 
 		foreach (Unit unit in field.GetUnits())
@@ -132,6 +106,7 @@ public class FieldAppearance : MonoBehaviour {
 			if (!ua)
 			{
 				ua = unit.gameObject.AddComponent<UnitAppearance>();
+				unitsAppearances.Add(ua);
 				ua.Init( unit );
 			}
 			ua.PlaceUnit(Utils.scale_y(Utils.rotate(pos, angle_rad), scaleY) );
@@ -150,10 +125,17 @@ public class FieldAppearance : MonoBehaviour {
 		}
 	}
 
-	private Vector2 GetWorldPositionByLogicalXY( int field_x, int field_y)
+	public void RemoveDeadUnitsAppearances()
 	{
-		Vector2 pos = new Vector2(fieldZeroX + field_x * cellWidth + cellWidth/2, fieldZeroY + field_y  * cellHeight+cellHeight/2);
-		return Utils.scale_y(Utils.rotate(pos, angle_rad), scaleY);
+		for (int i = unitsAppearances.Count - 1; i >= 0; i--)
+		{
+			UnitAppearance ua = unitsAppearances[i];
+			if (!ua.u.IsAlive())
+			{
+				Destroy(ua.gameObject);
+				Debug.Log("Unit removed");
+			}
+		}
 	}
 
 	private void DrawField(float cellHeight, float cellWidth, float angle, float y_scale)

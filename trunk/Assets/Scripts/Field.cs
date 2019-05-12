@@ -24,8 +24,6 @@ public class Field
 			}
 		}
 		hl = new Highlight( width, height, cells);
-		//Debug.Log("field created. cells count = " + cells.Count.ToString());
-		//showCells();
 	}
 
 	public List<Cell> GetAllCells()
@@ -96,7 +94,7 @@ public class Field
 
 	public void UnitAttacksUnit( Unit attacker, Unit target)
 	{
-		attacker.fire(target);
+		attacker.Fire(target);
 		hl.ResetHighlightedCellsLists("fire");
 	}
 

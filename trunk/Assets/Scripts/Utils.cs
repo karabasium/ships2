@@ -26,4 +26,10 @@ public class Utils {
 		int new_cell_y = (int)Mathf.Floor(undistortedCellXY.y / fa.cellHeight);
 		return new Vector2Int(new_cell_x, new_cell_y);
 	}
+
+	public static Vector2 GetWorldPositionByLogicalXY(int field_x, int field_y, FieldAppearance fa)
+	{
+		Vector2 pos = new Vector2(fa.fieldZeroX + field_x * fa.cellWidth + fa.cellWidth / 2, fa.fieldZeroY + field_y * fa.cellHeight + fa.cellHeight / 2);
+		return Utils.scale_y(Utils.rotate(pos, fa.angle_rad), fa.scaleY);
+	}
 }

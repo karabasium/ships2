@@ -3,16 +3,16 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Unit  {
-	private int max_hp;
+	private readonly int max_hp;
 	private int hp;
-	public int move_range;
-	private int calm_move_range;
-	public int fire_range;
-	private int storm_drift_range;
+	public readonly int move_range;
+	private readonly int calm_move_range;
+	public readonly int fire_range;
+	private readonly int storm_drift_range;
 	private int shots;
-	private int damage_per_shot;
-	private int max_shots;
-	private string ship_class;
+	private readonly int damage_per_shot;
+	private readonly int max_shots;
+	private readonly string ship_class;
 	public Player player;
 	private Vector2Int position;
 	public bool movementDone;
@@ -42,17 +42,18 @@ public class Unit  {
 		damage_per_shot = 1;
 		cellIndex = -1;
 		hasGameObject = false;
-		refresh();
+		HIT_PROBABILITY = 0.5f;
+		Refresh();
 	}
 
-	public void refresh()
+	public void Refresh()
 	{
 		movementDone = false;
 		fireDone = false;
 		shots = max_shots;
 	}
 
-	public void getDamage( int dmg)
+	public void GetDamage( int dmg )
 	{
 		hp -= dmg;
 		if (hp < 0) {
@@ -61,20 +62,25 @@ public class Unit  {
 		}
 	}
 
-	public void fire( Unit enemy  )
+	public void Fire( Unit enemy  )
 	{
 		Debug.Log("UNIT: fire!");
 		for (int i = 0; i<shots; i++)
 		{
 			float rnd = Random.Range(0.0f, 1.0f);
+			rnd = 0f;
+			Debug.Log("rnd = " + rnd.ToString());
+			Debug.Log("HIT_PROBABILITY = " + HIT_PROBABILITY.ToString());
+			Debug.Log("rnd < HIT_PROBABILITY = " + (rnd < HIT_PROBABILITY).ToString());
 
-			if (hp > 0)
+			if (enemy.IsAlive())
 			{
 				if (rnd < HIT_PROBABILITY)
 				{
-					enemy.getDamage(damage_per_shot);
+					enemy.GetDamage(damage_per_shot);
 					Debug.Log("Hit!");
 				}
+				else
 				{
 					Debug.Log("Miss!");
 				}
@@ -91,7 +97,7 @@ public class Unit  {
 		}
 	}
 
-	public bool isAlive()
+	public bool IsAlive()
 	{
 		if (hp > 0)
 		{
@@ -100,7 +106,7 @@ public class Unit  {
 		return false;
 	}
 
-	public void move( Vector2Int newPosition )
+	public void Move( Vector2Int newPosition )
 	{
 		position = newPosition;
 		movementDone = true;
@@ -113,7 +119,6 @@ public class Unit  {
 
 	public Vector2Int GetPosition()
 	{
-		//Debug.Log("Unit: position = " + position.ToString());
 		return position;
 	}
 }

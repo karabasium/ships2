@@ -54,7 +54,11 @@ public class ClickEventsController : MonoBehaviour {
 					Unit playerUnit = field.GetLastSelectedUnit();
 					Unit enemyUnit = u;					
 					field.UnitAttacksUnit( playerUnit, enemyUnit );
-					Debug.Log("FieldAppearance: unit is alive = " + u.isAlive());
+					if (!enemyUnit.IsAlive())
+					{
+						field.RemoveUnit(enemyUnit);
+					}
+					Debug.Log("FieldAppearance: unit is alive = " + u.IsAlive());
 				}
 			}
 			else //click in the field
