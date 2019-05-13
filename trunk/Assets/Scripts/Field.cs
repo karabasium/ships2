@@ -136,4 +136,12 @@ public class Field
 		}
 		return playerUnits;
 	}
+
+	public void RefreshPlayerUnits( Player player)
+	{
+		foreach( Unit u in GetAlivePlayerUnits(player))
+		{
+			u.Refresh();
+		}
+	}
 }

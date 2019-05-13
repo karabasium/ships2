@@ -77,6 +77,9 @@ public class GameController : MonoBehaviour {
 		{
 			currentPlayer = Player.PLAYER_1;
 		}
+		f.ReleaseUnitsSelection();
+		f.RefreshPlayerUnits(currentPlayer);
+		fa.UpdateField();
 		Debug.Log("Current player = " + currentPlayer.ToString());
 	}
 

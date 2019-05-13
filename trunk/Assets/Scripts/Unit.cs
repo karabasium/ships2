@@ -68,10 +68,10 @@ public class Unit  {
 		for (int i = 0; i<shots; i++)
 		{
 			float rnd = Random.Range(0.0f, 1.0f);
-			rnd = 0f;
-			Debug.Log("rnd = " + rnd.ToString());
-			Debug.Log("HIT_PROBABILITY = " + HIT_PROBABILITY.ToString());
-			Debug.Log("rnd < HIT_PROBABILITY = " + (rnd < HIT_PROBABILITY).ToString());
+			//rnd = 1f;
+			//Debug.Log("rnd = " + rnd.ToString());
+			//Debug.Log("HIT_PROBABILITY = " + HIT_PROBABILITY.ToString());
+			//Debug.Log("rnd < HIT_PROBABILITY = " + (rnd < HIT_PROBABILITY).ToString());
 
 			if (enemy.IsAlive())
 			{
