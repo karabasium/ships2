@@ -123,4 +123,17 @@ public class Field
 			return null;
 		}
 	}
+
+	public List<Unit> GetAlivePlayerUnits( Player player)
+	{
+		List<Unit> playerUnits = new List<Unit>();
+		foreach (Unit u in units)
+		{
+			if (u.IsAlive() && u.player == player)
+			{
+				playerUnits.Add(u);
+			}
+		}
+		return playerUnits;
+	}
 }
