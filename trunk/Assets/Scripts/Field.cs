@@ -94,18 +94,39 @@ public class Field
 
 	public void UnitAttacksUnit( Unit attacker, Unit target)
 	{
-		attacker.Fire(target);
-		hl.ResetHighlightedCellsLists("fire");
+		Cell c = cells[target.cellIndex];
+		if (hl.canFireCells.Contains(c))
+		{
+			attacker.Fire(target);
+			hl.ResetHighlightedCellsLists("fire");
+		}
+		else
+		{
+			Debug.Log("Can't fire this cell");
+		}
 	}
 
 	public void ChangeLastSelectedUnitPosition( Vector2Int new_pos)
 	{
-		Unit u = GetLastSelectedUnit();
-		u.cellIndex = CellIndex( new_pos.x, new_pos.y);
-		u.SetPosition( new_pos );
-		u.movementDone = true;
-		hl.ResetHighlightedCellsLists();
-		hl.CreateHighlightedCellsLists(u);
+		if (GetSelectedUnits().Count == 0)
+		{
+			return;
+		}
+
+		Cell c = cells[CellIndex(new_pos.x, new_pos.y)];
+		if (hl.canMoveCells.Contains(c))
+		{
+			Unit u = GetLastSelectedUnit();
+			u.cellIndex = CellIndex(new_pos.x, new_pos.y);
+			u.SetPosition(new_pos);
+			u.movementDone = true;
+			hl.ResetHighlightedCellsLists();
+			hl.CreateHighlightedCellsLists(u);
+		}
+		else
+		{
+			Debug.Log("ChangeLastSelectedUnitPosition: Can't move here");
+		}
 	}
 
 	public void RemoveUnit(Unit u)

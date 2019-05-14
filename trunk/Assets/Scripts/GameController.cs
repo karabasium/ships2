@@ -67,7 +67,7 @@ public class GameController : MonoBehaviour {
 		}
 	}
 
-	private void SetNextPlayerAsActive()
+	public void SetNextPlayerAsActive()
 	{
 		if (currentPlayer == Player.PLAYER_1)
 		{

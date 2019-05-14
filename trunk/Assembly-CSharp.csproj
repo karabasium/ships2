@@ -59,6 +59,7 @@
      <Compile Include="Assets\Scripts\GameController.cs" />
      <Compile Include="Assets\Scripts\Highlight.cs" />
      <Compile Include="Assets\Scripts\HighlightAppearance.cs" />
+     <Compile Include="Assets\Scripts\HUD.cs" />
      <Compile Include="Assets\Scripts\Unit.cs" />
      <Compile Include="Assets\Scripts\UnitAppearance.cs" />
      <Compile Include="Assets\Scripts\Utils.cs" />

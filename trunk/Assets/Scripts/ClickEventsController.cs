@@ -63,9 +63,10 @@ public class ClickEventsController : MonoBehaviour {
 			}
 			else //click in the field
 			{
-				if (field.GetSelectedUnits().Count > 0) //if any unit is selected
+				Vector2Int cellXY = Utils.GetFieldLogicalXY(mousePos2D, fa);
+				if (cellXY.x <= field.width && cellXY.y <= field.height && cellXY.x >= 0 && cellXY.y >= 0) //if desired location is valid field cell
 				{
-					field.ChangeLastSelectedUnitPosition( Utils.GetFieldLogicalXY( mousePos2D, fa) );
+					field.ChangeLastSelectedUnitPosition(Utils.GetFieldLogicalXY(mousePos2D, fa));
 				}
 			}
 		}
