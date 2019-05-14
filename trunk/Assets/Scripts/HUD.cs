@@ -6,7 +6,7 @@ public class HUD : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		
+		Debug.Log("HUD start");
 	}
 	
 	// Update is called once per frame
@@ -16,7 +16,8 @@ public class HUD : MonoBehaviour {
 
 	public void NextTurn()
 	{
-		//GameController.instance.SetNextPlayerAsActive();
+		Debug.Log(GameController.instance);
+		GameController.instance.SetNextPlayerAsActive();
 		Debug.Log("Next turn");
 	}
 }

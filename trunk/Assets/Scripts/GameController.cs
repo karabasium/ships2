@@ -18,12 +18,15 @@ public class GameController : MonoBehaviour {
 	private ClickEventsController clickEventsController;
 	private Player currentPlayer;
 	private bool gameOver;
+	private HUD hud;
 
 
 
 
 	void Awake()
 	{
+		MakeSingleton();
+
 		currentPlayer = Player.PLAYER_1;
 		gameOver = false;
 
@@ -43,7 +46,23 @@ public class GameController : MonoBehaviour {
 		currentWeather.Init();
 		currentWeather.SetWeather();
 	}
-	void Start () {
+
+
+	void MakeSingleton()
+	{
+		if (instance != null)
+		{
+			Destroy(gameObject);
+		}
+		else
+		{
+			instance = this;
+			DontDestroyOnLoad(gameObject);
+		}
+	}
+
+
+	void Start () {		
 		fa.Init( f );
 		clickEventsController.Init( fa, f);
 		
@@ -69,6 +88,7 @@ public class GameController : MonoBehaviour {
 
 	public void SetNextPlayerAsActive()
 	{
+		Debug.Log("SetNextPlayerAsActive");
 		if (currentPlayer == Player.PLAYER_1)
 		{
 			currentPlayer = Player.PLAYER_2;			
