@@ -9,11 +9,19 @@ public enum Player
 	NONE
 }
 
+public enum weather_type
+{
+	WIND,
+	STORM,
+	CALM
+}
+
 public class GameController : MonoBehaviour {
 	public static GameController instance;
 	private GameObject fieldObject;
 	public Weather currentWeather;
 	private FieldAppearance fa;
+	private WeatherAppearance wa;
 	private Field f;
 	private ClickEventsController clickEventsController;
 	private Player currentPlayer;
@@ -29,13 +37,13 @@ public class GameController : MonoBehaviour {
 		currentPlayer = Player.PLAYER_1;
 		gameOver = false;
 
-		f = new Field(8, 9);
+		f = new Field(12, 16);
 
 		Unit u1 = new Unit("brig", Vector2Int.zero, Player.PLAYER_1 );
 		Unit u2 = new Unit("brig", Vector2Int.zero, Player.PLAYER_2 );
 
-		f.AddUnit(new Vector2Int(0, 0), u1);
-		f.AddUnit(new Vector2Int(3, 4), u2);
+		f.AddUnit(new Vector2Int(4, 5), u1);
+		f.AddUnit(new Vector2Int(6, 7), u2);
 
 		fieldObject = new GameObject();
 		fa = fieldObject.AddComponent<FieldAppearance>();
@@ -43,7 +51,17 @@ public class GameController : MonoBehaviour {
 
 		currentWeather = new Weather();
 		currentWeather.Init();
-		currentWeather.SetWeather();
+		currentWeather.RefreshWeather();
+
+		wa = new WeatherAppearance(currentWeather);
+		wa.UpdateWeatherAppearance();
+	}
+
+	void Start()
+	{
+		fa.Init(f);
+		clickEventsController.Init(fa, f);
+
 	}
 
 
@@ -61,11 +79,7 @@ public class GameController : MonoBehaviour {
 	}
 
 
-	void Start () {		
-		fa.Init( f );
-		clickEventsController.Init( fa, f);
-		
-	}
+
 
 	void Update () {
 		if (!gameOver)
@@ -96,6 +110,8 @@ public class GameController : MonoBehaviour {
 		{
 			currentPlayer = Player.PLAYER_1;
 		}
+		currentWeather.RefreshWeather();
+		wa.UpdateWeatherAppearance();
 		f.ReleaseUnitsSelection();
 		f.RefreshPlayerUnits(currentPlayer);
 		fa.UpdateField();

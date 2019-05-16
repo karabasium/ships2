@@ -35,8 +35,8 @@ public class FieldAppearance : MonoBehaviour {
 		cellHeight = 1.0f;
 		angle = 40.0f;
 		scaleY = 0.7f;
-		fieldZeroX = -2;
-		fieldZeroY = -3;
+		fieldZeroX = -4;
+		fieldZeroY = -5;
 		angle_rad = Mathf.PI * (angle / 180);
 		viewAngle = 90 - 180 * Mathf.Asin(scaleY) / Mathf.PI;
 
@@ -167,5 +167,7 @@ public class FieldAppearance : MonoBehaviour {
 
 		lr.SetPosition(0, new Vector3(start.x, start.y, 0));
 		lr.SetPosition(1, new Vector3(end.x, end.y, 0));
+
+		lr.sortingLayerName = "Field";
 	}
 }

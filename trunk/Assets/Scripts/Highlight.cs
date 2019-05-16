@@ -22,9 +22,7 @@ public class Highlight {
 	{
 		int x = positionOnField.x;
 		int y = positionOnField.y;
-		Weather currentWeather = new Weather();
-		currentWeather.Init();
-		currentWeather.SetWeather();
+		Weather currentWeather = GameController.instance.currentWeather;
 
 		List<Cell> cells = new List<Cell>();
 
@@ -38,7 +36,7 @@ public class Highlight {
 					{
 						if (type == "move")
 						{
-							if (currentWeather.currentWeatherType == Weather.weather_type.WIND)
+							if (currentWeather.currentWeatherType == weather_type.WIND)
 							{
 								int rad = Mathf.Max(Mathf.Abs(rel_x), Mathf.Abs(rel_y));
 								if (rad <= radius - currentWeather.DistanceToCurrentWind(rel_x, rel_y))
@@ -49,7 +47,7 @@ public class Highlight {
 							}
 							else
 							{
-								if (currentWeather.currentWeatherType == Weather.weather_type.CALM)
+								if (currentWeather.currentWeatherType == weather_type.CALM)
 								{
 									cells.Add(allFieldCells[fieldSize.x * (y + rel_y) + (x + rel_x)]);
 								}

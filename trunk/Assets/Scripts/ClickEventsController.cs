@@ -30,8 +30,7 @@ public class ClickEventsController : MonoBehaviour {
 
 			if (hit.collider != null) // if clicked on unit
 			{
-				Unit u = hit.collider.gameObject.GetComponent<UnitAppearance>().u;
-				Debug.Log("click on unit");
+				Unit u = hit.collider.gameObject.GetComponent<UnitAppearance>().u;				
 
 				if (field.GetLastSelectedUnit() == null || u.player == field.GetLastSelectedUnit().player) //click on Player's unit
 				{
