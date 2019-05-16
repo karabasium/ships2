@@ -20,6 +20,7 @@ public class Weather
 		CALM
 	}
 	public weather_type currentWeatherType;
+	private HUD hud;
 
 
 	public void Init()
@@ -96,7 +97,7 @@ public class Weather
 				curWind = null;
 			}
 		}
-		/*Text w_text = GameObject.Find("WeatherText").GetComponent<Text>();
+		Text w_text = GameObject.Find("WeatherValue").GetComponent<Text>();
 
 		if (currentWeatherType == weather_type.WIND)
 		{
@@ -114,52 +115,52 @@ public class Weather
 		else
 		{
 			w_text.text = "Armageddon";
-		}*/
+		}
 	}
 
 	private void SetCompassArrowDirection()
 	{
-		GameObject arrow = GameObject.Find("CompassArrow");
-		arrow.transform.rotation = Quaternion.identity;
-		Text w_text = GameObject.Find("WeatherText").GetComponent<Text>();
+		//GameObject arrow = GameObject.Find("CompassArrow");
+		//arrow.transform.rotation = Quaternion.identity;
+		Text w_text = GameObject.Find("WeatherValue").GetComponent<Text>();
 		if (curWindIndex == 0)
 		{
-			arrow.transform.Rotate(Vector3.back * 135);
+			//arrow.transform.Rotate(Vector3.back * 135);
 			w_text.text = "NW Breeze";
 		}
 		else if (curWindIndex == 1)
 		{
-			arrow.transform.Rotate(Vector3.back * 90);
+			//arrow.transform.Rotate(Vector3.back * 90);
 			w_text.text = "N Breeze";
 		}
 		else if (curWindIndex == 2)
 		{
-			arrow.transform.Rotate(Vector3.back * 45);
+			//arrow.transform.Rotate(Vector3.back * 45);
 			w_text.text = "NE Breeze";
 		}
 		else if (curWindIndex == 3)
 		{
-			arrow.transform.Rotate(Vector3.back * 0);
+			//arrow.transform.Rotate(Vector3.back * 0);
 			w_text.text = "E Breeze";
 		}
 		else if (curWindIndex == 4)
 		{
-			arrow.transform.Rotate(Vector3.forward * 45);
+			//arrow.transform.Rotate(Vector3.forward * 45);
 			w_text.text = "SE Breeze";
 		}
 		else if (curWindIndex == 5)
 		{
-			arrow.transform.Rotate(Vector3.forward * 90);
+			//arrow.transform.Rotate(Vector3.forward * 90);
 			w_text.text = "S Breeze";
 		}
 		else if (curWindIndex == 6)
 		{
-			arrow.transform.Rotate(Vector3.forward * 135);
+			//arrow.transform.Rotate(Vector3.forward * 135);
 			w_text.text = "SW Breeze";
 		}
 		else if (curWindIndex == 7)
 		{
-			arrow.transform.Rotate(Vector3.back * -180);
+			//arrow.transform.Rotate(Vector3.back * -180);
 			w_text.text = "W Breeze";
 		}
 	}

@@ -18,7 +18,6 @@ public class GameController : MonoBehaviour {
 	private ClickEventsController clickEventsController;
 	private Player currentPlayer;
 	private bool gameOver;
-	private HUD hud;
 
 
 
