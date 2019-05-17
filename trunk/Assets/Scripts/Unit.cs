@@ -68,7 +68,8 @@ public class Unit  {
 		for (int i = 0; i<shots; i++)
 		{
 			float rnd = Random.Range(0.0f, 1.0f);
-			//rnd = 1f;
+			//rnd = 0f; //always hit
+			//rnd = 1f; //always miss
 			//Debug.Log("rnd = " + rnd.ToString());
 			//Debug.Log("HIT_PROBABILITY = " + HIT_PROBABILITY.ToString());
 			//Debug.Log("rnd < HIT_PROBABILITY = " + (rnd < HIT_PROBABILITY).ToString());

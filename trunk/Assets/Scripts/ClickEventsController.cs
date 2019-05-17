@@ -34,10 +34,6 @@ public class ClickEventsController : MonoBehaviour {
 
 				if (field.GetLastSelectedUnit() == null || u.player == field.GetLastSelectedUnit().player) //click on Player's unit
 				{
-
-					SpriteRenderer sr = hit.collider.gameObject.GetComponent<SpriteRenderer>();
-					sr.color = new Color(0.38f, 1.0f, 0.55f, 1.0f);
-
 					if (field.GetSelectedUnits().Contains(u)) //unselect unit if clicked again
 					{
 						field.ReleaseUnitsSelection();

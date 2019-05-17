@@ -31,7 +31,7 @@ public class GameController : MonoBehaviour {
 	private WeatherAppearance wa;
 	private Field f;
 	private ClickEventsController clickEventsController;
-	private Player currentPlayer;
+	public Player currentPlayer;
 	private bool gameOver;
 
 
@@ -47,10 +47,15 @@ public class GameController : MonoBehaviour {
 		f = new Field(12, 16);
 
 		Unit u1 = new Unit("brig", Vector2Int.zero, Player.PLAYER_1 );
-		Unit u2 = new Unit("brig", Vector2Int.zero, Player.PLAYER_2 );
+		Unit u2 = new Unit("brig", Vector2Int.zero, Player.PLAYER_1);
+
+		Unit u3 = new Unit("brig", Vector2Int.zero, Player.PLAYER_2 );
+		Unit u4 = new Unit("brig", Vector2Int.zero, Player.PLAYER_2);
 
 		f.AddUnit(new Vector2Int(4, 5), u1);
-		f.AddUnit(new Vector2Int(6, 7), u2);
+		f.AddUnit(new Vector2Int(4, 6), u2);
+		f.AddUnit(new Vector2Int(6, 8), u3);
+		f.AddUnit(new Vector2Int(3, 7), u4);
 
 		fieldObject = new GameObject();
 		fa = fieldObject.AddComponent<FieldAppearance>();
