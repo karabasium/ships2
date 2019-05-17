@@ -64,13 +64,13 @@ public class Field
 		return units;
 	}
 
-	public void SetSelectedUnits( List<Unit> units)
+	public void AddUnitToSelectedUnits( Unit u, bool needResetPreviouslySelectedUnits = true)
 	{
-		selectedUnits = units;
-	}
+		if (needResetPreviouslySelectedUnits)
+		{
+			ReleaseUnitsSelection();
+		}
 
-	public void AddUnitToSelectedUnits( Unit u)
-	{
 		selectedUnits.Add(u);
 		hl.CreateHighlightedCellsLists(u);
 	}
@@ -164,5 +164,13 @@ public class Field
 		{
 			u.Refresh();
 		}
+	}
+
+	public void SelectRandomUnit( Player player)
+	{
+		List<Unit> playerUnits = GetAlivePlayerUnits(player);
+		int rndIndex = Random.Range(0, playerUnits.Count);
+		Debug.Log("SelectRandomUnit: rndIndex = " + rndIndex.ToString());
+		AddUnitToSelectedUnits(playerUnits[rndIndex] );
 	}
 }

@@ -68,7 +68,8 @@ public class GameController : MonoBehaviour {
 	{
 		fa.Init(f);
 		clickEventsController.Init(fa, f);
-
+		f.SelectRandomUnit(currentPlayer);
+		fa.UpdateField();
 	}
 
 
@@ -121,6 +122,7 @@ public class GameController : MonoBehaviour {
 		wa.UpdateWeatherAppearance();
 		f.ReleaseUnitsSelection();
 		f.RefreshPlayerUnits(currentPlayer);
+		f.SelectRandomUnit(currentPlayer);
 		fa.UpdateField();
 		Debug.Log("Current player = " + currentPlayer.ToString());
 	}
