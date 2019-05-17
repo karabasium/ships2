@@ -6,9 +6,9 @@ public class Unit  {
 	private readonly int max_hp;
 	private int hp;
 	public readonly int move_range;
-	private readonly int calm_move_range;
+	public readonly int calm_move_range;
 	public readonly int fire_range;
-	private readonly int storm_drift_range;
+	public readonly int storm_drift_range;
 	private int shots;
 	private readonly int damage_per_shot;
 	private readonly int max_shots;

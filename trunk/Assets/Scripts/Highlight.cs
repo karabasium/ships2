@@ -18,11 +18,28 @@ public class Highlight {
 		allFieldCells = cells;
 	}
 
-	public List<Cell> GetHighlightedCells(Vector2Int positionOnField, int radius, string type)
+	public List<Cell> GetHighlightedCells(Vector2Int positionOnField, Unit u, Action type)
 	{
 		int x = positionOnField.x;
 		int y = positionOnField.y;
 		Weather currentWeather = GameController.instance.currentWeather;
+		int radius = 0;
+
+		if (type == Action.MOVE)
+		{
+			if (currentWeather.currentWeatherType == Weather_type.WIND)
+			{
+				radius = u.move_range;
+			}
+			else if (currentWeather.currentWeatherType == Weather_type.CALM)
+			{
+				radius = u.calm_move_range;
+			}
+		}
+		else if (type == Action.FIRE)
+		{
+			radius = u.fire_range;
+		}
 
 		List<Cell> cells = new List<Cell>();
 
@@ -34,9 +51,9 @@ public class Highlight {
 				{
 					if (x + rel_x < fieldSize.x && x + rel_x >= 0 && y + rel_y < fieldSize.y && y + rel_y >= 0)
 					{
-						if (type == "move")
+						if (type == Action.MOVE)
 						{
-							if (currentWeather.currentWeatherType == weather_type.WIND)
+							if (currentWeather.currentWeatherType == Weather_type.WIND)
 							{
 								int rad = Mathf.Max(Mathf.Abs(rel_x), Mathf.Abs(rel_y));
 								if (rad <= radius - currentWeather.DistanceToCurrentWind(rel_x, rel_y))
@@ -47,7 +64,7 @@ public class Highlight {
 							}
 							else
 							{
-								if (currentWeather.currentWeatherType == weather_type.CALM)
+								if (currentWeather.currentWeatherType == Weather_type.CALM)
 								{
 									cells.Add(allFieldCells[fieldSize.x * (y + rel_y) + (x + rel_x)]);
 								}
@@ -70,25 +87,25 @@ public class Highlight {
 		
 		if (!u.movementDone)
 		{
-			canMoveCells = GetHighlightedCells(u.GetPosition(), u.move_range, "move");
+			canMoveCells = GetHighlightedCells(u.GetPosition(), u, Action.MOVE);
 		}
 		if (!u.fireDone)
 		{
-			canFireCells = GetHighlightedCells(u.GetPosition(), u.fire_range, "fire");
+			canFireCells = GetHighlightedCells(u.GetPosition(), u, Action.FIRE);
 		}
 	}
 
-	public void ResetHighlightedCellsLists( string type="all" )
+	public void ResetHighlightedCellsLists( Action type=Action.ANY )
 	{
-		if (type == "move")
+		if (type == Action.MOVE)
 		{
 			canMoveCells = new List<Cell>();
 		}
-		else if (type == "fire")
+		else if (type == Action.FIRE)
 		{
 			canFireCells = new List<Cell>();
 		}
-		else if (type == "all")
+		else if (type == Action.ANY)
 		{
 			canFireCells = new List<Cell>();
 			canMoveCells = new List<Cell>();

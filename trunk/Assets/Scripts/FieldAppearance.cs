@@ -52,7 +52,7 @@ public class FieldAppearance : MonoBehaviour {
 
 		Debug.Log("FieldAppearance Init: angle = " + angle.ToString() + ". scaleY = " + scaleY.ToString());
 
-		hla = new HighlightAppearance();
+		hla = gameObject.AddComponent<HighlightAppearance>();
 		hla.Init(angle, scaleY, fieldZeroX, fieldZeroY, cellWidth, cellHeight, field);
 	}
 

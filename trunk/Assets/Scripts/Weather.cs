@@ -14,7 +14,7 @@ public class Weather
 	public int[] curWind;
 	public int curWindIndex;
 
-	public weather_type currentWeatherType;
+	public Weather_type currentWeatherType;
 
 
 	public void Init()
@@ -55,30 +55,30 @@ public class Weather
 
 		if (rnd == 1)
 		{
-			currentWeatherType = weather_type.CALM;
+			currentWeatherType = Weather_type.CALM;
 		}
 		else
 		{
-			currentWeatherType = weather_type.WIND;
+			currentWeatherType = Weather_type.WIND;
 		}
 
-		currentWeatherType = weather_type.WIND; // FOR DEBUG ONLY!!!
+		//currentWeatherType = Weather_type.CALM; // FOR DEBUG ONLY!!!
 
 		Debug.Log("WEATHER: " + currentWeatherType.ToString());
-		if (currentWeatherType == weather_type.WIND || currentWeatherType == weather_type.STORM)
+		if (currentWeatherType == Weather_type.WIND || currentWeatherType == Weather_type.STORM)
 		{
 			curWindIndex = Random.Range(0, dirs.Count - 1);
 			//curWindIndex = 0;  // FOR DEBUG ONLY!!!
 			curWind = dirs[curWindIndex];
 
-			if (currentWeatherType == weather_type.STORM)
+			if (currentWeatherType == Weather_type.STORM)
 			{
 				//GameManager.instance.StormMovesShips();
 			}
 		}
 		else
 		{
-			if (currentWeatherType == weather_type.CALM)
+			if (currentWeatherType == Weather_type.CALM)
 			{
 				curWindIndex = -1;
 				curWind = null;

@@ -98,7 +98,7 @@ public class Field
 		if (hl.canFireCells.Contains(c))
 		{
 			attacker.Fire(target);
-			hl.ResetHighlightedCellsLists("fire");
+			hl.ResetHighlightedCellsLists(Action.FIRE);
 		}
 		else
 		{

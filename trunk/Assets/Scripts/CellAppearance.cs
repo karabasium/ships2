@@ -17,7 +17,7 @@ public class CellAppearance : MonoBehaviour {
 		cube = GameObject.CreatePrimitive(PrimitiveType.Cube);
 	}
 
-	public void Init( float gridAngle, float viewAngle, float cellWidth, float cellHeight, GameObject go, string type)
+	public void Init( float gridAngle, float viewAngle, float cellWidth, float cellHeight, GameObject go, Action type)
 	{
 		width = cellHeight;
 		height = cellHeight;
@@ -28,7 +28,7 @@ public class CellAppearance : MonoBehaviour {
 
 		zOffset = 1.0f;
 		scaleFactor = 1.0f;
-		if (type == "fire")
+		if (type == Action.FIRE)
 		{
 			scaleFactor = 0.7f;
 			zOffset = 0.8f;

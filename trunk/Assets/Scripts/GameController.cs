@@ -9,11 +9,18 @@ public enum Player
 	NONE
 }
 
-public enum weather_type
+public enum Weather_type
 {
 	WIND,
 	STORM,
 	CALM
+}
+
+public enum Action
+{
+	MOVE,
+	FIRE,
+	ANY
 }
 
 public class GameController : MonoBehaviour {

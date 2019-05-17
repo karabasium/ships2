@@ -18,7 +18,7 @@ public class WeatherAppearance {
 	{
 		Debug.Log("weather.curWindIndex = " + weather.curWindIndex.ToString());
 
-		if (weather.currentWeatherType == weather_type.WIND)
+		if (weather.currentWeatherType == Weather_type.WIND)
 		{
 
 			if (weather.curWindIndex == 0)
@@ -62,11 +62,11 @@ public class WeatherAppearance {
 				weatherName.text = "W Breeze";
 			}
 		}
-		else if (weather.currentWeatherType == weather_type.STORM)
+		else if (weather.currentWeatherType == Weather_type.STORM)
 		{
 			weatherName.text = "Storm";
 		}
-		else if (weather.currentWeatherType == weather_type.CALM)
+		else if (weather.currentWeatherType == Weather_type.CALM)
 		{
 			weatherName.text = "Calm";
 		}
