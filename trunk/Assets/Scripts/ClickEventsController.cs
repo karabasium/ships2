@@ -32,7 +32,7 @@ public class ClickEventsController : MonoBehaviour {
 			{
 				Unit u = hit.collider.gameObject.GetComponent<UnitAppearance>().u;				
 
-				if (field.GetLastSelectedUnit() == null || u.player == field.GetLastSelectedUnit().player) //click on Player's unit
+				if (field.GetLastSelectedUnit() == null || u.player == GameController.instance.currentPlayer) //click on Player's unit
 				{
 					if (field.GetSelectedUnits().Contains(u)) //unselect unit if clicked again
 					{

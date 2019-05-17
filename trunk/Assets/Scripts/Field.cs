@@ -170,7 +170,6 @@ public class Field
 	{
 		List<Unit> playerUnits = GetAlivePlayerUnits(player);
 		int rndIndex = Random.Range(0, playerUnits.Count);
-		Debug.Log("SelectRandomUnit: rndIndex = " + rndIndex.ToString());
 		AddUnitToSelectedUnits(playerUnits[rndIndex] );
 	}
 }

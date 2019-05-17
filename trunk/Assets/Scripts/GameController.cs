@@ -114,7 +114,6 @@ public class GameController : MonoBehaviour {
 
 	public void SetNextPlayerAsActive()
 	{
-		Debug.Log("SetNextPlayerAsActive");
 		if (currentPlayer == Player.PLAYER_1)
 		{
 			currentPlayer = Player.PLAYER_2;			

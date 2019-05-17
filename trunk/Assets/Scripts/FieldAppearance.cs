@@ -50,8 +50,6 @@ public class FieldAppearance : MonoBehaviour {
 		DrawField(cellHeight, cellWidth, angle, scaleY);
 		DrawShips();
 
-		Debug.Log("FieldAppearance Init: angle = " + angle.ToString() + ". scaleY = " + scaleY.ToString());
-
 		hla = gameObject.AddComponent<HighlightAppearance>();
 		hla.Init(angle, scaleY, fieldZeroX, fieldZeroY, cellWidth, cellHeight, field);
 	}
@@ -112,12 +110,9 @@ public class FieldAppearance : MonoBehaviour {
 			ua.PlaceUnit(Utils.scale_y(Utils.rotate(pos, angle_rad), scaleY) );
 			if (!field.GetSelectedUnits().Contains(unit)) //if unit is not selected
 			{
-				if (field.hl.canFireCells.Contains(cell))
+				if (field.hl.canFireCells.Contains(cell) && ua.u.player != GameController.instance.currentPlayer)
 				{
-					if (ua.u.player != GameController.instance.currentPlayer)
-					{
-						ua.ColorAsUnderFireUnit();
-					}
+					ua.ColorAsUnderFireUnit();
 				}
 				else
 				{

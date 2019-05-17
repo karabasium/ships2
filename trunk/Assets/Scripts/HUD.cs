@@ -8,7 +8,6 @@ public class HUD : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		Debug.Log("HUD start");
 		w_text = GameObject.Find("WeatherValue").GetComponent<Text>();
 	}
 	
@@ -19,8 +18,6 @@ public class HUD : MonoBehaviour {
 
 	public void NextTurn()
 	{
-		Debug.Log(GameController.instance);
 		GameController.instance.SetNextPlayerAsActive();
-		Debug.Log("Next turn");
 	}
 }
