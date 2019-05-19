@@ -33,12 +33,14 @@ public class GameController : MonoBehaviour {
 	private ClickEventsController clickEventsController;
 	public Player currentPlayer;
 	private bool gameOver;
+	private HUD hud;
 
 
 
 
 	void Awake()
 	{
+		Debug.Log("Game Controller Awaker");
 		MakeSingleton();
 
 		currentPlayer = Player.PLAYER_1;
@@ -65,16 +67,20 @@ public class GameController : MonoBehaviour {
 		currentWeather.Init();
 		currentWeather.RefreshWeather();
 
-		wa = new WeatherAppearance(currentWeather);
-		wa.UpdateWeatherAppearance();
+		//wa = new WeatherAppearance(currentWeather);
+		//wa.UpdateWeatherAppearance();
 	}
 
 	void Start()
 	{
+		Debug.Log("Game Controller Start");
 		fa.Init(f);
 		clickEventsController.Init(fa, f);
 		f.SelectRandomUnit(currentPlayer);
 		fa.UpdateField();
+
+		hud = GameObject.Find("HUD").GetComponent<HUD>();
+		hud.Init(f, currentWeather);
 	}
 
 
@@ -123,7 +129,7 @@ public class GameController : MonoBehaviour {
 			currentPlayer = Player.PLAYER_1;
 		}
 		currentWeather.RefreshWeather();
-		wa.UpdateWeatherAppearance();
+		currentWeather.needHUDUpdate = true;
 		f.ReleaseUnitsSelection();
 		f.RefreshPlayerUnits(currentPlayer);
 		f.SelectRandomUnit(currentPlayer);

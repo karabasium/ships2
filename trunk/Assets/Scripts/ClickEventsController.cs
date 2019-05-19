@@ -5,6 +5,7 @@ using UnityEngine;
 public class ClickEventsController : MonoBehaviour {
 	private Field field;
 	private FieldAppearance fa;
+	private HUD hud;
 
 	// Use this for initialization
 	void Start () {
@@ -15,6 +16,7 @@ public class ClickEventsController : MonoBehaviour {
 	{
 		this.fa = fa;
 		field = f;
+		hud = GameObject.Find("HUD").GetComponent<HUD>();
 	}
 	
 	// Update is called once per frame

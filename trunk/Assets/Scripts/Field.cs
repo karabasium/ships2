@@ -10,6 +10,7 @@ public class Field
 	private List<Unit> units = new List<Unit>();
 	private List<Unit> selectedUnits = new List<Unit>();
 	public Highlight hl;
+	public bool needHUDupdate = false;
 
 	public Field(int w, int h)
 	{
@@ -23,7 +24,7 @@ public class Field
 				cells.Add(new Cell(col, row));
 			}
 		}
-		hl = new Highlight( width, height, cells);
+		hl = new Highlight( width, height, cells);		
 	}
 
 	public List<Cell> GetAllCells()
@@ -73,6 +74,7 @@ public class Field
 
 		selectedUnits.Add(u);
 		hl.CreateHighlightedCellsLists(u);
+		needHUDupdate = true;
 	}
 
 	public List<Unit> GetSelectedUnits()
@@ -84,6 +86,7 @@ public class Field
 	{
 		selectedUnits = new List<Unit>();
 		hl.ResetHighlightedCellsLists();
+		needHUDupdate = true;
 	}
 
 	public void UnselectUnit( Unit u)
@@ -104,6 +107,7 @@ public class Field
 		{
 			Debug.Log("Can't fire this cell");
 		}
+		needHUDupdate = true;
 	}
 
 	public void ChangeLastSelectedUnitPosition( Vector2Int new_pos)
@@ -171,5 +175,6 @@ public class Field
 		List<Unit> playerUnits = GetAlivePlayerUnits(player);
 		int rndIndex = Random.Range(0, playerUnits.Count);
 		AddUnitToSelectedUnits(playerUnits[rndIndex] );
+		needHUDupdate = true;
 	}
 }

@@ -4,12 +4,12 @@ using UnityEngine;
 
 public class Unit  {
 	private readonly int max_hp;
-	private int hp;
+	public int hp;
 	public readonly int move_range;
 	public readonly int calm_move_range;
 	public readonly int fire_range;
 	public readonly int storm_drift_range;
-	private int shots;
+	public int shots;
 	private readonly int damage_per_shot;
 	private readonly int max_shots;
 	private readonly string ship_class;

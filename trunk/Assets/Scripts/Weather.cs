@@ -15,6 +15,7 @@ public class Weather
 	public int curWindIndex;
 
 	public Weather_type currentWeatherType;
+	public bool needHUDUpdate;
 
 
 	public void Init()
@@ -28,6 +29,7 @@ public class Weather
 		dirs.Add(new int[] { -1, -1 });
 		dirs.Add(new int[] { -1, 0 });
 
+		needHUDUpdate = false;
 	}
 
 	public int DistanceToCurrentWind(int dirX, int dirY)
@@ -51,7 +53,6 @@ public class Weather
 	{
 		//currentWeather = (weather_type)Random.Range(0, System.Enum.GetValues(typeof(weather_type)).Length);
 		int rnd = Random.Range(1, 3);
-		Debug.Log("RefreshWeather: " + rnd.ToString());
 
 		if (rnd == 1)
 		{
@@ -84,7 +85,6 @@ public class Weather
 				curWind = null;
 			}
 		}
-
-
+		needHUDUpdate = true;
 	}
 }
