@@ -50,6 +50,11 @@ public class HUD : MonoBehaviour {
 
 	public void UpdateUIShipInfo( Unit u)
 	{
+		if (u == null)
+		{
+			ResetUIShipInfo();
+			return;
+		}
 		hpLabel.text = "HP";		
 		hpValue.text = u.hp.ToString();
 		shotsCountLabel.text = "Shots count";
@@ -60,6 +65,8 @@ public class HUD : MonoBehaviour {
 
 	public void ResetUIShipInfo()
 	{
+		hpLabel.text = "";
+		shotsCountLabel.text = "";
 		hpValue.text = "";
 		shotsCountValue.text = "";
 	}
