@@ -20,6 +20,7 @@ public enum Action
 {
 	MOVE,
 	FIRE,
+	DRIFT,
 	ANY
 }
 

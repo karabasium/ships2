@@ -35,6 +35,10 @@ public class Highlight {
 			{
 				radius = u.calm_move_range;
 			}
+			else if (currentWeather.currentWeatherType == Weather_type.STORM)
+			{
+				radius = u.storm_drift_range;
+			}
 		}
 		else if (type == Action.FIRE)
 		{
@@ -62,9 +66,13 @@ public class Highlight {
 								}
 
 							}
-							else
+							else if (currentWeather.currentWeatherType == Weather_type.CALM)
 							{
-								if (currentWeather.currentWeatherType == Weather_type.CALM)
+								cells.Add(allFieldCells[fieldSize.x * (y + rel_y) + (x + rel_x)]);
+							}
+							else if (currentWeather.currentWeatherType == Weather_type.STORM)
+							{
+								if (currentWeather.DistanceToCurrentWind(rel_x, rel_y) == 0)
 								{
 									cells.Add(allFieldCells[fieldSize.x * (y + rel_y) + (x + rel_x)]);
 								}

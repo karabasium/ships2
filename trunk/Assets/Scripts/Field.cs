@@ -177,4 +177,12 @@ public class Field
 		AddUnitToSelectedUnits(playerUnits[rndIndex] );
 		needHUDupdate = true;
 	}
+
+	public void StormMoveAllShips( )
+	{
+		foreach (Unit u in GetAlivePlayerUnits(GameController.instance.currentPlayer))
+		{
+
+		}
+	}
 }

@@ -19,6 +19,7 @@ public class HighlightAppearance : MonoBehaviour {
 	private List<Vector2Int> highlightedCellsIndexes;
 	private Color canMoveColor;
 	private Color canFireColor;
+	private Color stormCellsColor;
 	private Field field;
 
 	public void Init(float angle, float scaleY, float fieldZeroX, float fieldZeroY, float cellWidth, float cellHeight, Field field)
@@ -42,6 +43,7 @@ public class HighlightAppearance : MonoBehaviour {
 
 		canMoveColor = new Color(152f / 255f, 205f / 255f, 250f / 255f);
 		canFireColor = new Color(250f / 255f, 136f / 255f, 136f / 255f);
+		stormCellsColor = new Color(255f / 255f, 50f / 255f, 50f / 255f);
 
 		hl = field.hl;
 	}	
@@ -51,7 +53,7 @@ public class HighlightAppearance : MonoBehaviour {
 		ResetHighlight();
 		foreach (Cell cell in hl.canMoveCells)
 		{
-			AddCellAppearance(new Vector2(cell.x, cell.y), Action.MOVE);
+			AddCellAppearance(new Vector2(cell.x, cell.y), Action.MOVE); //should be replaced with MOVE 
 		}
 		foreach (Cell cell in hl.canFireCells)
 		{
@@ -81,6 +83,10 @@ public class HighlightAppearance : MonoBehaviour {
 		else if (type == Action.FIRE)
 		{
 			ca.SetColor(canFireColor);
+		}
+		else if (type == Action.DRIFT)
+		{
+			ca.SetColor(stormCellsColor);
 		}
 		else
 		{
