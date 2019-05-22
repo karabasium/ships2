@@ -107,9 +107,10 @@ public class Unit  {
 		return false;
 	}
 
-	public void Move( Vector2Int newPosition )
+	public void Move( Vector2Int newPosition, int fildWidth )
 	{
 		position = newPosition;
+		cellIndex = Utils.CellIndex(newPosition, fildWidth);
 		movementDone = true;
 	}
 

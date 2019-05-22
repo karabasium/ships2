@@ -32,4 +32,31 @@ public class Utils {
 		Vector2 pos = new Vector2(fa.fieldZeroX + field_x * fa.cellWidth + fa.cellWidth / 2, fa.fieldZeroY + field_y * fa.cellHeight + fa.cellHeight / 2);
 		return Utils.scale_y(Utils.rotate(pos, fa.angle_rad), fa.scaleY);
 	}
+
+	public static int CellIndex( Vector2Int pos, int fieldWidth)
+	{
+		return fieldWidth * pos.y + pos.x;
+	}
+
+	public static Cell GetOuterMostCell( Cell cellFrom, List<Cell> cellsTo) 
+	{
+		if (cellsTo.Count == 0)
+		{
+			return cellFrom;
+		}
+
+		int outermostCellIndex = 0;
+		int maxDistance = Mathf.Abs(cellFrom.x - cellsTo[outermostCellIndex].x) + Mathf.Abs(cellFrom.y - cellsTo[outermostCellIndex].y);
+		for (int i=1; i<cellsTo.Count; i++)
+		{
+			Cell cellTo = cellsTo[i];
+			int distance = Mathf.Abs(cellFrom.x - cellTo.x) + Mathf.Abs(cellFrom.y - cellTo.y);
+			if (distance > maxDistance)
+			{
+				maxDistance = distance;
+				outermostCellIndex = i;
+			}
+		}
+		return cellsTo[outermostCellIndex];
+	}
 }

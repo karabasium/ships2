@@ -121,9 +121,7 @@ public class Field
 		if (hl.canMoveCells.Contains(c))
 		{
 			Unit u = GetLastSelectedUnit();
-			u.cellIndex = CellIndex(new_pos.x, new_pos.y);
-			u.SetPosition(new_pos);
-			u.movementDone = true;
+			u.Move( new_pos, width );
 			hl.ResetHighlightedCellsLists();
 			hl.CreateHighlightedCellsLists(u);
 		}
@@ -180,9 +178,15 @@ public class Field
 
 	public void StormMoveAllShips( )
 	{
+		Debug.Log("StormMoveAllShips");
 		foreach (Unit u in GetAlivePlayerUnits(GameController.instance.currentPlayer))
 		{
-
-		}
+			List<Cell> cellsToMove = hl.GetHighlightedCells(u.GetPosition(), u, Action.MOVE);
+			Debug.Log("Cells.count = " + cells.Count.ToString());
+			Cell cell = Utils.GetOuterMostCell(cells[ u.cellIndex ], cellsToMove);
+			Debug.Log("unit position = " + u.GetPosition().ToString());
+			Debug.Log("destination position = " +(new Vector2Int(cell.x, cell.y)).ToString());
+			u.Move(new Vector2Int(cell.x, cell.y), width);
+		} 
 	}
 }

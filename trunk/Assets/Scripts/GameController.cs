@@ -55,10 +55,10 @@ public class GameController : MonoBehaviour {
 		Unit u3 = new Unit("brig", Vector2Int.zero, Player.PLAYER_2 );
 		Unit u4 = new Unit("brig", Vector2Int.zero, Player.PLAYER_2);
 
-		f.AddUnit(new Vector2Int(4, 5), u1);
-		f.AddUnit(new Vector2Int(4, 6), u2);
-		f.AddUnit(new Vector2Int(6, 8), u3);
-		f.AddUnit(new Vector2Int(3, 7), u4);
+		f.AddUnit(new Vector2Int(0, 0), u1);
+		//f.AddUnit(new Vector2Int(4, 6), u2);
+		f.AddUnit(new Vector2Int(4, 4), u3);
+		//f.AddUnit(new Vector2Int(3, 7), u4);
 
 		fieldObject = new GameObject();
 		fa = fieldObject.AddComponent<FieldAppearance>();
@@ -116,6 +116,14 @@ public class GameController : MonoBehaviour {
 				gameOver = true;
 				Debug.Log("GAME OVER! Winner is player " + WhoIsWinner().ToString());
 			}
+		}		
+		if(currentWeather.needPerformStormActions)
+		{
+			f.ReleaseUnitsSelection();
+			f.StormMoveAllShips();
+			f.SelectRandomUnit( currentPlayer);
+			fa.UpdateField();
+			currentWeather.needPerformStormActions = false;
 		}
 	}
 

@@ -93,7 +93,7 @@ public class Highlight {
 	public void CreateHighlightedCellsLists(Unit u)
 	{
 		
-		if (!u.movementDone)
+		if (!u.movementDone && GameController.instance.currentWeather.currentWeatherType != Weather_type.STORM)
 		{
 			canMoveCells = GetHighlightedCells(u.GetPosition(), u, Action.MOVE);
 		}

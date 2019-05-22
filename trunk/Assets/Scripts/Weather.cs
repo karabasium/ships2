@@ -16,6 +16,7 @@ public class Weather
 
 	public Weather_type currentWeatherType;
 	public bool needHUDUpdate;
+	public bool needPerformStormActions;
 
 
 	public void Init()
@@ -30,6 +31,7 @@ public class Weather
 		dirs.Add(new int[] { -1, 0 });
 
 		needHUDUpdate = false;
+		needPerformStormActions = false;
 	}
 
 	public int DistanceToCurrentWind(int dirX, int dirY)
@@ -79,7 +81,7 @@ public class Weather
 
 			if (currentWeatherType == Weather_type.STORM)
 			{
-				//GameManager.instance.StormMovesShips();
+				needPerformStormActions = true;
 			}
 		}
 		else
