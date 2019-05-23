@@ -27,9 +27,9 @@ public class Utils {
 		return new Vector2Int(new_cell_x, new_cell_y);
 	}
 
-	public static Vector2 GetWorldPositionByLogicalXY(int field_x, int field_y, FieldAppearance fa)
+	public static Vector2 GetWorldPositionByLogicalXY( Vector2Int positionOnField, FieldAppearance fa)
 	{
-		Vector2 pos = new Vector2(fa.fieldZeroX + field_x * fa.cellWidth + fa.cellWidth / 2, fa.fieldZeroY + field_y * fa.cellHeight + fa.cellHeight / 2);
+		Vector2 pos = new Vector2(fa.fieldZeroX + positionOnField.x * fa.cellWidth + fa.cellWidth / 2, fa.fieldZeroY + positionOnField.y * fa.cellHeight + fa.cellHeight / 2);
 		return Utils.scale_y(Utils.rotate(pos, fa.angle_rad), fa.scaleY);
 	}
 

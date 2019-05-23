@@ -28,7 +28,7 @@ public class GameController : MonoBehaviour {
 	public static GameController instance;
 	private GameObject fieldObject;
 	public Weather currentWeather;
-	private FieldAppearance fa;
+	public FieldAppearance fa;
 	private WeatherAppearance wa;
 	private Field f;
 	private ClickEventsController clickEventsController;
@@ -55,9 +55,9 @@ public class GameController : MonoBehaviour {
 		Unit u3 = new Unit("brig", Vector2Int.zero, Player.PLAYER_2 );
 		Unit u4 = new Unit("brig", Vector2Int.zero, Player.PLAYER_2);
 
-		f.AddUnit(new Vector2Int(0, 0), u1);
+		f.AddUnit(new Vector2Int(3, 3), u1);
 		//f.AddUnit(new Vector2Int(4, 6), u2);
-		f.AddUnit(new Vector2Int(4, 4), u3);
+		f.AddUnit(new Vector2Int(4, 5), u3);
 		//f.AddUnit(new Vector2Int(3, 7), u4);
 
 		fieldObject = new GameObject();
@@ -121,10 +121,38 @@ public class GameController : MonoBehaviour {
 		{
 			f.ReleaseUnitsSelection();
 			f.StormMoveAllShips();
-			f.SelectRandomUnit( currentPlayer);
-			fa.UpdateField();
+			f.unitsAnimationInProgress = true;
 			currentWeather.needPerformStormActions = false;
 		}
+		if (f.unitsAnimationInProgress)
+		{
+			bool animationFinished = true;
+			foreach (Unit u in f.GetUnits())
+			{
+				if (u.unitNeedsMovementAnimation)
+				{
+					animationFinished = false;
+				}
+			}
+			if (animationFinished)
+			{
+				f.unitsAnimationInProgress = false;
+				f.SelectRandomUnit(currentPlayer);
+				fa.UpdateField();
+			}
+		}
+	}
+
+	private bool WaitUntilMovementAnimationEnds()
+	{
+		foreach (Unit u in f.GetUnits())
+		{
+			if (u.unitNeedsMovementAnimation)
+			{		
+				return false;
+			}
+		}
+		return true;
 	}
 
 	public void SetNextPlayerAsActive()

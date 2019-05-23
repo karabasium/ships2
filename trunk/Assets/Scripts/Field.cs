@@ -11,6 +11,7 @@ public class Field
 	private List<Unit> selectedUnits = new List<Unit>();
 	public Highlight hl;
 	public bool needHUDupdate = false;
+	public bool unitsAnimationInProgress = false;
 
 	public Field(int w, int h)
 	{

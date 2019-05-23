@@ -5,10 +5,30 @@ using UnityEngine;
 public class UnitAppearance : MonoBehaviour {
 	private SpriteRenderer sr;
 	public Unit u;
+	private float movementAnimationSpeed = 0.2f;
 
 	void Start()
 	{
 
+	}
+
+	void Update()
+	{
+		movementAnimationSpeed = 0.2f;
+		if (u.unitNeedsMovementAnimation)
+		{
+			Vector2 position = gameObject.transform.position;
+			Vector2 destination = Utils.GetWorldPositionByLogicalXY(u.GetPosition(), GameController.instance.fa);
+			if ((position.x - destination.x) < 0.1f)
+			{
+				transform.Translate(destination * movementAnimationSpeed * Time.deltaTime);
+			}
+			else
+			{
+				u.unitNeedsMovementAnimation = false;
+				Debug.Log("Unit animation completed");
+			}
+		}
 	}
 
 	public void Init(Unit u) {
@@ -40,4 +60,5 @@ public class UnitAppearance : MonoBehaviour {
 	{
 		sr.color = new Color(1.0f, 1.0f, 1.0f, 1.0f);
 	}
+
 }

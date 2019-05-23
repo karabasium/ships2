@@ -18,6 +18,7 @@ public class FieldAppearance : MonoBehaviour {
 	private GameObject shipsParent;
 	private List<UnitAppearance> unitsAppearances;
 
+
 	void Awake()
 	{
 	}
@@ -56,7 +57,6 @@ public class FieldAppearance : MonoBehaviour {
 
 	void Update()
 	{
-		
 	}
 
 	public void UpdateField()

@@ -21,6 +21,7 @@ public class Unit  {
 	public bool hasGameObject;
 	public GameObject gameObject;
 	public float HIT_PROBABILITY = 0.5f;
+	public bool unitNeedsMovementAnimation;
 
 	public Unit( string ship_class, Vector2Int startPosition, Player player )
 	{
@@ -43,6 +44,7 @@ public class Unit  {
 		cellIndex = -1;
 		hasGameObject = false;
 		HIT_PROBABILITY = 0.5f;
+		unitNeedsMovementAnimation = false;
 		Refresh();
 	}
 
@@ -112,6 +114,7 @@ public class Unit  {
 		position = newPosition;
 		cellIndex = Utils.CellIndex(newPosition, fildWidth);
 		movementDone = true;
+		unitNeedsMovementAnimation = true;
 	}
 
 	public void SetPosition( Vector2Int new_pos)
