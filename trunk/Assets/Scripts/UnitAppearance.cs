@@ -5,29 +5,42 @@ using UnityEngine;
 public class UnitAppearance : MonoBehaviour {
 	private SpriteRenderer sr;
 	public Unit u;
-	private float movementAnimationSpeed = 0.2f;
+
+	public Vector2 destinationPos;
+	public bool startMove;
 
 	void Start()
 	{
-
+		startMove = false;
+		Debug.Log("start position = " + transform.position.ToString());
 	}
 
 	void Update()
 	{
-		movementAnimationSpeed = 0.2f;
-		if (u.unitNeedsMovementAnimation)
+	}
+
+	public bool Move()
+	{
+		Vector2 currentPosition = gameObject.transform.position;
+		Debug.Log("game object name = " + gameObject.name);
+		Vector2 destination = Utils.GetUnitWorldPositionByLogicalXY(u.GetPosition(), GameController.instance.fa);
+		Debug.Log("unit position = " + currentPosition.ToString());
+		Debug.Log("destination = " + destination.ToString());
+		float tolerance = 0.01f;
+		float movementAnimationSpeed = 2.0f;
+
+		float distance = Mathf.Sqrt((currentPosition.x - destination.x) * (currentPosition.x - destination.x) + (currentPosition.y - destination.y) * (currentPosition.y - destination.y));
+
+		Debug.Log("distance = " + distance.ToString());
+		if (distance > tolerance)
 		{
-			Vector2 position = gameObject.transform.position;
-			Vector2 destination = Utils.GetWorldPositionByLogicalXY(u.GetPosition(), GameController.instance.fa);
-			if ((position.x - destination.x) < 0.1f)
-			{
-				transform.Translate(destination * movementAnimationSpeed * Time.deltaTime);
-			}
-			else
-			{
-				u.unitNeedsMovementAnimation = false;
-				Debug.Log("Unit animation completed");
-			}
+			Vector3 dir = new Vector3(destination.x, destination.y, 0) - transform.position;
+			transform.Translate(dir.normalized * movementAnimationSpeed * Time.deltaTime);
+			return false;
+		}
+		else
+		{
+			return true;
 		}
 	}
 

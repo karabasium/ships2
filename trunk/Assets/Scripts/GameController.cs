@@ -24,6 +24,14 @@ public enum Action
 	ANY
 }
 
+public enum GAME_STATE
+{
+	INITIALIZATION,
+	NOTHING_HAPPENS,
+	ANIMATION_IN_PROGRESS,
+	FIELD_APPEARANCE_NEED_TO_UPDATE
+}
+
 public class GameController : MonoBehaviour {
 	public static GameController instance;
 	private GameObject fieldObject;
@@ -35,13 +43,14 @@ public class GameController : MonoBehaviour {
 	public Player currentPlayer;
 	private bool gameOver;
 	private HUD hud;
+	public GAME_STATE gameState;
 
 
 
 
 	void Awake()
 	{
-		Debug.Log("Game Controller Awaker");
+		gameState = GAME_STATE.INITIALIZATION;
 		MakeSingleton();
 
 		currentPlayer = Player.PLAYER_1;
@@ -49,11 +58,11 @@ public class GameController : MonoBehaviour {
 
 		f = new Field(12, 16);
 
-		Unit u1 = new Unit("brig", Vector2Int.zero, Player.PLAYER_1 );
-		Unit u2 = new Unit("brig", Vector2Int.zero, Player.PLAYER_1);
+		Unit u1 = new Unit("brig", Player.PLAYER_1 );
+		Unit u2 = new Unit("brig", Player.PLAYER_1);
 
-		Unit u3 = new Unit("brig", Vector2Int.zero, Player.PLAYER_2 );
-		Unit u4 = new Unit("brig", Vector2Int.zero, Player.PLAYER_2);
+		Unit u3 = new Unit("brig", Player.PLAYER_2 );
+		Unit u4 = new Unit("brig", Player.PLAYER_2);
 
 		f.AddUnit(new Vector2Int(3, 3), u1);
 		//f.AddUnit(new Vector2Int(4, 6), u2);
@@ -67,9 +76,6 @@ public class GameController : MonoBehaviour {
 		currentWeather = new Weather();
 		currentWeather.Init();
 		currentWeather.RefreshWeather();
-
-		//wa = new WeatherAppearance(currentWeather);
-		//wa.UpdateWeatherAppearance();
 	}
 
 	void Start()
@@ -121,38 +127,8 @@ public class GameController : MonoBehaviour {
 		{
 			f.ReleaseUnitsSelection();
 			f.StormMoveAllShips();
-			f.unitsAnimationInProgress = true;
 			currentWeather.needPerformStormActions = false;
 		}
-		if (f.unitsAnimationInProgress)
-		{
-			bool animationFinished = true;
-			foreach (Unit u in f.GetUnits())
-			{
-				if (u.unitNeedsMovementAnimation)
-				{
-					animationFinished = false;
-				}
-			}
-			if (animationFinished)
-			{
-				f.unitsAnimationInProgress = false;
-				f.SelectRandomUnit(currentPlayer);
-				fa.UpdateField();
-			}
-		}
-	}
-
-	private bool WaitUntilMovementAnimationEnds()
-	{
-		foreach (Unit u in f.GetUnits())
-		{
-			if (u.unitNeedsMovementAnimation)
-			{		
-				return false;
-			}
-		}
-		return true;
 	}
 
 	public void SetNextPlayerAsActive()

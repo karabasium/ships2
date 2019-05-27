@@ -51,6 +51,7 @@ public class Field
 		units.Add(u);
 		u.cellIndex = CellIndex(positionOnField.x, positionOnField.y);
 		u.SetPosition(positionOnField);
+		u.previousPosition = positionOnField;
 		if (!c.isOccupied())
 		{
 			c.slotsOccupied += 1;
@@ -76,6 +77,7 @@ public class Field
 		selectedUnits.Add(u);
 		hl.CreateHighlightedCellsLists(u);
 		needHUDupdate = true;
+		GameController.instance.gameState = GAME_STATE.FIELD_APPEARANCE_NEED_TO_UPDATE;
 	}
 
 	public List<Unit> GetSelectedUnits()
@@ -88,6 +90,7 @@ public class Field
 		selectedUnits = new List<Unit>();
 		hl.ResetHighlightedCellsLists();
 		needHUDupdate = true;
+		GameController.instance.gameState = GAME_STATE.FIELD_APPEARANCE_NEED_TO_UPDATE;
 	}
 
 	public void UnselectUnit( Unit u)
@@ -135,6 +138,7 @@ public class Field
 	public void RemoveUnit(Unit u)
 	{
 		units.Remove(u);
+		GameController.instance.gameState = GAME_STATE.FIELD_APPEARANCE_NEED_TO_UPDATE;
 	}
 
 	public Unit GetLastSelectedUnit()

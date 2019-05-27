@@ -70,7 +70,7 @@ public class Weather
 			currentWeatherType = Weather_type.STORM;
 		}
 
-		//currentWeatherType = Weather_type.CALM; // FOR DEBUG ONLY!!!
+		currentWeatherType = Weather_type.STORM; // FOR DEBUG ONLY!!!
 
 		Debug.Log("WEATHER: " + currentWeatherType.ToString());
 		if (currentWeatherType == Weather_type.WIND || currentWeatherType == Weather_type.STORM)

@@ -15,21 +15,21 @@ public class Unit  {
 	private readonly string ship_class;
 	public Player player;
 	private Vector2Int position;
+	public Vector2Int previousPosition;
 	public bool movementDone;
 	public bool fireDone;
 	public int cellIndex;
 	public bool hasGameObject;
 	public GameObject gameObject;
 	public float HIT_PROBABILITY = 0.5f;
-	public bool unitNeedsMovementAnimation;
 
-	public Unit( string ship_class, Vector2Int startPosition, Player player )
+	public Unit( string ship_class, Player player )
 	{
 		this.ship_class = ship_class;
 		if (ship_class == "brig")
 		{
 			move_range = 5;
-			calm_move_range = 1;
+			calm_move_range = 2;
 			storm_drift_range = 3;
 
 			max_hp = 1;
@@ -39,12 +39,13 @@ public class Unit  {
 		this.player = player;
 		hp = max_hp;
 
-		position = startPosition;
+		position = Vector2Int.zero;
+		previousPosition = position;
+
 		damage_per_shot = 1;
 		cellIndex = -1;
 		hasGameObject = false;
 		HIT_PROBABILITY = 0.5f;
-		unitNeedsMovementAnimation = false;
 		Refresh();
 	}
 
@@ -111,14 +112,20 @@ public class Unit  {
 
 	public void Move( Vector2Int newPosition, int fildWidth )
 	{
+		previousPosition = position;
 		position = newPosition;
 		cellIndex = Utils.CellIndex(newPosition, fildWidth);
 		movementDone = true;
-		unitNeedsMovementAnimation = true;
+		if ( GameController.instance.gameState != GAME_STATE.ANIMATION_IN_PROGRESS)
+		{
+			GameController.instance.gameState = GAME_STATE.ANIMATION_IN_PROGRESS;
+			Debug.Log("Current game state is " + GameController.instance.gameState.ToString());
+		}		
 	}
 
 	public void SetPosition( Vector2Int new_pos)
 	{
+		previousPosition = position;
 		position = new_pos;
 	}
 

@@ -36,6 +36,8 @@ public class FieldAppearance : MonoBehaviour {
 		cellHeight = 1.0f;
 		angle = 40.0f;
 		scaleY = 0.7f;
+		//angle = 0.0f;  //for debug
+		//scaleY = 1.0f;  //for debug
 		fieldZeroX = -4;
 		fieldZeroY = -5;
 		angle_rad = Mathf.PI * (angle / 180);
@@ -57,12 +59,64 @@ public class FieldAppearance : MonoBehaviour {
 
 	void Update()
 	{
+		if (GameController.instance.gameState == GAME_STATE.FIELD_APPEARANCE_NEED_TO_UPDATE)
+		{
+			UpdateField();
+			GameController.instance.gameState = GAME_STATE.NOTHING_HAPPENS;
+			return;
+		}
+		else if (GameController.instance.gameState == GAME_STATE.ANIMATION_IN_PROGRESS)
+		{
+			List<Unit> unitsToAnimate = GetUnitsNeedAnimation();
+			Debug.Log("Units to animate count = " + unitsToAnimate.Count.ToString());
+			if (unitsToAnimate.Count > 0)
+			{
+				bool animationCompleted = true;
+
+				foreach (Unit u in unitsToAnimate)
+				{
+					animationCompleted = FindUnitAppearance(u).Move();
+					Debug.Log(" FindUnitAppearance(u).Move();");
+				}
+
+				if (animationCompleted)
+				{
+					GameController.instance.gameState = GAME_STATE.FIELD_APPEARANCE_NEED_TO_UPDATE;
+				}
+			}
+		}
+	}
+
+	private List<Unit> GetUnitsNeedAnimation()
+	{
+		List<Unit> units = new List<Unit>();
+		foreach (Unit u in field.GetUnits())
+		{
+			//Debug.Log("u.GetPosition() = " + u.GetPosition().ToString() + "u.previousPosition = " + u.previousPosition.ToString());
+			if (u.GetPosition() != u.previousPosition)
+			{
+				units.Add(u);
+			}
+		}
+		return units;
+	}
+
+	public UnitAppearance FindUnitAppearance( Unit u)
+	{
+		foreach(UnitAppearance ua in unitsAppearances)
+		{
+			if (ua.u == u)
+			{
+				return ua;
+			}
+		}
+		return null;
 	}
 
 	public void UpdateField()
 	{
 		DrawShips();
-		DrawHighlights();
+		DrawHighlights();		
 	}
 
 	private void DrawHighlights()

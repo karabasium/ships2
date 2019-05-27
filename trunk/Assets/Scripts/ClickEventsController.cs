@@ -18,13 +18,16 @@ public class ClickEventsController : MonoBehaviour {
 		field = f;
 		hud = GameObject.Find("HUD").GetComponent<HUD>();
 	}
-	
+
 	// Update is called once per frame
 	void Update () {
-		bool needUpdate = false;
-		if (Input.GetMouseButtonDown(0))
+		if (GameController.instance.gameState == GAME_STATE.ANIMATION_IN_PROGRESS)
 		{
-			needUpdate = true;
+			return;
+		}
+
+		if (Input.GetMouseButtonDown(0))
+		{			
 			Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 			Vector2 mousePos2D = new Vector2(mousePos.x, mousePos.y);
 
@@ -38,7 +41,7 @@ public class ClickEventsController : MonoBehaviour {
 				{
 					if (field.GetSelectedUnits().Contains(u)) //unselect unit if clicked again
 					{
-						field.ReleaseUnitsSelection();
+						field.ReleaseUnitsSelection();						
 					}
 					else //select unit
 					{
@@ -63,14 +66,22 @@ public class ClickEventsController : MonoBehaviour {
 				Vector2Int cellXY = Utils.GetFieldLogicalXY(mousePos2D, fa);
 				if (cellXY.x <= field.width && cellXY.y <= field.height && cellXY.x >= 0 && cellXY.y >= 0) //if desired location is valid field cell
 				{
-					field.ChangeLastSelectedUnitPosition(Utils.GetFieldLogicalXY(mousePos2D, fa));
+					field.ChangeLastSelectedUnitPosition(Utils.GetFieldLogicalXY(mousePos2D, fa)); //move unit
 				}
-			}
-		}
-
-		if (needUpdate)
-		{
-			fa.UpdateField();
+			}			
 		}
 	}
+
+	/*void Update()
+	{
+		if (Input.GetMouseButtonDown(0))
+		{
+			Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+			Vector2 mousePos2D = new Vector2(mousePos.x, mousePos.y);
+			Debug.Log("Mouse click: " + mousePos2D.ToString());
+			UnitAppearance ua = fa.FindUnitAppearance(field.GetLastSelectedUnit());
+			ua.destinationPos = mousePos2D;
+			ua.startMove = true;
+		}
+	}*/
 }

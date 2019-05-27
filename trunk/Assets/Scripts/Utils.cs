@@ -33,6 +33,13 @@ public class Utils {
 		return Utils.scale_y(Utils.rotate(pos, fa.angle_rad), fa.scaleY);
 	}
 
+	public static Vector2 GetUnitWorldPositionByLogicalXY(Vector2Int positionOnField, FieldAppearance fa)
+	{
+		Vector2 pos = new Vector2(fa.fieldZeroX + positionOnField.x * fa.cellWidth + 3 * fa.cellWidth / 4, fa.fieldZeroY + positionOnField.y * fa.cellHeight + 9 * fa.cellHeight / 10);
+
+		return Utils.scale_y(Utils.rotate(pos, fa.angle_rad), fa.scaleY);
+	}
+
 	public static int CellIndex( Vector2Int pos, int fieldWidth)
 	{
 		return fieldWidth * pos.y + pos.x;
