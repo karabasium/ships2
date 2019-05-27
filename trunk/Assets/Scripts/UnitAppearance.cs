@@ -26,7 +26,7 @@ public class UnitAppearance : MonoBehaviour {
 		Vector2 destination = Utils.GetUnitWorldPositionByLogicalXY(u.GetPosition(), GameController.instance.fa);
 		Debug.Log("unit position = " + currentPosition.ToString());
 		Debug.Log("destination = " + destination.ToString());
-		float tolerance = 0.01f;
+		float tolerance = 0.05f;
 		float movementAnimationSpeed = 2.0f;
 
 		float distance = Mathf.Sqrt((currentPosition.x - destination.x) * (currentPosition.x - destination.x) + (currentPosition.y - destination.y) * (currentPosition.y - destination.y));

@@ -55,7 +55,7 @@ public class Weather
 	{
 		//currentWeather = (weather_type)Random.Range(0, System.Enum.GetValues(typeof(weather_type)).Length);
 		int rnd = Random.Range(1, 3);
-		rnd = 3;
+		//rnd = 3;
 
 		if (rnd == 1)
 		{
@@ -70,7 +70,7 @@ public class Weather
 			currentWeatherType = Weather_type.STORM;
 		}
 
-		currentWeatherType = Weather_type.STORM; // FOR DEBUG ONLY!!!
+		//currentWeatherType = Weather_type.STORM; // FOR DEBUG ONLY!!!
 
 		Debug.Log("WEATHER: " + currentWeatherType.ToString());
 		if (currentWeatherType == Weather_type.WIND || currentWeatherType == Weather_type.STORM)

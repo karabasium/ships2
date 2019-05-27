@@ -65,9 +65,9 @@ public class GameController : MonoBehaviour {
 		Unit u4 = new Unit("brig", Player.PLAYER_2);
 
 		f.AddUnit(new Vector2Int(3, 3), u1);
-		//f.AddUnit(new Vector2Int(4, 6), u2);
+		f.AddUnit(new Vector2Int(4, 6), u2);
 		f.AddUnit(new Vector2Int(4, 5), u3);
-		//f.AddUnit(new Vector2Int(3, 7), u4);
+		f.AddUnit(new Vector2Int(3, 7), u4);
 
 		fieldObject = new GameObject();
 		fa = fieldObject.AddComponent<FieldAppearance>();
