@@ -93,7 +93,7 @@ public class FieldAppearance : MonoBehaviour {
 		foreach (Unit u in field.GetUnits())
 		{
 			//Debug.Log("u.GetPosition() = " + u.GetPosition().ToString() + "u.previousPosition = " + u.previousPosition.ToString());
-			if (u.GetPosition() != u.previousPosition)
+			if (u.movementAnimationInProgress)
 			{
 				units.Add(u);
 			}

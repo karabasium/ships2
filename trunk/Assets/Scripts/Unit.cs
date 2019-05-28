@@ -15,13 +15,13 @@ public class Unit  {
 	private readonly string ship_class;
 	public Player player;
 	private Vector2Int position;
-	public Vector2Int previousPosition;
 	public bool movementDone;
 	public bool fireDone;
 	public int cellIndex;
 	public bool hasGameObject;
 	public GameObject gameObject;
 	public float HIT_PROBABILITY = 0.5f;
+	public bool movementAnimationInProgress = false;
 
 	public Unit( string ship_class, Player player )
 	{
@@ -40,7 +40,6 @@ public class Unit  {
 		hp = max_hp;
 
 		position = Vector2Int.zero;
-		previousPosition = position;
 
 		damage_per_shot = 1;
 		cellIndex = -1;
@@ -112,10 +111,10 @@ public class Unit  {
 
 	public void Move( Vector2Int newPosition, int fildWidth )
 	{
-		previousPosition = position;
 		position = newPosition;
 		cellIndex = Utils.CellIndex(newPosition, fildWidth);
 		movementDone = true;
+		movementAnimationInProgress = true;
 		if ( GameController.instance.gameState != GAME_STATE.ANIMATION_IN_PROGRESS)
 		{
 			GameController.instance.gameState = GAME_STATE.ANIMATION_IN_PROGRESS;
@@ -125,7 +124,6 @@ public class Unit  {
 
 	public void SetPosition( Vector2Int new_pos)
 	{
-		previousPosition = position;
 		position = new_pos;
 	}
 

@@ -51,7 +51,6 @@ public class Field
 		units.Add(u);
 		u.cellIndex = CellIndex(positionOnField.x, positionOnField.y);
 		u.SetPosition(positionOnField);
-		u.previousPosition = positionOnField;
 		if (!c.isOccupied())
 		{
 			c.slotsOccupied += 1;
