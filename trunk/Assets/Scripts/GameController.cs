@@ -64,8 +64,8 @@ public class GameController : MonoBehaviour {
 		Unit u3 = new Unit("brig", Player.PLAYER_2 );
 		Unit u4 = new Unit("brig", Player.PLAYER_2);
 
-		f.AddUnit(new Vector2Int(3, 3), u1);
-		f.AddUnit(new Vector2Int(4, 6), u2);
+		f.AddUnit(new Vector2Int(1, 1), u1);
+		f.AddUnit(new Vector2Int(1, 3), u2);
 		f.AddUnit(new Vector2Int(4, 5), u3);
 		f.AddUnit(new Vector2Int(3, 7), u4);
 
