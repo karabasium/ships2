@@ -3,26 +3,30 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Unit  {
+
 	private readonly int max_hp;
-	public int hp;
-	public readonly int move_range;
-	public readonly int calm_move_range;
-	public readonly int fire_range;
-	public readonly int storm_drift_range;
-	public int shots;
+	private int hp;
+	private int shots;
 	private readonly int damage_per_shot;
 	private readonly int max_shots;
-	private readonly string ship_class;
-	public Player player;
-	private Vector2Int position;
-	public bool movementDone;
-	public bool fireDone;
-	public int cellIndex;
-	public bool hasGameObject;
-	public GameObject gameObject;
-	public float HIT_PROBABILITY = 0.5f;
-	public bool movementAnimationInProgress = false;
+	private readonly float hitProbability = 0.5f;
 
+	private Vector2Int position;
+	private Player player;
+
+	private bool movementDone;
+	private bool fireDone;
+	private int cellIndex;
+	private readonly int move_range;
+	private readonly int calm_move_range;
+	private readonly int fire_range;
+	private readonly int storm_drift_range;
+
+	private GameObject gameObject;
+
+	private bool movementAnimationInProgress;
+	private readonly string ship_class;
+	
 	public Unit( string ship_class, Player player )
 	{
 		this.ship_class = ship_class;
@@ -36,30 +40,30 @@ public class Unit  {
 			fire_range = 3;
 			max_shots = 1;
 		}
-		this.player = player;
-		hp = max_hp;
+		this.Player = player;
+		Hp = max_hp;
 
-		position = Vector2Int.zero;
+		Position = Vector2Int.zero;
 
 		damage_per_shot = 1;
-		cellIndex = -1;
-		hasGameObject = false;
-		HIT_PROBABILITY = 0.5f;
+		CellIndex = -1;
+		hitProbability = GameController.instance.HIT_PROBABILITY;
+		movementAnimationInProgress = false;
 		Refresh();
 	}
 
 	public void Refresh()
 	{
-		movementDone = false;
-		fireDone = false;
-		shots = max_shots;
+		MovementDone = false;
+		FireDone = false;
+		Shots = max_shots;
 	}
 
 	public void GetDamage( int dmg )
 	{
-		hp -= dmg;
-		if (hp < 0) {
-			hp = 0;
+		Hp -= dmg;
+		if (Hp < 0) {
+			Hp = 0;
 			Debug.Log("Unit destroyed");
 		}
 	}
@@ -67,7 +71,7 @@ public class Unit  {
 	public void Fire( Unit enemy  )
 	{
 		Debug.Log("UNIT: fire!");
-		for (int i = 0; i<shots; i++)
+		for (int i = 0; i<Shots; i++)
 		{
 			float rnd = Random.Range(0.0f, 1.0f);
 			//rnd = 0f; //always hit
@@ -78,7 +82,7 @@ public class Unit  {
 
 			if (enemy.IsAlive())
 			{
-				if (rnd < HIT_PROBABILITY)
+				if (rnd < hitProbability)
 				{
 					enemy.GetDamage(damage_per_shot);
 					Debug.Log("Hit!");
@@ -87,22 +91,22 @@ public class Unit  {
 				{
 					Debug.Log("Miss!");
 				}
-				shots -= 1;
+				Shots -= 1;
 			}
 			else
 			{
 				break;
 			}
 		}
-		if (shots == 0)
+		if (Shots == 0)
 		{
-			fireDone = true;
+			FireDone = true;
 		}
 	}
 
 	public bool IsAlive()
 	{
-		if (hp > 0)
+		if (Hp > 0)
 		{
 			return true;
 		}
@@ -111,10 +115,10 @@ public class Unit  {
 
 	public void Move( Vector2Int newPosition, int fildWidth )
 	{
-		position = newPosition;
-		cellIndex = Utils.CellIndex(newPosition, fildWidth);
-		movementDone = true;
-		movementAnimationInProgress = true;
+		Position = newPosition;
+		CellIndex = Utils.CellIndex(newPosition, fildWidth);
+		MovementDone = true;
+		MovementAnimationInProgress = true;
 		if ( GameController.instance.gameState != GAME_STATE.ANIMATION_IN_PROGRESS)
 		{
 			GameController.instance.gameState = GAME_STATE.ANIMATION_IN_PROGRESS;
@@ -124,11 +128,160 @@ public class Unit  {
 
 	public void SetPosition( Vector2Int new_pos)
 	{
-		position = new_pos;
+		Position = new_pos;
 	}
 
 	public Vector2Int GetPosition()
 	{
-		return position;
+		return Position;
+	}
+
+	public int Shots
+	{
+		get
+		{
+			return shots;
+		}
+
+		set
+		{
+			shots = value;
+		}
+	}
+
+	public int Hp
+	{
+		get
+		{
+			return hp;
+		}
+
+		set
+		{
+			hp = value;
+		}
+	}
+
+	public Vector2Int Position
+	{
+		get
+		{
+			return position;
+		}
+
+		set
+		{
+			position = value;
+		}
+	}
+
+	public Player Player
+	{
+		get
+		{
+			return player;
+		}
+
+		set
+		{
+			player = value;
+		}
+	}
+
+	public bool MovementDone
+	{
+		get
+		{
+			return movementDone;
+		}
+
+		set
+		{
+			movementDone = value;
+		}
+	}
+
+	public bool FireDone
+	{
+		get
+		{
+			return fireDone;
+		}
+
+		set
+		{
+			fireDone = value;
+		}
+	}
+
+	public int CellIndex
+	{
+		get
+		{
+			return cellIndex;
+		}
+
+		set
+		{
+			cellIndex = value;
+		}
+	}
+
+	public GameObject GameObject
+	{
+		get
+		{
+			return gameObject;
+		}
+
+		set
+		{
+			gameObject = value;
+		}
+	}
+
+	public int Move_range
+	{
+		get
+		{
+			return move_range;
+		}
+	}
+
+	public int Calm_move_range
+	{
+		get
+		{
+			return calm_move_range;
+		}
+	}
+
+	public int Storm_drift_range
+	{
+		get
+		{
+			return storm_drift_range;
+		}
+	}
+
+	public int Fire_range
+	{
+		get
+		{
+			return fire_range;
+		}
+	}
+
+	public bool MovementAnimationInProgress
+	{
+		get
+		{
+			return movementAnimationInProgress;
+		}
+
+		set
+		{
+			movementAnimationInProgress = value;
+		}
 	}
 }

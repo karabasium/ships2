@@ -39,7 +39,7 @@ public class UnitAppearance : MonoBehaviour {
 		}
 		else
 		{
-			u.movementAnimationInProgress = false;
+			u.MovementAnimationInProgress = false;
 			return true;
 		}
 	}

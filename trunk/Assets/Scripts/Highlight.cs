@@ -29,20 +29,20 @@ public class Highlight {
 		{
 			if (currentWeather.currentWeatherType == Weather_type.WIND)
 			{
-				radius = u.move_range;
+				radius = u.Move_range;
 			}
 			else if (currentWeather.currentWeatherType == Weather_type.CALM)
 			{
-				radius = u.calm_move_range;
+				radius = u.Calm_move_range;
 			}
 			else if (currentWeather.currentWeatherType == Weather_type.STORM)
 			{
-				radius = u.storm_drift_range;
+				radius = u.Storm_drift_range;
 			}
 		}
 		else if (type == Action.FIRE)
 		{
-			radius = u.fire_range;
+			radius = u.Fire_range;
 		}
 
 		List<Cell> cells = new List<Cell>();
@@ -93,11 +93,11 @@ public class Highlight {
 	public void CreateHighlightedCellsLists(Unit u)
 	{
 		
-		if (!u.movementDone && GameController.instance.currentWeather.currentWeatherType != Weather_type.STORM)
+		if (!u.MovementDone && GameController.instance.currentWeather.currentWeatherType != Weather_type.STORM)
 		{
 			canMoveCells = GetHighlightedCells(u.GetPosition(), u, Action.MOVE);
 		}
-		if (!u.fireDone)
+		if (!u.FireDone)
 		{
 			canFireCells = GetHighlightedCells(u.GetPosition(), u, Action.FIRE);
 		}

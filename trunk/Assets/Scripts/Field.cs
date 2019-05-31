@@ -47,9 +47,9 @@ public class Field
 	{
 		Cell c = getCell(positionOnField.x, positionOnField.y);
 		GameObject g = new GameObject();
-		u.gameObject = g;
+		u.GameObject = g;
 		units.Add(u);
-		u.cellIndex = CellIndex(positionOnField.x, positionOnField.y);
+		u.CellIndex = CellIndex(positionOnField.x, positionOnField.y);
 		u.SetPosition(positionOnField);
 		if (!c.isOccupied())
 		{
@@ -100,7 +100,7 @@ public class Field
 
 	public void UnitAttacksUnit( Unit attacker, Unit target)
 	{
-		Cell c = cells[target.cellIndex];
+		Cell c = cells[target.CellIndex];
 		if (hl.canFireCells.Contains(c))
 		{
 			attacker.Fire(target);
@@ -156,7 +156,7 @@ public class Field
 		List<Unit> playerUnits = new List<Unit>();
 		foreach (Unit u in units)
 		{
-			if (u.IsAlive() && u.player == player)
+			if (u.IsAlive() && u.Player == player)
 			{
 				playerUnits.Add(u);
 			}
@@ -187,7 +187,7 @@ public class Field
 		{
 			List<Cell> cellsToMove = hl.GetHighlightedCells(u.GetPosition(), u, Action.MOVE);
 			Debug.Log("Cells.count = " + cells.Count.ToString());
-			Cell cell = Utils.GetOuterMostCell(cells[ u.cellIndex ], cellsToMove);
+			Cell cell = Utils.GetOuterMostCell(cells[ u.CellIndex ], cellsToMove);
 			Debug.Log("unit position = " + u.GetPosition().ToString());
 			Debug.Log("destination position = " +(new Vector2Int(cell.x, cell.y)).ToString());
 			u.Move(new Vector2Int(cell.x, cell.y), width);

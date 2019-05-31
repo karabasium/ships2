@@ -44,6 +44,7 @@ public class GameController : MonoBehaviour {
 	private bool gameOver;
 	private HUD hud;
 	public GAME_STATE gameState;
+	public readonly float HIT_PROBABILITY = 0.5f;
 
 
 
@@ -154,9 +155,9 @@ public class GameController : MonoBehaviour {
 	{
 		foreach (Unit u in f.GetUnits())
 		{
-			if (u.player == currentPlayer)
+			if (u.Player == currentPlayer)
 			{
-				if (!u.fireDone || !u.movementDone)
+				if (!u.FireDone || !u.MovementDone)
 				{
 					return false;
 				}

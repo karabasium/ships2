@@ -93,7 +93,7 @@ public class FieldAppearance : MonoBehaviour {
 		foreach (Unit u in field.GetUnits())
 		{
 			//Debug.Log("u.GetPosition() = " + u.GetPosition().ToString() + "u.previousPosition = " + u.previousPosition.ToString());
-			if (u.movementAnimationInProgress)
+			if (u.MovementAnimationInProgress)
 			{
 				units.Add(u);
 			}
@@ -128,7 +128,7 @@ public class FieldAppearance : MonoBehaviour {
 	{	
 		foreach (Unit u in field.GetSelectedUnits())
 		{
-			u.gameObject.GetComponent<SpriteRenderer>().color = new Color(1.0f, 1.0f, 1.0f, 1.0f);
+			u.GameObject.GetComponent<SpriteRenderer>().color = new Color(1.0f, 1.0f, 1.0f, 1.0f);
 		}
 		field.ReleaseUnitsSelection();
 	}
@@ -140,11 +140,11 @@ public class FieldAppearance : MonoBehaviour {
 
 		foreach (Unit unit in field.GetUnits())
 		{
-			Cell cell = field.GetAllCells()[unit.cellIndex];
+			Cell cell = field.GetAllCells()[unit.CellIndex];
 
 			float verticalOffset = 3 * cellHeight / 3;
 
-			if ( !occupiedWithOneInitCellsIndexes.Contains(unit.cellIndex) )
+			if ( !occupiedWithOneInitCellsIndexes.Contains(unit.CellIndex) )
 			{				
 				verticalOffset = 9 * cellHeight / 10;
 			}
@@ -154,17 +154,17 @@ public class FieldAppearance : MonoBehaviour {
 			}
 
 			Vector2 pos = new Vector2(fieldZeroX + cell.x * cellWidth + 3*cellWidth / 4, fieldZeroY + cell.y * cellHeight + verticalOffset);
-			UnitAppearance ua = unit.gameObject.GetComponent<UnitAppearance>();
+			UnitAppearance ua = unit.GameObject.GetComponent<UnitAppearance>();
 			if (!ua)
 			{
-				ua = unit.gameObject.AddComponent<UnitAppearance>();
+				ua = unit.GameObject.AddComponent<UnitAppearance>();
 				unitsAppearances.Add(ua);
 				ua.Init( unit );
 			}
 			ua.PlaceUnit(Utils.scale_y(Utils.rotate(pos, angle_rad), scaleY) );
 			if (!field.GetSelectedUnits().Contains(unit)) //if unit is not selected
 			{
-				if (field.hl.canFireCells.Contains(cell) && ua.u.player != GameController.instance.currentPlayer)
+				if (field.hl.canFireCells.Contains(cell) && ua.u.Player != GameController.instance.currentPlayer)
 				{
 					ua.ColorAsUnderFireUnit();
 				}
@@ -177,7 +177,7 @@ public class FieldAppearance : MonoBehaviour {
 			{
 				ua.ColorAsSelectedUnit();
 			}
-			occupiedWithOneInitCellsIndexes.Add(unit.cellIndex);
+			occupiedWithOneInitCellsIndexes.Add(unit.CellIndex);
 		}
 	}
 

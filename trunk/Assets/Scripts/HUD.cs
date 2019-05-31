@@ -56,9 +56,9 @@ public class HUD : MonoBehaviour {
 			return;
 		}
 		hpLabel.text = "HP";		
-		hpValue.text = u.hp.ToString();
+		hpValue.text = u.Hp.ToString();
 		shotsCountLabel.text = "Shots count";
-		shotsCountValue.text = u.shots.ToString();
+		shotsCountValue.text = u.Shots.ToString();
 
 	}
 
