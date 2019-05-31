@@ -5,13 +5,13 @@ using UnityEngine.UI;
 
 public class Weather
 {
-	public int[][] directions = new int[][] { new int[] { -1, 1  }, new int[] { 0, 1 },   new int[] { 1, 1  },
+	private int[][] directions = new int[][] { new int[] { -1, 1  }, new int[] { 0, 1 },   new int[] { 1, 1  },
 											new int[] { -1, 0  },                       new int[] { 1, 0  },
 											new int[] { -1, -1 }, new int[] { 0, -1 }, new int[]  { 1,-1 }};
 
 	private List<int[]> dirs = new List<int[]>();
 
-	public int[] curWind;
+	private int[] curWind;
 	public int curWindIndex;
 
 	public Weather_type currentWeatherType;

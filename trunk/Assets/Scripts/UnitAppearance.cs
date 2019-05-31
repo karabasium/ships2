@@ -7,11 +7,10 @@ public class UnitAppearance : MonoBehaviour {
 	public Unit u;
 
 	public Vector2 destinationPos;
-	public bool startMove;
+	private Sprite unitSprite;
 
 	void Start()
 	{
-		startMove = false;
 		Debug.Log("start position = " + transform.position.ToString());
 	}
 
@@ -75,4 +74,22 @@ public class UnitAppearance : MonoBehaviour {
 		sr.color = new Color(1.0f, 1.0f, 1.0f, 1.0f);
 	}
 
+	/*void AddHPVisual()
+	{
+		height = shipSprite.bounds.size.y;
+		width = shipSprite.bounds.size.x;
+		//Debug.Log("height = " + height.ToString() + ", width = " + width.ToString());
+		GameObject HP = Resources.Load("Prefabs/HP") as GameObject;
+		float hp_width = HP.GetComponent<SpriteRenderer>().bounds.size.x;
+		float hp_space = hp_width / 8;
+		float total_len = hp * hp_width + (hp - 1) * hp_space;
+		Vector3 pos = gameObject.transform.position;
+		float start_x = pos[0] - total_len / 2 + hp_width / 2;
+		for (int i = 0; i < hp; i++)
+		{
+			GameObject hpObj = Instantiate(HP, new Vector3(start_x + (hp_width + hp_space) * i, pos[1] - 0.6f * height, 0), Quaternion.identity);
+			hpObj.transform.parent = gameObject.transform;
+			hp_spots.Add(hpObj);
+		}
+	}*/
 }
