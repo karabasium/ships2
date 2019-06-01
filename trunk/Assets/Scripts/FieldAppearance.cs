@@ -68,7 +68,6 @@ public class FieldAppearance : MonoBehaviour {
 		else if (GameController.instance.gameState == GAME_STATE.ANIMATION_IN_PROGRESS)
 		{
 			List<Unit> unitsToAnimate = GetUnitsNeedAnimation();
-			Debug.Log("Units to animate count = " + unitsToAnimate.Count.ToString());
 			if (unitsToAnimate.Count > 0)
 			{
 				bool animationCompleted = true;
@@ -76,7 +75,6 @@ public class FieldAppearance : MonoBehaviour {
 				foreach (Unit u in unitsToAnimate)
 				{
 					animationCompleted = FindUnitAppearance(u).Move();
-					Debug.Log(" FindUnitAppearance(u).Move();");
 				}
 
 				if (animationCompleted)

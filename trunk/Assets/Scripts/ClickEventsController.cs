@@ -58,7 +58,7 @@ public class ClickEventsController : MonoBehaviour {
 					{
 						field.RemoveUnit(enemyUnit);
 					}
-					Debug.Log("FieldAppearance: unit is alive = " + u.IsAlive());
+					//Debug.Log("FieldAppearance: unit is alive = " + u.IsAlive());
 				}
 			}
 			else //click in the field

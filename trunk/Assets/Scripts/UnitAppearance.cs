@@ -5,32 +5,36 @@ using UnityEngine;
 public class UnitAppearance : MonoBehaviour {
 	private SpriteRenderer sr;
 	public Unit u;
+	private List<GameObject> hp_spots = new List<GameObject>();
 
 	public Vector2 destinationPos;
-	private Sprite unitSprite;
+
+	void Awake()
+	{
+		
+	}
 
 	void Start()
 	{
-		Debug.Log("start position = " + transform.position.ToString());
 	}
 
 	void Update()
 	{
+		if (u.Hp != hp_spots.Count)
+		{
+			UpdateHPVisual();
+		}
 	}
 
 	public bool Move()
 	{
 		Vector2 currentPosition = gameObject.transform.position;
-		Debug.Log("game object name = " + gameObject.name);
 		Vector2 destination = Utils.GetUnitWorldPositionByLogicalXY(u.GetPosition(), GameController.instance.fa);
-		Debug.Log("unit position = " + currentPosition.ToString());
-		Debug.Log("destination = " + destination.ToString());
 		float tolerance = 0.05f;
 		float movementAnimationSpeed = 2.0f;
 
 		float distance = Mathf.Sqrt((currentPosition.x - destination.x) * (currentPosition.x - destination.x) + (currentPosition.y - destination.y) * (currentPosition.y - destination.y));
 
-		Debug.Log("distance = " + distance.ToString());
 		if (distance > tolerance)
 		{
 			Vector3 dir = new Vector3(destination.x, destination.y, 0) - transform.position;
@@ -52,6 +56,7 @@ public class UnitAppearance : MonoBehaviour {
 		gameObject.GetComponent<SpriteRenderer>().sprite = shipSprite;
 		Collider2D c2d = gameObject.AddComponent<BoxCollider2D>();
 		c2d.isTrigger = true;
+		UpdateHPVisual();
 	}
 
 	public void PlaceUnit( Vector2 pos)
@@ -74,22 +79,50 @@ public class UnitAppearance : MonoBehaviour {
 		sr.color = new Color(1.0f, 1.0f, 1.0f, 1.0f);
 	}
 
-	/*void AddHPVisual()
+	private void UpdateHPVisual()
 	{
-		height = shipSprite.bounds.size.y;
-		width = shipSprite.bounds.size.x;
+		RemoveVisualHP();
+
+		float height = sr.bounds.size.y;
+		float width = sr.bounds.size.x;
+
 		//Debug.Log("height = " + height.ToString() + ", width = " + width.ToString());
-		GameObject HP = Resources.Load("Prefabs/HP") as GameObject;
-		float hp_width = HP.GetComponent<SpriteRenderer>().bounds.size.x;
+		GameObject HP = Resources.Load("Prefabs/HP") as GameObject;		
+		float scaleFactor = 0.12f;
+		float hp_width = scaleFactor;
 		float hp_space = hp_width / 8;
-		float total_len = hp * hp_width + (hp - 1) * hp_space;
+		float total_len = u.Hp * hp_width + (u.Hp - 1) * hp_space;
 		Vector3 pos = gameObject.transform.position;
 		float start_x = pos[0] - total_len / 2 + hp_width / 2;
-		for (int i = 0; i < hp; i++)
+		for (int i = 0; i < u.Hp; i++)
 		{
-			GameObject hpObj = Instantiate(HP, new Vector3(start_x + (hp_width + hp_space) * i, pos[1] - 0.6f * height, 0), Quaternion.identity);
+			//GameObject hpObj = Instantiate(HP, new Vector3(start_x + (hp_width + hp_space) * i, pos[1] - 0.6f * height, 0), Quaternion.identity);
+			GameObject hpObj = GameObject.CreatePrimitive(PrimitiveType.Cylinder);
+			hpObj.transform.Rotate(new Vector3(90, 0, 0));
+			hpObj.transform.localScale = new Vector3(scaleFactor, scaleFactor, scaleFactor);
+			hpObj.transform.position = new Vector3(start_x + (hp_width + hp_space) * i, pos[1] - 0.6f * height, 0);
 			hpObj.transform.parent = gameObject.transform;
+			if (u.Player == Player.PLAYER_1)
+			{
+				hpObj.GetComponent<MeshRenderer>().material.color = new Color(2.0f/255f, 254f/255.0f, 38f/255f, 1.0f);
+			}
+			else
+			{
+				hpObj.GetComponent<MeshRenderer>().material.color = new Color(254.0f/255f, 2f / 255f, 49f / 255f, 1.0f);
+			}
 			hp_spots.Add(hpObj);
+			Debug.Log("hp created");
 		}
-	}*/
+	}
+
+	public void RemoveVisualHP()
+	{
+		for (int i = hp_spots.Count - 1; i >= 0; i--)
+		{
+			GameObject gameObjToRemove = hp_spots[i];
+			hp_spots.Remove(gameObjToRemove);
+			Destroy(gameObjToRemove);
+			Debug.Log("hp removed");
+		}
+	}
 }

@@ -44,7 +44,7 @@ public class GameController : MonoBehaviour {
 	private bool gameOver;
 	private HUD hud;
 	public GAME_STATE gameState;
-	public readonly float HIT_PROBABILITY = 0.5f;
+	public readonly float HIT_PROBABILITY = 1.0f;
 
 
 
