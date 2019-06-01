@@ -31,10 +31,10 @@ public class HUD : MonoBehaviour {
 
 
 	void Update () {
-		if (field.needHUDupdate)
+		if (field.NeedHUDupdate)
 		{
 			UpdateUIShipInfo(field.GetLastSelectedUnit());
-			field.needHUDupdate = false;
+			field.NeedHUDupdate = false;
 		}
 		if (weather.needHUDUpdate)
 		{

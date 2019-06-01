@@ -4,28 +4,93 @@ using UnityEngine;
 
 public class Field
 {
-	public int height;
-	public int width;
+	private int height;
+	private int width;
 	private List<Cell> cells = new List<Cell>();
 	private List<Unit> units = new List<Unit>();
 	private List<Unit> selectedUnits = new List<Unit>();
-	public Highlight hl;
-	public bool needHUDupdate = false;
-	public bool unitsAnimationInProgress = false;
+	private Highlight hl;
+	private bool needHUDupdate = false;
+	private bool unitsAnimationInProgress = false;
+
+	public int Height
+	{
+		get
+		{
+			return height;
+		}
+
+		set
+		{
+			height = value;
+		}
+	}
+
+	public int Width
+	{
+		get
+		{
+			return width;
+		}
+
+		set
+		{
+			width = value;
+		}
+	}
+
+	public Highlight Hl
+	{
+		get
+		{
+			return hl;
+		}
+
+		set
+		{
+			hl = value;
+		}
+	}
+
+	public bool UnitsAnimationInProgress
+	{
+		get
+		{
+			return unitsAnimationInProgress;
+		}
+
+		set
+		{
+			unitsAnimationInProgress = value;
+		}
+	}
+
+	public bool NeedHUDupdate
+	{
+		get
+		{
+			return needHUDupdate;
+		}
+
+		set
+		{
+			needHUDupdate = value;
+		}
+	}
 
 	public Field(int w, int h)
 	{
-		width = w;
-		height = h;
+		Width = w;
+		Height = h;
 		
-		for (int row=0; row < height; row++)
+		for (int row=0; row < Height; row++)
 		{
-			for (int col=0; col < width; col++)
+			for (int col=0; col < Width; col++)
 			{
 				cells.Add(new Cell(col, row));
 			}
 		}
-		hl = new Highlight( width, height, cells);		
+		Hl = new Highlight( Width, Height, cells);		
 	}
 
 	public List<Cell> GetAllCells()
@@ -40,7 +105,7 @@ public class Field
 
 	private int CellIndex(int x, int y)
 	{
-		return width * y + x;
+		return Width * y + x;
 	}
 
 	public void AddUnit( Vector2Int positionOnField, Unit u)
@@ -53,7 +118,7 @@ public class Field
 		u.SetPosition(positionOnField);
 		if (!c.isOccupied())
 		{
-			c.slotsOccupied += 1;
+			c.SlotsOccupied += 1;
 		}
 		else
 		{
@@ -74,8 +139,8 @@ public class Field
 		}
 
 		selectedUnits.Add(u);
-		hl.CreateHighlightedCellsLists(u);
-		needHUDupdate = true;
+		Hl.CreateHighlightedCellsLists(u);
+		NeedHUDupdate = true;
 		GameController.instance.gameState = GAME_STATE.FIELD_APPEARANCE_NEED_TO_UPDATE;
 	}
 
@@ -87,30 +152,31 @@ public class Field
 	public void ReleaseUnitsSelection()
 	{
 		selectedUnits = new List<Unit>();
-		hl.ResetHighlightedCellsLists();
-		needHUDupdate = true;
+		Hl.ResetHighlightedCellsLists();
+		NeedHUDupdate = true;
 		GameController.instance.gameState = GAME_STATE.FIELD_APPEARANCE_NEED_TO_UPDATE;
 	}
 
 	public void UnselectUnit( Unit u)
 	{
 		selectedUnits.Remove(u);
-		hl.ResetHighlightedCellsLists();
+		Hl.ResetHighlightedCellsLists();
 	}
 
 	public void UnitAttacksUnit( Unit attacker, Unit target)
 	{
 		Cell c = cells[target.CellIndex];
-		if (hl.canFireCells.Contains(c))
+		if (Hl.CanFireCells.Contains(c))
 		{
 			attacker.Fire(target);
-			hl.ResetHighlightedCellsLists(Action.FIRE);
+			Hl.ResetHighlightedCellsLists(Action.FIRE);
 		}
 		else
 		{
 			Debug.Log("Can't fire this cell");
 		}
-		needHUDupdate = true;
+		NeedHUDupdate = true;
+		GameController.instance.gameState = GAME_STATE.FIELD_APPEARANCE_NEED_TO_UPDATE;
 	}
 
 	public void ChangeLastSelectedUnitPosition( Vector2Int new_pos)
@@ -121,12 +187,12 @@ public class Field
 		}
 
 		Cell c = cells[CellIndex(new_pos.x, new_pos.y)];
-		if (hl.canMoveCells.Contains(c))
+		if (Hl.CanMoveCells.Contains(c))
 		{
 			Unit u = GetLastSelectedUnit();
-			u.Move( new_pos, width );
-			hl.ResetHighlightedCellsLists();
-			hl.CreateHighlightedCellsLists(u);
+			u.Move( new_pos, Width );
+			Hl.ResetHighlightedCellsLists();
+			Hl.CreateHighlightedCellsLists(u);
 		}
 		else
 		{
@@ -177,7 +243,7 @@ public class Field
 		List<Unit> playerUnits = GetAlivePlayerUnits(player);
 		int rndIndex = Random.Range(0, playerUnits.Count);
 		AddUnitToSelectedUnits(playerUnits[rndIndex] );
-		needHUDupdate = true;
+		NeedHUDupdate = true;
 	}
 
 	public void StormMoveAllShips( )
@@ -185,9 +251,9 @@ public class Field
 		Debug.Log("StormMoveAllShips");
 		foreach (Unit u in GetAlivePlayerUnits(GameController.instance.currentPlayer))
 		{
-			List<Cell> cellsToMove = hl.GetHighlightedCells(u.GetPosition(), u, Action.MOVE);
+			List<Cell> cellsToMove = Hl.GetHighlightedCells(u.GetPosition(), u, Action.MOVE);
 			Cell cell = Utils.GetOuterMostCell(cells[ u.CellIndex ], cellsToMove);
-			u.Move(new Vector2Int(cell.x, cell.y), width);
+			u.Move(new Vector2Int(cell.X, cell.Y), Width);
 		} 
 	}
 }

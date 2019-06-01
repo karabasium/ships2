@@ -53,11 +53,11 @@ public class Utils {
 		}
 
 		int outermostCellIndex = 0;
-		int maxDistance = Mathf.Abs(cellFrom.x - cellsTo[outermostCellIndex].x) + Mathf.Abs(cellFrom.y - cellsTo[outermostCellIndex].y);
+		int maxDistance = Mathf.Abs(cellFrom.X - cellsTo[outermostCellIndex].X) + Mathf.Abs(cellFrom.Y - cellsTo[outermostCellIndex].Y);
 		for (int i=1; i<cellsTo.Count; i++)
 		{
 			Cell cellTo = cellsTo[i];
-			int distance = Mathf.Abs(cellFrom.x - cellTo.x) + Mathf.Abs(cellFrom.y - cellTo.y);
+			int distance = Mathf.Abs(cellFrom.X - cellTo.X) + Mathf.Abs(cellFrom.Y - cellTo.Y);
 			if (distance > maxDistance)
 			{
 				maxDistance = distance;

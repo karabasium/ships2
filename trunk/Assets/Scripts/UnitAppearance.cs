@@ -7,17 +7,6 @@ public class UnitAppearance : MonoBehaviour {
 	public Unit u;
 	private List<GameObject> hp_spots = new List<GameObject>();
 
-	public Vector2 destinationPos;
-
-	void Awake()
-	{
-		
-	}
-
-	void Start()
-	{
-	}
-
 	void Update()
 	{
 		if (u.Hp != hp_spots.Count)
@@ -84,10 +73,7 @@ public class UnitAppearance : MonoBehaviour {
 		RemoveVisualHP();
 
 		float height = sr.bounds.size.y;
-		float width = sr.bounds.size.x;
-
-		//Debug.Log("height = " + height.ToString() + ", width = " + width.ToString());
-		GameObject HP = Resources.Load("Prefabs/HP") as GameObject;		
+	
 		float scaleFactor = 0.12f;
 		float hp_width = scaleFactor;
 		float hp_space = hp_width / 8;
@@ -96,7 +82,6 @@ public class UnitAppearance : MonoBehaviour {
 		float start_x = pos[0] - total_len / 2 + hp_width / 2;
 		for (int i = 0; i < u.Hp; i++)
 		{
-			//GameObject hpObj = Instantiate(HP, new Vector3(start_x + (hp_width + hp_space) * i, pos[1] - 0.6f * height, 0), Quaternion.identity);
 			GameObject hpObj = GameObject.CreatePrimitive(PrimitiveType.Cylinder);
 			hpObj.transform.Rotate(new Vector3(90, 0, 0));
 			hpObj.transform.localScale = new Vector3(scaleFactor, scaleFactor, scaleFactor);
@@ -111,7 +96,6 @@ public class UnitAppearance : MonoBehaviour {
 				hpObj.GetComponent<MeshRenderer>().material.color = new Color(254.0f/255f, 2f / 255f, 49f / 255f, 1.0f);
 			}
 			hp_spots.Add(hpObj);
-			Debug.Log("hp created");
 		}
 	}
 
@@ -122,7 +106,6 @@ public class UnitAppearance : MonoBehaviour {
 			GameObject gameObjToRemove = hp_spots[i];
 			hp_spots.Remove(gameObjToRemove);
 			Destroy(gameObjToRemove);
-			Debug.Log("hp removed");
 		}
 	}
 }

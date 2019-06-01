@@ -151,7 +151,7 @@ public class FieldAppearance : MonoBehaviour {
 				verticalOffset = 1 * cellHeight / 2;
 			}
 
-			Vector2 pos = new Vector2(fieldZeroX + cell.x * cellWidth + 3*cellWidth / 4, fieldZeroY + cell.y * cellHeight + verticalOffset);
+			Vector2 pos = new Vector2(fieldZeroX + cell.X * cellWidth + 3*cellWidth / 4, fieldZeroY + cell.Y * cellHeight + verticalOffset);
 			UnitAppearance ua = unit.GameObject.GetComponent<UnitAppearance>();
 			if (!ua)
 			{
@@ -162,7 +162,7 @@ public class FieldAppearance : MonoBehaviour {
 			ua.PlaceUnit(Utils.scale_y(Utils.rotate(pos, angle_rad), scaleY) );
 			if (!field.GetSelectedUnits().Contains(unit)) //if unit is not selected
 			{
-				if (field.hl.canFireCells.Contains(cell) && ua.u.Player != GameController.instance.currentPlayer)
+				if (field.Hl.CanFireCells.Contains(cell) && ua.u.Player != GameController.instance.currentPlayer)
 				{
 					ua.ColorAsUnderFireUnit();
 				}
@@ -195,16 +195,16 @@ public class FieldAppearance : MonoBehaviour {
 
 	private void DrawField(float cellHeight, float cellWidth, float angle, float y_scale)
 	{ 
-		for (int i = 0; i < field.height + 1; i++)//draw grid horizontal lines
+		for (int i = 0; i < field.Height + 1; i++)//draw grid horizontal lines
 		{
 			Vector2 start = new Vector2(fieldZeroX, fieldZeroY + cellHeight * i);
-			Vector2 end = new Vector2(fieldZeroX + field.width * cellWidth, fieldZeroY + cellHeight * i);
+			Vector2 end = new Vector2(fieldZeroX + field.Width * cellWidth, fieldZeroY + cellHeight * i);
 			DrawLine(Utils.scale_y(Utils.rotate(start, angle_rad), y_scale), Utils.scale_y(Utils.rotate(end, angle_rad), y_scale));
 		}
-		for (int i = 0; i < field.width + 1; i++)//draw grid vertical lines
+		for (int i = 0; i < field.Width + 1; i++)//draw grid vertical lines
 		{
 			Vector2 start = new Vector2(fieldZeroX + cellWidth * i, fieldZeroY);
-			Vector2 end = new Vector2(fieldZeroX + cellWidth * i, fieldZeroY + field.height * cellHeight);
+			Vector2 end = new Vector2(fieldZeroX + cellWidth * i, fieldZeroY + field.Height * cellHeight);
 			DrawLine(Utils.scale_y(Utils.rotate(start, angle_rad), y_scale), Utils.scale_y(Utils.rotate(end, angle_rad), y_scale));
 		}
 	}

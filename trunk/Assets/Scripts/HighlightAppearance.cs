@@ -28,7 +28,7 @@ public class HighlightAppearance : MonoBehaviour {
 		this.scaleY = scaleY;
 		this.fieldZeroX = fieldZeroX;
 		this.fieldZeroY = fieldZeroY;
-		fieldSize = new Vector2Int(field.width, field.height);
+		fieldSize = new Vector2Int(field.Width, field.Height);
 		this.cellWidth = cellWidth;
 		this.cellHeight = cellHeight;
 		this.field = field;
@@ -45,19 +45,19 @@ public class HighlightAppearance : MonoBehaviour {
 		canFireColor = new Color(250f / 255f, 136f / 255f, 136f / 255f);
 		stormCellsColor = new Color(255f / 255f, 50f / 255f, 50f / 255f);
 
-		hl = field.hl;
+		hl = field.Hl;
 	}	
 
 	public void CreateHighlightAppearance()
 	{
 		ResetHighlight();
-		foreach (Cell cell in hl.canMoveCells)
+		foreach (Cell cell in hl.CanMoveCells)
 		{
-			AddCellAppearance(new Vector2(cell.x, cell.y), Action.MOVE); //should be replaced with MOVE 
+			AddCellAppearance(new Vector2(cell.X, cell.Y), Action.MOVE); //should be replaced with MOVE 
 		}
-		foreach (Cell cell in hl.canFireCells)
+		foreach (Cell cell in hl.CanFireCells)
 		{
-			AddCellAppearance(new Vector2(cell.x, cell.y), Action.FIRE);
+			AddCellAppearance(new Vector2(cell.X, cell.Y), Action.FIRE);
 		}
 	}
 

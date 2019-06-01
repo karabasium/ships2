@@ -4,17 +4,43 @@ using UnityEngine;
 
 public class Highlight {
 	private Vector2Int fieldSize;
-	public List<Cell> canFireCells;
-	public List<Cell> canMoveCells;
+	private List<Cell> canFireCells;
+	private List<Cell> canMoveCells;
 	private List<Cell> allFieldCells;
+
+	public List<Cell> CanFireCells
+	{
+		get
+		{
+			return canFireCells;
+		}
+
+		set
+		{
+			canFireCells = value;
+		}
+	}
+
+	public List<Cell> CanMoveCells
+	{
+		get
+		{
+			return canMoveCells;
+		}
+
+		set
+		{
+			canMoveCells = value;
+		}
+	}
 
 	public Highlight(int fieldWidth, int fieldHeight, List<Cell> cells)
 	{
 		
 		fieldSize = new Vector2Int( fieldWidth, fieldHeight);
 
-		canFireCells = new List<Cell>();
-		canMoveCells = new List<Cell>();
+		CanFireCells = new List<Cell>();
+		CanMoveCells = new List<Cell>();
 		allFieldCells = cells;
 	}
 
@@ -95,11 +121,11 @@ public class Highlight {
 		
 		if (!u.MovementDone && GameController.instance.currentWeather.currentWeatherType != Weather_type.STORM)
 		{
-			canMoveCells = GetHighlightedCells(u.GetPosition(), u, Action.MOVE);
+			CanMoveCells = GetHighlightedCells(u.GetPosition(), u, Action.MOVE);
 		}
 		if (!u.FireDone)
 		{
-			canFireCells = GetHighlightedCells(u.GetPosition(), u, Action.FIRE);
+			CanFireCells = GetHighlightedCells(u.GetPosition(), u, Action.FIRE);
 		}
 	}
 
@@ -107,16 +133,16 @@ public class Highlight {
 	{
 		if (type == Action.MOVE)
 		{
-			canMoveCells = new List<Cell>();
+			CanMoveCells = new List<Cell>();
 		}
 		else if (type == Action.FIRE)
 		{
-			canFireCells = new List<Cell>();
+			CanFireCells = new List<Cell>();
 		}
 		else if (type == Action.ANY)
 		{
-			canFireCells = new List<Cell>();
-			canMoveCells = new List<Cell>();
+			CanFireCells = new List<Cell>();
+			CanMoveCells = new List<Cell>();
 		}
 		else
 		{

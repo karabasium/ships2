@@ -53,35 +53,21 @@ public class ClickEventsController : MonoBehaviour {
 				{
 					Unit playerUnit = field.GetLastSelectedUnit();
 					Unit enemyUnit = u;					
-					field.UnitAttacksUnit( playerUnit, enemyUnit );
+					field.UnitAttacksUnit( playerUnit, enemyUnit ); //fire
 					if (!enemyUnit.IsAlive())
 					{
 						field.RemoveUnit(enemyUnit);
 					}
-					//Debug.Log("FieldAppearance: unit is alive = " + u.IsAlive());
 				}
 			}
 			else //click in the field
 			{
 				Vector2Int cellXY = Utils.GetFieldLogicalXY(mousePos2D, fa);
-				if (cellXY.x <= field.width && cellXY.y <= field.height && cellXY.x >= 0 && cellXY.y >= 0) //if desired location is valid field cell
+				if (cellXY.x <= field.Width && cellXY.y <= field.Height && cellXY.x >= 0 && cellXY.y >= 0) //if desired location is valid field cell
 				{
 					field.ChangeLastSelectedUnitPosition(Utils.GetFieldLogicalXY(mousePos2D, fa)); //move unit
 				}
 			}			
 		}
 	}
-
-	/*void Update()
-	{
-		if (Input.GetMouseButtonDown(0))
-		{
-			Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-			Vector2 mousePos2D = new Vector2(mousePos.x, mousePos.y);
-			Debug.Log("Mouse click: " + mousePos2D.ToString());
-			UnitAppearance ua = fa.FindUnitAppearance(field.GetLastSelectedUnit());
-			ua.destinationPos = mousePos2D;
-			ua.startMove = true;
-		}
-	}*/
 }
