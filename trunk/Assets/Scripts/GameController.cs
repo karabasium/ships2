@@ -21,7 +21,14 @@ public enum Action
 	MOVE,
 	FIRE,
 	DRIFT,
+	NONE,
 	ANY
+}
+
+public enum CellType
+{
+	SEA,
+	LAND
 }
 
 public enum GAME_STATE
@@ -58,6 +65,12 @@ public class GameController : MonoBehaviour {
 		gameOver = false;
 
 		f = new Field(12, 16);
+		List<Cell> cells = f.GetAllCells();
+		cells[1].CellType = CellType.LAND;
+		cells[2].CellType = CellType.LAND;
+		cells[3].CellType = CellType.LAND;
+		cells[4].CellType = CellType.LAND;
+		cells[5].CellType = CellType.LAND;
 
 		Unit u1 = new Unit("brig", Player.PLAYER_1 );
 		Unit u2 = new Unit("brig", Player.PLAYER_1);

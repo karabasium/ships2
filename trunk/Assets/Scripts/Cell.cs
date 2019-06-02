@@ -9,6 +9,7 @@ public class Cell
 	private int y;
 	private int slotsOccupied;
 	private bool isUnderFire = false;
+	private CellType cellType;
 
 	public int X
 	{
@@ -62,11 +63,25 @@ public class Cell
 		}
 	}
 
-	public Cell(int x, int y)
+	public CellType CellType
+	{
+		get
+		{
+			return cellType;
+		}
+
+		set
+		{
+			cellType = value;
+		}
+	}
+
+	public Cell(int x, int y, CellType type)
 	{
 		this.X = x;
 		this.Y = y;
 		SlotsOccupied = 0;
+		CellType = type;
 	}
 
 	public bool isOccupied()

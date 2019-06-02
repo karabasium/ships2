@@ -87,7 +87,7 @@ public class Field
 		{
 			for (int col=0; col < Width; col++)
 			{
-				cells.Add(new Cell(col, row));
+				cells.Add(new Cell(col, row, CellType.SEA));
 			}
 		}
 		Hl = new Highlight( Width, Height, cells);		

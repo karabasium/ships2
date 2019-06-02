@@ -207,6 +207,24 @@ public class FieldAppearance : MonoBehaviour {
 			Vector2 end = new Vector2(fieldZeroX + cellWidth * i, fieldZeroY + field.Height * cellHeight);
 			DrawLine(Utils.scale_y(Utils.rotate(start, angle_rad), y_scale), Utils.scale_y(Utils.rotate(end, angle_rad), y_scale));
 		}
+		GameObject landCellsParent = new GameObject();
+		foreach (Cell cell in field.GetAllCells())
+		{
+			if (cell.CellType == CellType.LAND)
+			{
+				GameObject cellGameObject = new GameObject
+				{
+					name = "landCellGameObject"
+				};
+				CellAppearance ca = cellGameObject.AddComponent<CellAppearance>();
+
+				cellGameObject.transform.parent = landCellsParent.transform;
+
+				ca.Init(angle, viewAngle, cellWidth, cellHeight, cellGameObject, Action.NONE);
+				ca.SetPosition(new Vector2(cell.X, cell.Y), new Vector2(fieldZeroX, fieldZeroY));
+				ca.SetColor( new Color( 245f / 255f, 175f/255f, 88f/255f));
+			}
+		}
 	}
 
 	private void DrawLine(Vector2 start, Vector2 end)

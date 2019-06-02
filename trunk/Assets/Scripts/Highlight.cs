@@ -73,40 +73,59 @@ public class Highlight {
 
 		List<Cell> cells = new List<Cell>();
 
+		/*List<Vector2Int> directions = new List<Vector2Int>() { new Vector2Int(-1, 1),  new Vector2Int(0, 1),   new Vector2Int(1, 1),
+														 new Vector2Int(-1, 1),  new Vector2Int(0, 0),   new Vector2Int(1, 0),
+														 new Vector2Int(-1, -1), new Vector2Int(0, -1),  new Vector2Int(1, -1)};*/
+
+		List<Vector2Int> forbiddenDirectionIndexes = new List<Vector2Int>();
+
 		for (int rel_x = -radius; rel_x <= radius; rel_x++)
 		{
 			for (int rel_y = -radius; rel_y <= radius; rel_y++)
 			{
+				Vector2Int direction = new Vector2Int(rel_x, rel_y);
+				direction = Normalize(direction);
+				if (forbiddenDirectionIndexes.Contains(direction))
+				{
+					continue;
+				}
+
 				if (Mathf.Abs(rel_x) == Mathf.Abs(rel_y) || rel_x == 0 || rel_y == 0)
 				{
 					if (x + rel_x < fieldSize.x && x + rel_x >= 0 && y + rel_y < fieldSize.y && y + rel_y >= 0)
 					{
+						Cell c = allFieldCells[fieldSize.x * (y + rel_y) + (x + rel_x)];
+						if (c.CellType == CellType.LAND)
+						{
+							forbiddenDirectionIndexes.Add(direction);
+							continue;
+						}
 						if (type == Action.MOVE)
 						{
 							if (currentWeather.currentWeatherType == Weather_type.WIND)
 							{
 								int rad = Mathf.Max(Mathf.Abs(rel_x), Mathf.Abs(rel_y));
 								if (rad <= radius - currentWeather.DistanceToCurrentWind(rel_x, rel_y))
-								{
-									cells.Add(allFieldCells[fieldSize.x * (y + rel_y) + (x + rel_x)]);
+								{									
+									cells.Add(c);
 								}
 
 							}
 							else if (currentWeather.currentWeatherType == Weather_type.CALM)
 							{
-								cells.Add(allFieldCells[fieldSize.x * (y + rel_y) + (x + rel_x)]);
+								cells.Add(c);
 							}
 							else if (currentWeather.currentWeatherType == Weather_type.STORM)
 							{
 								if (currentWeather.DistanceToCurrentWind(rel_x, rel_y) == 0)
 								{
-									cells.Add(allFieldCells[fieldSize.x * (y + rel_y) + (x + rel_x)]);
+									cells.Add(c);
 								}
 							}
 						}
 						else
 						{
-							cells.Add(allFieldCells[fieldSize.x * (y + rel_y) + (x + rel_x)]); //Cells under fire highlight
+							cells.Add(c); //Cells under fire highlight
 						}
 					}
 				}
@@ -114,6 +133,21 @@ public class Highlight {
 		}
 
 		return cells;
+	}
+
+	private Vector2Int Normalize( Vector2Int v)
+	{
+		int x = v.x;
+		int y = v.y;
+		if (x != 0)
+		{
+			x = x / Mathf.Abs(x);
+		}
+		if (y != 0)
+		{
+			y = y / Mathf.Abs(y);
+		}
+		return new Vector2Int(x, y);
 	}
 
 	public void CreateHighlightedCellsLists(Unit u)
