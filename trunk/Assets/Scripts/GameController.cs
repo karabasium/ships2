@@ -74,15 +74,16 @@ public class GameController : MonoBehaviour {
 		cells[28].CellType = CellType.LAND;
 		cells[40].CellType = CellType.LAND;
 
-		Unit u1 = new Unit("brig", Player.PLAYER_1 );
-		Unit u2 = new Unit("brig", Player.PLAYER_1);
+		Unit u1 = new Unit("brig", Player.PLAYER_2 );
+		Unit u2 = new Unit("brig", Player.PLAYER_2);
 
-		Unit u3 = new Unit("brig", Player.PLAYER_2 );
+		Unit u3 = new Unit("brig", Player.PLAYER_1 );
 		Unit u4 = new Unit("brig", Player.PLAYER_2);
+		u3.FireDone = true;
 
-		f.AddUnit(new Vector2Int(1, 1), u1);
-		f.AddUnit(new Vector2Int(1, 3), u2);
-		f.AddUnit(new Vector2Int(7, 2), u3);
+		//f.AddUnit(new Vector2Int(1, 1), u1);
+		//f.AddUnit(new Vector2Int(1, 3), u2);
+		f.AddUnit(new Vector2Int(5, 2), u3);
 		f.AddUnit(new Vector2Int(3, 7), u4);
 
 		fieldObject = new GameObject();
