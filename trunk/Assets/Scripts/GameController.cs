@@ -70,7 +70,9 @@ public class GameController : MonoBehaviour {
 		cells[2].CellType = CellType.LAND;
 		cells[3].CellType = CellType.LAND;
 		cells[4].CellType = CellType.LAND;
-		cells[5].CellType = CellType.LAND;
+		cells[16].CellType = CellType.LAND;
+		cells[28].CellType = CellType.LAND;
+		cells[40].CellType = CellType.LAND;
 
 		Unit u1 = new Unit("brig", Player.PLAYER_1 );
 		Unit u2 = new Unit("brig", Player.PLAYER_1);
@@ -80,7 +82,7 @@ public class GameController : MonoBehaviour {
 
 		f.AddUnit(new Vector2Int(1, 1), u1);
 		f.AddUnit(new Vector2Int(1, 3), u2);
-		f.AddUnit(new Vector2Int(4, 5), u3);
+		f.AddUnit(new Vector2Int(7, 2), u3);
 		f.AddUnit(new Vector2Int(3, 7), u4);
 
 		fieldObject = new GameObject();

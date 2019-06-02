@@ -74,10 +74,12 @@ public class Highlight {
 		List<Cell> cells = new List<Cell>();
 
 		/*List<Vector2Int> directions = new List<Vector2Int>() { new Vector2Int(-1, 1),  new Vector2Int(0, 1),   new Vector2Int(1, 1),
-														 new Vector2Int(-1, 1),  new Vector2Int(0, 0),   new Vector2Int(1, 0),
+														 new Vector2Int(-1, 0),  new Vector2Int(0, 0),   new Vector2Int(1, 0),
 														 new Vector2Int(-1, -1), new Vector2Int(0, -1),  new Vector2Int(1, -1)};*/
 
-		List<Vector2Int> forbiddenDirectionIndexes = new List<Vector2Int>();
+		//List<Vector2Int> forbiddenDirectionIndexes = new List<Vector2Int>();
+
+		Dictionary<Vector2Int, int> forbiddenDirections = new Dictionary<Vector2Int, int>();
 
 		for (int rel_x = -radius; rel_x <= radius; rel_x++)
 		{
@@ -85,7 +87,8 @@ public class Highlight {
 			{
 				Vector2Int direction = new Vector2Int(rel_x, rel_y);
 				direction = Normalize(direction);
-				if (forbiddenDirectionIndexes.Contains(direction))
+				int distance = Mathf.Max( Mathf.Abs(rel_x), Mathf.Abs(rel_y));
+				if (forbiddenDirections.ContainsKey(direction) &&  distance > forbiddenDirections[direction])
 				{
 					continue;
 				}
@@ -97,8 +100,10 @@ public class Highlight {
 						Cell c = allFieldCells[fieldSize.x * (y + rel_y) + (x + rel_x)];
 						if (c.CellType == CellType.LAND)
 						{
-							forbiddenDirectionIndexes.Add(direction);
-							continue;
+							if (!forbiddenDirections.ContainsKey(direction)){							
+								forbiddenDirections.Add(direction, distance);
+								continue;
+							}
 						}
 						if (type == Action.MOVE)
 						{
