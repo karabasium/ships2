@@ -41,8 +41,13 @@ public class UnitAppearance : MonoBehaviour {
 		this.u = u;
 		gameObject.name = "UnitAppeareance";
 		sr = gameObject.AddComponent<SpriteRenderer>();
-		Sprite shipSprite = Resources.Load<Sprite>("Sprites/brig");
-		gameObject.GetComponent<SpriteRenderer>().sprite = shipSprite;
+		string spritePath = "Sprites/brig";
+		if (u.Ship_class == "fort")
+		{
+			spritePath = "Sprites/fort";
+		}
+		Sprite unitSprite = Resources.Load<Sprite>( spritePath );
+		gameObject.GetComponent<SpriteRenderer>().sprite = unitSprite;
 		Collider2D c2d = gameObject.AddComponent<BoxCollider2D>();
 		c2d.isTrigger = true;
 		UpdateHPVisual();

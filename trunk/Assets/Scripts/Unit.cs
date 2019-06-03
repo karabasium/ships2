@@ -26,6 +26,7 @@ public class Unit  {
 
 	private bool movementAnimationInProgress;
 	private readonly string ship_class;
+	private List<Cell> fortCells;
 	
 	public Unit( string ship_class, Player player )
 	{
@@ -39,6 +40,16 @@ public class Unit  {
 			max_hp = 5;
 			fire_range = 3;
 			max_shots = 1;
+		}
+		else if( ship_class == "fort")
+		{
+			move_range = 0;
+			calm_move_range = 0;
+			storm_drift_range = 0;
+
+			max_hp = 5;
+			fire_range = 4;
+			max_shots = 2;
 		}
 		this.Player = player;
 		Hp = max_hp;
@@ -282,6 +293,27 @@ public class Unit  {
 		set
 		{
 			movementAnimationInProgress = value;
+		}
+	}
+
+	public string Ship_class
+	{
+		get
+		{
+			return ship_class;
+		}
+	}
+
+	public List<Cell> FortCells
+	{
+		get
+		{
+			return fortCells;
+		}
+
+		set
+		{
+			fortCells = value;
 		}
 	}
 }

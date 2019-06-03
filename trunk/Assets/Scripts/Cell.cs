@@ -10,6 +10,7 @@ public class Cell
 	private int slotsOccupied;
 	private bool isUnderFire = false;
 	private CellType cellType;
+	private Unit belongsToFort = null;	
 
 	public int X
 	{
@@ -73,6 +74,19 @@ public class Cell
 		set
 		{
 			cellType = value;
+		}
+	}
+
+	public Unit Fort
+	{
+		get
+		{
+			return belongsToFort;
+		}
+
+		set
+		{
+			belongsToFort = value;
 		}
 	}
 

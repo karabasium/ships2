@@ -17,6 +17,7 @@ public class FieldAppearance : MonoBehaviour {
 	private GameObject gridParent;
 	private GameObject shipsParent;
 	private List<UnitAppearance> unitsAppearances;
+	private List<CellAppearance> fortCellAppearances;
 
 
 	void Awake()
@@ -55,6 +56,8 @@ public class FieldAppearance : MonoBehaviour {
 
 		hla = gameObject.AddComponent<HighlightAppearance>();
 		hla.Init(angle, scaleY, fieldZeroX, fieldZeroY, cellWidth, cellHeight, field);
+
+		fortCellAppearances = new List<CellAppearance>();
 	}
 
 	void Update()
@@ -191,6 +194,43 @@ public class FieldAppearance : MonoBehaviour {
 				Debug.Log("Unit removed");
 			}
 		}
+	}
+
+	private void UpdateFortCells()
+	{
+		foreach (Cell cell in field.GetAllCells())
+		{
+			Unit fort = cell.Fort;
+			if (fort == null)
+			{
+				continue;
+			}
+
+			GameObject fortObject = GetGameObjectForUnit(fort);
+			GameObject cellGameObject = new GameObject
+			{
+				name = "fortCell"
+			};
+			CellAppearance ca = cellGameObject.AddComponent<CellAppearance>();
+
+			cellGameObject.transform.parent = fortObject.transform;
+
+			ca.Init(angle, viewAngle, cellWidth, cellHeight, cellGameObject, Action.NONE);
+			ca.SetPosition(new Vector2(cell.X, cell.Y), new Vector2(fieldZeroX, fieldZeroY));
+			ca.SetColor(new Color(158f / 255f, 250f / 255f, 160f / 255f));
+		}
+	}
+
+	private GameObject GetGameObjectForUnit( Unit u)
+	{
+		foreach( UnitAppearance ua in unitsAppearances)
+		{
+			if (ua.u == u)
+			{
+				return ua.gameObject;
+			}
+		}
+		return null;
 	}
 
 	private void DrawField(float cellHeight, float cellWidth, float angle, float y_scale)

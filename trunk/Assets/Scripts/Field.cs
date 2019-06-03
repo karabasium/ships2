@@ -126,6 +126,28 @@ public class Field
 		}
 	}
 
+	public void ResetFortCells()
+	{
+		foreach(Cell c in cells)
+		{
+			c.Fort = null;
+		}
+	}
+
+	public void AssignFortToFortAdjacentCells()
+	{
+		foreach(Unit u in units)
+		{
+			if (u.Ship_class == "fort")
+			{
+				foreach(Cell c in hl.GetHighlightedCells(u.Position, u, Action.HEAL))
+				{
+					c.Fort = u;
+				}
+			}
+		}
+	}
+
 	public List<Unit> GetUnits()
 	{
 		return units;
