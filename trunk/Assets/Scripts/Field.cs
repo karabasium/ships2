@@ -98,7 +98,7 @@ public class Field
 		return cells;
 	}
 
-	public Cell getCell(int x, int y)
+	public Cell GetCell(int x, int y)
 	{
 		return cells[CellIndex(x,y)];
 	}
@@ -110,7 +110,7 @@ public class Field
 
 	public void AddUnit( Vector2Int positionOnField, Unit u)
 	{
-		Cell c = getCell(positionOnField.x, positionOnField.y);
+		Cell c = GetCell(positionOnField.x, positionOnField.y);
 		GameObject g = new GameObject();
 		u.GameObject = g;
 		units.Add(u);
@@ -124,13 +124,20 @@ public class Field
 		{
 			Debug.Log("ERROR! Attempt to add more than 2 ships on the same cell!");
 		}
+		if (u.Unit_class == "fort")
+		{
+			foreach (Cell cell in hl.GetHighlightedCells(u.Position, u, Action.HEAL))
+			{
+				cell.BelongsToFort = u;
+			}
+		}
 	}
 
 	public void ResetFortCells()
 	{
 		foreach(Cell c in cells)
 		{
-			c.Fort = null;
+			c.BelongsToFort = null;
 		}
 	}
 
@@ -138,11 +145,11 @@ public class Field
 	{
 		foreach(Unit u in units)
 		{
-			if (u.Ship_class == "fort")
+			if (u.Unit_class == "fort")
 			{
 				foreach(Cell c in hl.GetHighlightedCells(u.Position, u, Action.HEAL))
 				{
-					c.Fort = u;
+					c.BelongsToFort = u;
 				}
 			}
 		}

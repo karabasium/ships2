@@ -53,15 +53,15 @@ public class HighlightAppearance : MonoBehaviour {
 		ResetHighlight();
 		foreach (Cell cell in hl.CanMoveCells)
 		{
-			AddCellAppearance(new Vector2(cell.X, cell.Y), Action.MOVE); //should be replaced with MOVE 
+			AddCellAppearance(new Vector2(cell.X, cell.Y), Action.MOVE, cell); //should be replaced with MOVE 
 		}
 		foreach (Cell cell in hl.CanFireCells)
 		{
-			AddCellAppearance(new Vector2(cell.X, cell.Y), Action.FIRE);
+			AddCellAppearance(new Vector2(cell.X, cell.Y), Action.FIRE, cell);
 		}
 	}
 
-	private void AddCellAppearance(Vector2 pos, Action type)
+	private void AddCellAppearance(Vector2 pos, Action type, Cell cell)
 	{
 		GameObject cellGameObject = new GameObject();
 		cellGameObject.name = "cellGameObject";
@@ -71,7 +71,7 @@ public class HighlightAppearance : MonoBehaviour {
 
 		cellGameObjects.Add(cellGameObject);
 
-		ca.Init(angle, viewAngle, cellWidth, cellHeight, cellGameObject, type);
+		ca.Init(angle, viewAngle, cellWidth, cellHeight, cellGameObject, type, cell);
 		ca.SetPosition(pos, new Vector2(fieldZeroX, fieldZeroY));
 
 		Color defaultColor = new Color(1f, 1f, 1f);

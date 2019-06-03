@@ -57,7 +57,7 @@ public class FieldAppearance : MonoBehaviour {
 		hla = gameObject.AddComponent<HighlightAppearance>();
 		hla.Init(angle, scaleY, fieldZeroX, fieldZeroY, cellWidth, cellHeight, field);
 
-		fortCellAppearances = new List<CellAppearance>();
+		CreateFortCells();
 	}
 
 	void Update()
@@ -196,11 +196,11 @@ public class FieldAppearance : MonoBehaviour {
 		}
 	}
 
-	private void UpdateFortCells()
+	private void CreateFortCells()
 	{
 		foreach (Cell cell in field.GetAllCells())
 		{
-			Unit fort = cell.Fort;
+			Unit fort = cell.BelongsToFort;
 			if (fort == null)
 			{
 				continue;
@@ -215,7 +215,7 @@ public class FieldAppearance : MonoBehaviour {
 
 			cellGameObject.transform.parent = fortObject.transform;
 
-			ca.Init(angle, viewAngle, cellWidth, cellHeight, cellGameObject, Action.NONE);
+			ca.Init(angle, viewAngle, cellWidth, cellHeight, cellGameObject, Action.NONE, cell);
 			ca.SetPosition(new Vector2(cell.X, cell.Y), new Vector2(fieldZeroX, fieldZeroY));
 			ca.SetColor(new Color(158f / 255f, 250f / 255f, 160f / 255f));
 		}
@@ -260,7 +260,7 @@ public class FieldAppearance : MonoBehaviour {
 
 				cellGameObject.transform.parent = landCellsParent.transform;
 
-				ca.Init(angle, viewAngle, cellWidth, cellHeight, cellGameObject, Action.NONE);
+				ca.Init(angle, viewAngle, cellWidth, cellHeight, cellGameObject, Action.NONE, cell);
 				ca.SetPosition(new Vector2(cell.X, cell.Y), new Vector2(fieldZeroX, fieldZeroY));
 				ca.SetColor( new Color( 245f / 255f, 175f/255f, 88f/255f));
 			}

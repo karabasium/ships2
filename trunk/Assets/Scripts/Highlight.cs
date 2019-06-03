@@ -70,6 +70,10 @@ public class Highlight {
 		{
 			radius = u.Fire_range;
 		}
+		else if (type == Action.HEAL)
+		{
+			radius = u.Heal_range;
+		}
 
 		List<Cell> cells = new List<Cell>();
 
@@ -136,7 +140,7 @@ public class Highlight {
 							}
 							else
 							{
-								cells.Add(c); //Cells under fire highlight
+								cells.Add(c); //Cells under fire or heal highlight
 							}
 						}
 					}

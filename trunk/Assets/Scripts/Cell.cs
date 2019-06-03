@@ -77,7 +77,7 @@ public class Cell
 		}
 	}
 
-	public Unit Fort
+	public Unit BelongsToFort
 	{
 		get
 		{

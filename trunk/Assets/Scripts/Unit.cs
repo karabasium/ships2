@@ -21,6 +21,7 @@ public class Unit  {
 	private readonly int calm_move_range;
 	private readonly int fire_range;
 	private readonly int storm_drift_range;
+	private readonly int heal_range;
 
 	private GameObject gameObject;
 
@@ -31,6 +32,7 @@ public class Unit  {
 	public Unit( string ship_class, Player player )
 	{
 		this.ship_class = ship_class;
+		heal_range = 0;
 		if (ship_class == "brig")
 		{
 			move_range = 5;
@@ -50,6 +52,7 @@ public class Unit  {
 			max_hp = 5;
 			fire_range = 4;
 			max_shots = 2;
+			heal_range = 1;
 		}
 		this.Player = player;
 		Hp = max_hp;
@@ -296,7 +299,7 @@ public class Unit  {
 		}
 	}
 
-	public string Ship_class
+	public string Unit_class
 	{
 		get
 		{
@@ -314,6 +317,22 @@ public class Unit  {
 		set
 		{
 			fortCells = value;
+		}
+	}
+
+	public int Heal_range
+	{
+		get
+		{
+			return heal_range;
+		}
+	}
+
+	public int Max_hp
+	{
+		get
+		{
+			return max_hp;
 		}
 	}
 }

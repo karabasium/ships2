@@ -150,6 +150,7 @@ public class GameController : MonoBehaviour {
 
 	public void SetNextPlayerAsActive()
 	{
+		HealUnits(currentPlayer);
 		if (currentPlayer == Player.PLAYER_1)
 		{
 			currentPlayer = Player.PLAYER_2;			
@@ -160,11 +161,34 @@ public class GameController : MonoBehaviour {
 		}
 		currentWeather.RefreshWeather();
 		currentWeather.needHUDUpdate = true;
-		f.ReleaseUnitsSelection();
+		f.ReleaseUnitsSelection();		
 		f.RefreshPlayerUnits(currentPlayer);
 		f.SelectRandomUnit(currentPlayer);
 		fa.UpdateField();
 		Debug.Log("Current player = " + currentPlayer.ToString());
+	}
+
+
+	private void HealUnits( Player player )
+	{
+		foreach( Unit unit in f.GetAlivePlayerUnits(player)){
+			if (unit.Hp < unit.Max_hp)
+			{
+				if (unit.Unit_class != "fort")
+				{
+					Cell cell = f.GetCell(unit.Position.x, unit.Position.y);
+					Unit fort = cell.BelongsToFort;
+					if (fort != null && fort.Player == currentPlayer)
+					{
+						if (!unit.MovementDone && !unit.FireDone)
+						{
+							unit.Hp++;
+							Debug.Log("Unit healed");
+						}
+					}
+				}
+			}
+		}
 	}
 
 	private bool PlayerDidAnyPossibleActions()
