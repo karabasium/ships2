@@ -108,19 +108,32 @@ public class Highlight {
 							Cell c = allFieldCells[fieldSize.x * (y + rel_y) + (x + rel_x)];
 
 							if (c.isOccupied() && (type == Action.MOVE))
-								{
-									continue;
-								}
+							{
+								continue;
+							}
 
 							if (c.CellType == CellType.LAND)
 							{
 								landCells.Add(c);
 								if (!forbiddenDirections.ContainsKey(direction))
 								{
-									forbiddenDirections.Add(direction, distance);									
+									forbiddenDirections.Add(direction, distance);
 								}
 								continue;
 							}
+							else if (c.CellType == CellType.REEFS)
+							{
+								if (currentWeather.currentWeatherType != Weather_type.STORM && type != Action.FIRE)
+								{
+									if (!forbiddenDirections.ContainsKey(direction))
+									{
+										forbiddenDirections.Add(direction, distance);
+									}
+									continue;
+								}
+							}
+
+
 							if (type == Action.MOVE)
 							{
 								if (currentWeather.currentWeatherType == Weather_type.WIND)
@@ -128,25 +141,25 @@ public class Highlight {
 									int rad = Mathf.Max(Mathf.Abs(rel_x), Mathf.Abs(rel_y));
 									if (rad <= r - currentWeather.DistanceToCurrentWind(rel_x, rel_y))
 									{
-										cells.Add(c);
+										if (!cells.Contains(c)) { cells.Add(c);  }										
 									}
 
 								}
 								else if (currentWeather.currentWeatherType == Weather_type.CALM)
 								{
-									cells.Add(c);
+									if (!cells.Contains(c)) { cells.Add(c); }
 								}
 								else if (currentWeather.currentWeatherType == Weather_type.STORM)
 								{
 									if (currentWeather.DistanceToCurrentWind(rel_x, rel_y) == 0)
 									{
-										cells.Add(c);
+										if (!cells.Contains(c)) { cells.Add(c); }
 									}
 								}
 							}
 							else
 							{
-								cells.Add(c); //Cells under fire or heal highlight
+								if (!cells.Contains(c)) { cells.Add(c); }            //Cells under fire or heal highlight
 							}
 						}
 					}

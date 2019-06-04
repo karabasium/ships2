@@ -288,8 +288,20 @@ public class Field
 		foreach (Unit u in GetAlivePlayerUnits(GameController.instance.currentPlayer))
 		{
 			List<Cell> cellsToMove = Hl.GetHighlightedCells(u.GetPosition(), u, Action.MOVE);
-			Cell cell = Utils.GetOuterMostCell(cells[ u.CellIndex ], cellsToMove);
+			Cell cell = Utils.GetOuterMostCell2(cells[ u.CellIndex ], cellsToMove);
 			u.Move(new Vector2Int(cell.X, cell.Y), Width);
-		} 
+		}
+	}
+
+	private void KillUnitsDestroyedByStorm()
+	{
+		foreach(Unit unit in units)
+		{
+			Cell unitCell = GetCell(unit.Position.x, unit.Position.y);
+			if (unitCell.CellType == CellType.REEFS)
+			{
+				RemoveUnit(unit);
+			}
+		}
 	}
 }

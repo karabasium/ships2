@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class Utils {
@@ -65,5 +66,36 @@ public class Utils {
 			}
 		}
 		return cellsTo[outermostCellIndex];
+	}
+
+	public static Cell GetOuterMostCell2(Cell cellFrom, List<Cell> cellsTo)
+	{
+		if (cellsTo.Count == 0)
+		{
+			return cellFrom;
+		}
+
+		Dictionary<Cell, int> distances = new Dictionary<Cell, int>();
+
+		for (int i = 0; i < cellsTo.Count; i++)
+		{
+			Cell cellTo = cellsTo[i];
+			int distance = Mathf.Abs(cellFrom.X - cellTo.X) + Mathf.Abs(cellFrom.Y - cellTo.Y);
+			distances.Add(cellTo, distance);
+		}
+		int j = 0;
+		foreach (KeyValuePair<Cell, int> d in distances.OrderBy(key => key.Value))
+		{
+			if (d.Key.CellType == CellType.REEFS)
+			{
+				return d.Key;
+			}
+			if (j == distances.Keys.Count - 1)
+			{
+				return d.Key;
+			}
+			j++;
+		}
+		return cellFrom;
 	}
 }

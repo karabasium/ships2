@@ -250,7 +250,7 @@ public class FieldAppearance : MonoBehaviour {
 		GameObject landCellsParent = new GameObject();
 		foreach (Cell cell in field.GetAllCells())
 		{
-			if (cell.CellType == CellType.LAND)
+			if (cell.CellType != CellType.SEA)
 			{
 				GameObject cellGameObject = new GameObject
 				{
@@ -262,8 +262,18 @@ public class FieldAppearance : MonoBehaviour {
 
 				ca.Init(angle, viewAngle, cellWidth, cellHeight, cellGameObject, Action.NONE, cell);
 				ca.SetPosition(new Vector2(cell.X, cell.Y), new Vector2(fieldZeroX, fieldZeroY));
-				ca.SetColor( new Color( 245f / 255f, 175f/255f, 88f/255f));
+
+				if (cell.CellType == CellType.LAND)
+				{
+
+					ca.SetColor(new Color(245f / 255f, 175f / 255f, 88f / 255f));
+				}
+				else if (cell.CellType == CellType.REEFS)
+				{
+					ca.SetColor(new Color(255f / 255f, 0f / 255f, 0f / 255f));
+				}
 			}
+
 		}
 	}
 

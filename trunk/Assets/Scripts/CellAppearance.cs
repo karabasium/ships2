@@ -52,6 +52,11 @@ public class CellAppearance : MonoBehaviour {
 			zOffset = 1.1f;
 		}
 
+		if (cell.CellType == CellType.REEFS)
+		{
+			zOffset = 1.2f;
+		}
+
 		cube.transform.localScale = new Vector3(height * scaleFactor, width * scaleFactor, 0.00001f);
 	
 		cube.transform.Rotate(new Vector3(viewAngle, 0, gridAngle));

@@ -29,6 +29,7 @@ public enum Action
 public enum CellType
 {
 	SEA,
+	REEFS,
 	LAND
 }
 
@@ -75,7 +76,9 @@ public class GameController : MonoBehaviour {
 		cells[28].CellType = CellType.LAND;
 		cells[40].CellType = CellType.LAND;
 
-		
+		cells[50].CellType = CellType.REEFS;
+
+
 		Unit fort = new Unit("fort", Player.PLAYER_1);
 		Unit u3 = new Unit("brig", Player.PLAYER_1 );
 		Unit u1 = new Unit("brig", Player.PLAYER_1);
@@ -85,9 +88,9 @@ public class GameController : MonoBehaviour {
 		Unit u4 = new Unit("brig", Player.PLAYER_2);		
 
 		f.AddUnit(new Vector2Int(3, 3), u1);
-		f.AddUnit(new Vector2Int(3, 1), fort);
-		f.AddUnit(new Vector2Int(3, 3), u2);
-		f.AddUnit(new Vector2Int(2, 2), u3);
+		//f.AddUnit(new Vector2Int(3, 1), fort);
+		//f.AddUnit(new Vector2Int(3, 3), u2);
+		//f.AddUnit(new Vector2Int(2, 2), u3);
 
 		f.AddUnit(new Vector2Int(3, 7), u4);
 
