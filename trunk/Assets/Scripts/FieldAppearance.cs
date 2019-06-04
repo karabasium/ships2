@@ -215,7 +215,7 @@ public class FieldAppearance : MonoBehaviour {
 
 			cellGameObject.transform.parent = fortObject.transform;
 
-			ca.Init(angle, viewAngle, cellWidth, cellHeight, cellGameObject, Action.NONE, cell);
+			ca.Init(angle, viewAngle, cellWidth, cellHeight, cellGameObject, Action.HEAL, cell);
 			ca.SetPosition(new Vector2(cell.X, cell.Y), new Vector2(fieldZeroX, fieldZeroY));
 			ca.SetColor(new Color(158f / 255f, 250f / 255f, 160f / 255f));
 		}

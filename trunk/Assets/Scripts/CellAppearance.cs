@@ -47,6 +47,10 @@ public class CellAppearance : MonoBehaviour {
 			scaleFactor = 0.7f;
 			zOffset = 0.8f;
 		}
+		else if (type == Action.HEAL)
+		{
+			zOffset = 1.1f;
+		}
 
 		cube.transform.localScale = new Vector3(height * scaleFactor, width * scaleFactor, 0.00001f);
 	

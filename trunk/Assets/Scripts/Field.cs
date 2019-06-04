@@ -118,7 +118,14 @@ public class Field
 		u.SetPosition(positionOnField);
 		if (!c.isOccupied())
 		{
-			c.SlotsOccupied += 1;
+			if (u.Unit_class == "fort")
+			{
+				c.SlotsOccupied = 2;
+			}
+			else
+			{
+				c.SlotsOccupied += 1;
+			}
 		}
 		else
 		{

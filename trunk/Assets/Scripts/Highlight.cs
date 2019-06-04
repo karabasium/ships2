@@ -106,6 +106,12 @@ public class Highlight {
 						if (x + rel_x < fieldSize.x && x + rel_x >= 0 && y + rel_y < fieldSize.y && y + rel_y >= 0)
 						{
 							Cell c = allFieldCells[fieldSize.x * (y + rel_y) + (x + rel_x)];
+
+							if (c.isOccupied() && (type == Action.MOVE))
+								{
+									continue;
+								}
+
 							if (c.CellType == CellType.LAND)
 							{
 								landCells.Add(c);

@@ -63,10 +63,19 @@ public class ClickEventsController : MonoBehaviour {
 			else //click in the field
 			{
 				Vector2Int cellXY = Utils.GetFieldLogicalXY(mousePos2D, fa);
+
 				if (cellXY.x <= field.Width && cellXY.y <= field.Height && cellXY.x >= 0 && cellXY.y >= 0) //if desired location is valid field cell
 				{
-					field.ChangeLastSelectedUnitPosition(Utils.GetFieldLogicalXY(mousePos2D, fa)); //move unit
-				}
+					Cell c = field.GetCell(cellXY.x, cellXY.y);
+					if (!c.isOccupied())
+					{
+						field.ChangeLastSelectedUnitPosition(Utils.GetFieldLogicalXY(mousePos2D, fa));  //move unit
+					}
+					else
+					{
+						Debug.Log("Can't place unit on already occupied cell");
+					}
+				}				
 			}			
 		}
 	}
