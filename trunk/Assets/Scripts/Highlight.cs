@@ -44,7 +44,7 @@ public class Highlight {
 		allFieldCells = cells;
 	}
 
-	public List<Cell> GetHighlightedCells(Vector2Int positionOnField, Unit u, Action type)
+	public List<Cell> GetCellsAreaForAction(Vector2Int positionOnField, Unit u, Action type)
 	{
 		int x = positionOnField.x;
 		int y = positionOnField.y;
@@ -190,11 +190,11 @@ public class Highlight {
 		
 		if (!u.MovementDone && GameController.instance.currentWeather.currentWeatherType != Weather_type.STORM)
 		{
-			CanMoveCells = GetHighlightedCells(u.GetPosition(), u, Action.MOVE);
+			CanMoveCells = GetCellsAreaForAction(u.GetPosition(), u, Action.MOVE);
 		}
 		if (!u.FireDone)
 		{
-			CanFireCells = GetHighlightedCells(u.GetPosition(), u, Action.FIRE);
+			CanFireCells = GetCellsAreaForAction(u.GetPosition(), u, Action.FIRE);
 		}
 	}
 

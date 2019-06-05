@@ -46,29 +46,7 @@ public class Utils {
 		return fieldWidth * pos.y + pos.x;
 	}
 
-	public static Cell GetOuterMostCell( Cell cellFrom, List<Cell> cellsTo) 
-	{
-		if (cellsTo.Count == 0)
-		{
-			return cellFrom;
-		}
-
-		int outermostCellIndex = 0;
-		int maxDistance = Mathf.Abs(cellFrom.X - cellsTo[outermostCellIndex].X) + Mathf.Abs(cellFrom.Y - cellsTo[outermostCellIndex].Y);
-		for (int i=1; i<cellsTo.Count; i++)
-		{
-			Cell cellTo = cellsTo[i];
-			int distance = Mathf.Abs(cellFrom.X - cellTo.X) + Mathf.Abs(cellFrom.Y - cellTo.Y);
-			if (distance > maxDistance)
-			{
-				maxDistance = distance;
-				outermostCellIndex = i;
-			}
-		}
-		return cellsTo[outermostCellIndex];
-	}
-
-	public static Cell GetOuterMostCell2(Cell cellFrom, List<Cell> cellsTo)
+	public static Cell GetOuterMostCell(Cell cellFrom, List<Cell> cellsTo)
 	{
 		if (cellsTo.Count == 0)
 		{

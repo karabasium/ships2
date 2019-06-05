@@ -114,7 +114,7 @@ public class Field
 		GameObject g = new GameObject();
 		u.GameObject = g;
 		units.Add(u);
-		u.CellIndex = CellIndex(positionOnField.x, positionOnField.y);
+		u.cell = GetCell(positionOnField.x, positionOnField.y);
 		u.SetPosition(positionOnField);
 		if (!c.isOccupied())
 		{
@@ -133,7 +133,7 @@ public class Field
 		}
 		if (u.Unit_class == "fort")
 		{
-			foreach (Cell cell in hl.GetHighlightedCells(u.Position, u, Action.HEAL))
+			foreach (Cell cell in hl.GetCellsAreaForAction(u.Position, u, Action.HEAL))
 			{
 				cell.BelongsToFort = u;
 			}
@@ -154,7 +154,7 @@ public class Field
 		{
 			if (u.Unit_class == "fort")
 			{
-				foreach(Cell c in hl.GetHighlightedCells(u.Position, u, Action.HEAL))
+				foreach(Cell c in hl.GetCellsAreaForAction(u.Position, u, Action.HEAL))
 				{
 					c.BelongsToFort = u;
 				}
@@ -201,7 +201,7 @@ public class Field
 
 	public void UnitAttacksUnit( Unit attacker, Unit target)
 	{
-		Cell c = cells[target.CellIndex];
+		Cell c = target.cell;
 		if (Hl.CanFireCells.Contains(c))
 		{
 			attacker.Fire(target);
@@ -226,7 +226,7 @@ public class Field
 		if (Hl.CanMoveCells.Contains(c))
 		{
 			Unit u = GetLastSelectedUnit();
-			u.Move( new_pos, Width );
+			u.Move( c );
 			Hl.ResetHighlightedCellsLists();
 			Hl.CreateHighlightedCellsLists(u);
 		}
@@ -287,9 +287,9 @@ public class Field
 		Debug.Log("StormMoveAllShips");
 		foreach (Unit u in GetAlivePlayerUnits(GameController.instance.currentPlayer))
 		{
-			List<Cell> cellsToMove = Hl.GetHighlightedCells(u.GetPosition(), u, Action.MOVE);
-			Cell cell = Utils.GetOuterMostCell2(cells[ u.CellIndex ], cellsToMove);
-			u.Move(new Vector2Int(cell.X, cell.Y), Width);
+			List<Cell> cellsToMove = Hl.GetCellsAreaForAction(u.GetPosition(), u, Action.MOVE);
+			Cell cell = Utils.GetOuterMostCell( u.cell, cellsToMove);
+			u.Move( cell );
 		}
 	}
 

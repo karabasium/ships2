@@ -137,15 +137,15 @@ public class FieldAppearance : MonoBehaviour {
 	public void DrawShips()
 	{
 		RemoveDeadUnitsAppearances();
-		List<int> occupiedWithOneInitCellsIndexes = new List<int>();		
+		List<Cell> occupiedWithOneInitCells = new List<Cell>();		
 
 		foreach (Unit unit in field.GetUnits())
 		{
-			Cell cell = field.GetAllCells()[unit.CellIndex];
+			Cell cell = unit.cell;
 
 			float verticalOffset = 3 * cellHeight / 3;
 
-			if ( !occupiedWithOneInitCellsIndexes.Contains(unit.CellIndex) )
+			if ( !occupiedWithOneInitCells.Contains(unit.cell) )
 			{				
 				verticalOffset = 9 * cellHeight / 10;
 			}
@@ -178,7 +178,7 @@ public class FieldAppearance : MonoBehaviour {
 			{
 				ua.ColorAsSelectedUnit();
 			}
-			occupiedWithOneInitCellsIndexes.Add(unit.CellIndex);
+			occupiedWithOneInitCells.Add(unit.cell);
 		}
 	}
 

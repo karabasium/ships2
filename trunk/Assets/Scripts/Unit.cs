@@ -16,7 +16,7 @@ public class Unit  {
 
 	private bool movementDone;
 	private bool fireDone;
-	private int cellIndex;
+	private Cell _cell;
 	private readonly int move_range;
 	private readonly int calm_move_range;
 	private readonly int fire_range;
@@ -60,7 +60,7 @@ public class Unit  {
 		Position = Vector2Int.zero;
 
 		damage_per_shot = 1;
-		CellIndex = -1;
+		cell = null;
 		hitProbability = GameController.instance.HIT_PROBABILITY;
 		movementAnimationInProgress = false;
 		Refresh();
@@ -127,10 +127,10 @@ public class Unit  {
 		return false;
 	}
 
-	public void Move( Vector2Int newPosition, int fildWidth )
+	public void Move( Cell cellToMove )
 	{
-		Position = newPosition;
-		CellIndex = Utils.CellIndex(newPosition, fildWidth);
+		Position = new Vector2Int(cellToMove.X, cellToMove.Y);
+		cell = cellToMove;
 		MovementDone = true;
 		MovementAnimationInProgress = true;
 		if ( GameController.instance.gameState != GAME_STATE.ANIMATION_IN_PROGRESS)
@@ -228,19 +228,6 @@ public class Unit  {
 		}
 	}
 
-	public int CellIndex
-	{
-		get
-		{
-			return cellIndex;
-		}
-
-		set
-		{
-			cellIndex = value;
-		}
-	}
-
 	public GameObject GameObject
 	{
 		get
@@ -295,7 +282,16 @@ public class Unit  {
 
 		set
 		{
+			bool prevMovementAnimationInProgress = movementAnimationInProgress;
 			movementAnimationInProgress = value;
+			if (prevMovementAnimationInProgress != movementAnimationInProgress && movementAnimationInProgress == false)
+			{
+				if (cell.CellType == CellType.REEFS)
+				{
+					Hp = 0;
+					Debug.Log("ship ran on the reefs");
+				}
+			}
 		}
 	}
 
@@ -333,6 +329,19 @@ public class Unit  {
 		get
 		{
 			return max_hp;
+		}
+	}
+
+	public Cell cell
+	{
+		get
+		{
+			return _cell;
+		}
+
+		set
+		{
+			_cell = value;
 		}
 	}
 }
