@@ -54,7 +54,7 @@ public class CellAppearance : MonoBehaviour {
 
 		if (cell.CellType == CellType.REEFS)
 		{
-			zOffset = 1.2f;
+			zOffset = 1.3f;
 		}
 
 		cube.transform.localScale = new Vector3(height * scaleFactor, width * scaleFactor, 0.00001f);

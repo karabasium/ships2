@@ -41,7 +41,7 @@ public class HighlightAppearance : MonoBehaviour {
 		cellParent = new GameObject();
 		cellParent.name = "highlightCellsParent";
 
-		canMoveColor = new Color(152f / 255f, 205f / 255f, 250f / 255f);
+		canMoveColor = new Color(255f / 255f, 255f / 255f, 255f / 255f);
 		canFireColor = new Color(250f / 255f, 136f / 255f, 136f / 255f);
 		stormCellsColor = new Color(255f / 255f, 50f / 255f, 50f / 255f);
 

@@ -55,13 +55,13 @@ public class Weather
 	{
 		currentWeatherType = (Weather_type)Random.Range(0, System.Enum.GetValues(typeof(Weather_type)).Length);
 
-		currentWeatherType = Weather_type.STORM; // FOR DEBUG ONLY!!!
+		//currentWeatherType = Weather_type.STORM; // FOR DEBUG ONLY!!!
 
 		Debug.Log("WEATHER: " + currentWeatherType.ToString());
 		if (currentWeatherType == Weather_type.WIND || currentWeatherType == Weather_type.STORM)
 		{
 			curWindIndex = Random.Range(0, dirs.Count - 1);
-			curWindIndex = 0;  // FOR DEBUG ONLY!!!
+			//curWindIndex = 0;  // FOR DEBUG ONLY!!!
 			curWind = dirs[curWindIndex];
 
 			if (currentWeatherType == Weather_type.STORM)

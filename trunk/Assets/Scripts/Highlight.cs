@@ -159,7 +159,7 @@ public class Highlight {
 							}
 							else
 							{
-								if (!cells.Contains(c)) { cells.Add(c); }            //Cells under fire or heal highlight
+								if (!cells.Contains(c) && c.CellType!=CellType.REEFS) { cells.Add(c); }            //Cells under fire or heal highlight
 							}
 						}
 					}

@@ -35,7 +35,7 @@ public class FieldAppearance : MonoBehaviour {
 
 		cellWidth = 1.0f;
 		cellHeight = 1.0f;
-		angle = 40.0f;
+		angle = 55.0f;
 		scaleY = 0.7f;
 		//angle = 0.0f;  //for debug
 		//scaleY = 1.0f;  //for debug

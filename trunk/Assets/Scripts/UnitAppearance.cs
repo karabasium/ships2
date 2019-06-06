@@ -41,7 +41,7 @@ public class UnitAppearance : MonoBehaviour {
 		this.u = u;
 		gameObject.name = "UnitAppeareance";
 		sr = gameObject.AddComponent<SpriteRenderer>();
-		string spritePath = "Sprites/brig";
+		string spritePath = "Sprites/brig_3d";
 		if (u.Unit_class == "fort")
 		{
 			spritePath = "Sprites/fort";
