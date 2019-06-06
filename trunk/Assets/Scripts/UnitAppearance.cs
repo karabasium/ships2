@@ -19,6 +19,12 @@ public class UnitAppearance : MonoBehaviour {
 	{
 		Vector2 currentPosition = gameObject.transform.position;
 		Vector2 destination = Utils.GetUnitWorldPositionByLogicalXY(u.GetPosition(), GameController.instance.fa);
+
+		string direction = Utils.GetDirection(Utils.GetFieldLogicalXY(currentPosition), Utils.GetFieldLogicalXY(destination));
+		Debug.Log("direction = " + direction);
+
+		gameObject.GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("Sprites/brig_" + direction);
+
 		float tolerance = 0.05f;
 		float movementAnimationSpeed = 2.0f;
 
@@ -41,7 +47,7 @@ public class UnitAppearance : MonoBehaviour {
 		this.u = u;
 		gameObject.name = "UnitAppeareance";
 		sr = gameObject.AddComponent<SpriteRenderer>();
-		string spritePath = "Sprites/brig_3d";
+		string spritePath = "Sprites/brig_ne";
 		if (u.Unit_class == "fort")
 		{
 			spritePath = "Sprites/fort";

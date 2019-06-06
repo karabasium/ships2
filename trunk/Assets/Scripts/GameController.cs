@@ -96,6 +96,8 @@ public class GameController : MonoBehaviour {
 
 		fieldObject = new GameObject();
 		fa = fieldObject.AddComponent<FieldAppearance>();
+		Utils.fa = fa;
+
 		clickEventsController = fieldObject.AddComponent<ClickEventsController>();
 
 		currentWeather = new Weather();

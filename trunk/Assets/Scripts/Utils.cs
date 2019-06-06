@@ -4,6 +4,7 @@ using System.Linq;
 using UnityEngine;
 
 public class Utils {
+	public static FieldAppearance fa;
 
 	public static Vector2 rotate(Vector2 v, float angle)
 	{
@@ -18,7 +19,7 @@ public class Utils {
 		return new Vector2(v.x, v.y * y_scale);
 	}
 
-	public static Vector2Int GetFieldLogicalXY(Vector2 xy, FieldAppearance fa)
+	public static Vector2Int GetFieldLogicalXY(Vector2 xy)
 	{
 		Vector2 undistortedCellXY = Utils.rotate(Utils.scale_y(xy, 1 / fa.scaleY), -fa.angle_rad);
 		undistortedCellXY.x -= fa.fieldZeroX;
@@ -75,5 +76,43 @@ public class Utils {
 			j++;
 		}
 		return cellFrom;
+	}
+
+	public static string GetDirection( Vector2Int xyFrom, Vector2Int xyTo)
+	{
+		Vector2Int diff = xyTo - xyFrom;
+		if (diff.x > 0 || diff.y > 0)
+		{
+			return "n";
+		}
+		else if (diff.x > 0 || diff.y == 0)
+		{
+			return "ne";
+		}
+		else if (diff.x > 0 || diff.y < 0)
+		{
+			return "e";
+		}
+		else if (diff.x == 0 || diff.y < 0)
+		{
+			return "se";
+		}
+		else if (diff.x < 0 || diff.y < 0)
+		{
+			return "s";
+		}
+		else if (diff.x < 0 || diff.y == 0)
+		{
+			return "sw";
+		}
+		else if (diff.x < 0 || diff.y > 0)
+		{
+			return "w";
+		}
+		else if (diff.x == 0 || diff.y > 0)
+		{
+			return "nw";
+		}
+		return "ne";
 	}
 }
