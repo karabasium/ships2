@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class UnitAppearance : MonoBehaviour {
 	private SpriteRenderer sr;
+	private Dictionary<string, Sprite> sprites;
+	private string direction;
 	public Unit u;
 	private List<GameObject> hp_spots = new List<GameObject>();
 
@@ -20,10 +22,17 @@ public class UnitAppearance : MonoBehaviour {
 		Vector2 currentPosition = gameObject.transform.position;
 		Vector2 destination = Utils.GetUnitWorldPositionByLogicalXY(u.GetPosition(), GameController.instance.fa);
 
-		string direction = Utils.GetDirection(Utils.GetFieldLogicalXY(currentPosition), Utils.GetFieldLogicalXY(destination));
-		Debug.Log("direction = " + direction);
-
-		gameObject.GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("Sprites/brig_" + direction);
+		string moveDirection = Utils.GetDirection(Utils.GetFieldLogicalXY(currentPosition), Utils.GetFieldLogicalXY(destination));
+		if (moveDirection == "same sell")
+		{
+			moveDirection = direction;
+		}
+		if (direction != moveDirection)
+		{
+			Debug.Log("Direction changed: Old = " + direction + " New = " + moveDirection);
+			direction = moveDirection;
+			gameObject.GetComponent<SpriteRenderer>().sprite = sprites[direction];			
+		}		
 
 		float tolerance = 0.05f;
 		float movementAnimationSpeed = 2.0f;
@@ -47,13 +56,24 @@ public class UnitAppearance : MonoBehaviour {
 		this.u = u;
 		gameObject.name = "UnitAppeareance";
 		sr = gameObject.AddComponent<SpriteRenderer>();
-		string spritePath = "Sprites/brig_ne";
+		string spritePath = "Sprites/" + u.Unit_class;		
 		if (u.Unit_class == "fort")
 		{
 			spritePath = "Sprites/fort";
 		}
-		Sprite unitSprite = Resources.Load<Sprite>( spritePath );
-		gameObject.GetComponent<SpriteRenderer>().sprite = unitSprite;
+		sprites = new Dictionary<string, Sprite>();
+		sprites.Add("ne", Resources.Load<Sprite>(spritePath + "_ne"));
+		sprites.Add("e", Resources.Load<Sprite>(spritePath + "_e"));
+		sprites.Add("se", Resources.Load<Sprite>(spritePath + "_se"));
+		sprites.Add("s", Resources.Load<Sprite>(spritePath + "_s"));
+		sprites.Add("sw", Resources.Load<Sprite>(spritePath + "_sw"));
+		sprites.Add("w", Resources.Load<Sprite>(spritePath + "_w"));
+		sprites.Add("nw", Resources.Load<Sprite>(spritePath + "_nw"));
+		sprites.Add("n", Resources.Load<Sprite>(spritePath + "_n"));
+
+		direction = "e";
+		gameObject.GetComponent<SpriteRenderer>().sprite = sprites[ direction ];
+
 		Collider2D c2d = gameObject.AddComponent<BoxCollider2D>();
 		c2d.isTrigger = true;
 		UpdateHPVisual();

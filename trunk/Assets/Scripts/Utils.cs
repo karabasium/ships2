@@ -81,38 +81,39 @@ public class Utils {
 	public static string GetDirection( Vector2Int xyFrom, Vector2Int xyTo)
 	{
 		Vector2Int diff = xyTo - xyFrom;
-		if (diff.x > 0 || diff.y > 0)
+		//Debug.Log("GetDirection diff = " + diff.ToString());
+		if (diff.x > 0 && diff.y > 0)
 		{
 			return "n";
 		}
-		else if (diff.x > 0 || diff.y == 0)
+		else if (diff.x > 0 && diff.y == 0)
 		{
 			return "ne";
 		}
-		else if (diff.x > 0 || diff.y < 0)
+		else if (diff.x > 0 && diff.y < 0)
 		{
 			return "e";
 		}
-		else if (diff.x == 0 || diff.y < 0)
+		else if (diff.x == 0 && diff.y < 0)
 		{
 			return "se";
 		}
-		else if (diff.x < 0 || diff.y < 0)
+		else if (diff.x < 0 && diff.y < 0)
 		{
 			return "s";
 		}
-		else if (diff.x < 0 || diff.y == 0)
+		else if (diff.x < 0 && diff.y == 0)
 		{
 			return "sw";
 		}
-		else if (diff.x < 0 || diff.y > 0)
+		else if (diff.x < 0 && diff.y > 0)
 		{
 			return "w";
 		}
-		else if (diff.x == 0 || diff.y > 0)
+		else if (diff.x == 0 && diff.y > 0)
 		{
 			return "nw";
 		}
-		return "ne";
+		return "same sell";
 	}
 }

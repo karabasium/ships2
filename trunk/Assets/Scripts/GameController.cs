@@ -88,7 +88,7 @@ public class GameController : MonoBehaviour {
 		Unit u4 = new Unit("brig", Player.PLAYER_2);		
 
 		f.AddUnit(new Vector2Int(3, 3), u1);
-		f.AddUnit(new Vector2Int(3, 1), fort);
+		//f.AddUnit(new Vector2Int(3, 1), fort);
 		f.AddUnit(new Vector2Int(3, 3), u2);
 		f.AddUnit(new Vector2Int(2, 2), u3);
 

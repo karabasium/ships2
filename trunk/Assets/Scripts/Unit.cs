@@ -130,7 +130,9 @@ public class Unit  {
 	public void Move( Cell cellToMove )
 	{
 		Position = new Vector2Int(cellToMove.X, cellToMove.Y);
+		cell.SlotsOccupied -= 1;
 		cell = cellToMove;
+		cell.SlotsOccupied += 1;
 		MovementDone = true;
 		MovementAnimationInProgress = true;
 		if ( GameController.instance.gameState != GAME_STATE.ANIMATION_IN_PROGRESS)
