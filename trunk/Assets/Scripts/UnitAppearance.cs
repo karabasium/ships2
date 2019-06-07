@@ -8,6 +8,7 @@ public class UnitAppearance : MonoBehaviour {
 	private string direction;
 	public Unit u;
 	private List<GameObject> hp_spots = new List<GameObject>();
+	private bool moveStarted;
 
 	void Update()
 	{
@@ -22,16 +23,20 @@ public class UnitAppearance : MonoBehaviour {
 		Vector2 currentPosition = gameObject.transform.position;
 		Vector2 destination = Utils.GetUnitWorldPositionByLogicalXY(u.GetPosition(), GameController.instance.fa);
 
-		string moveDirection = Utils.GetDirection(Utils.GetFieldLogicalXY(currentPosition), Utils.GetFieldLogicalXY(destination));
-		if (moveDirection == "same sell")
+		if (!moveStarted)
 		{
-			moveDirection = direction;
-		}
-		if (direction != moveDirection)
-		{
-			Debug.Log("Direction changed: Old = " + direction + " New = " + moveDirection);
-			direction = moveDirection;
-			gameObject.GetComponent<SpriteRenderer>().sprite = sprites[direction];			
+			moveStarted = true;
+
+			string moveDirection = Utils.GetDirection(Utils.GetFieldLogicalXY(currentPosition), u.GetPosition());
+			if (moveDirection == "same sell")
+			{
+				moveDirection = direction;
+			}
+			if (direction != moveDirection)
+			{
+				direction = moveDirection;
+				gameObject.GetComponent<SpriteRenderer>().sprite = sprites[direction];
+			}
 		}		
 
 		float tolerance = 0.05f;
@@ -48,6 +53,7 @@ public class UnitAppearance : MonoBehaviour {
 		else
 		{
 			u.MovementAnimationInProgress = false;
+			moveStarted = false;
 			return true;
 		}
 	}
@@ -76,6 +82,9 @@ public class UnitAppearance : MonoBehaviour {
 
 		Collider2D c2d = gameObject.AddComponent<BoxCollider2D>();
 		c2d.isTrigger = true;
+
+		moveStarted = false;
+
 		UpdateHPVisual();
 	}
 
