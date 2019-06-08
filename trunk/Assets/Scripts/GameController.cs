@@ -103,6 +103,11 @@ public class GameController : MonoBehaviour {
 		currentWeather = new Weather();
 		currentWeather.Init();
 		currentWeather.RefreshWeather();
+
+		//CameraDrag cd = new CameraDrag();
+		//cd.Init(f, fa);
+
+
 	}
 
 	void Start()
@@ -115,6 +120,9 @@ public class GameController : MonoBehaviour {
 
 		hud = GameObject.Find("HUD").GetComponent<HUD>();
 		hud.Init(f, currentWeather);
+
+		CameraDrag cd = Camera.main.gameObject.AddComponent<CameraDrag>();
+		cd.Init(f, fa);
 	}
 
 

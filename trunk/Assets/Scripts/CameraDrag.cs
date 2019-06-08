@@ -8,12 +8,28 @@ public class CameraDrag : MonoBehaviour
 	private Vector3 basePos = Vector3.zero; //Where should the camera be initially?
 	private float newX;
 	private float newY;
+	private Vector2 rightmostPoint;
+	private Vector2 bottommostPoint;
+	private Vector2 topmostPoint;
+	private Vector2 lefttopmostPoint;
+	private float fieldAppearanceWidth;
+	private float fieldAppearanceHeight;
 
 	void Start()
 	{
-		Debug.Log("Camera start pos x = " + transform.position.x.ToString());
-		Debug.Log("Camera start pos y = " + transform.position.y.ToString());
+
 	}
+
+	public void Init(Field field, FieldAppearance fa)
+	{
+		rightmostPoint = Utils.GetWorldPositionByLogicalXY(new Vector2Int(field.Width - 1, 0), fa);
+		bottommostPoint = Utils.GetWorldPositionByLogicalXY(new Vector2Int(0, 0), fa);
+		lefttopmostPoint = Utils.GetWorldPositionByLogicalXY(new Vector2Int(0, field.Height-1), fa);
+		topmostPoint = Utils.GetWorldPositionByLogicalXY(new Vector2Int(field.Width-1, field.Height-1), fa);
+		fieldAppearanceHeight = Mathf.Abs(topmostPoint.y - bottommostPoint.y);
+		fieldAppearanceWidth = Mathf.Abs(rightmostPoint.x - lefttopmostPoint.x);
+	}
+
 
 	void Update()
 	{
@@ -33,16 +49,12 @@ public class CameraDrag : MonoBehaviour
 			return;
 		}
 
-		/*float leftEdge = GameManager.instance.fieldZeroX + GameManager.instance.fieldSizeX / 4;
-		float rightEdge = GameManager.instance.fieldZeroX + 3 * GameManager.instance.fieldSizeX / 4;
-		float topEdge = GameManager.instance.fieldZeroY - GameManager.instance.fieldSizeY / 4;
-		float bottomEdge = GameManager.instance.fieldZeroY - 3 * GameManager.instance.fieldSizeY / 4;*/
 
 
-		float leftEdge = -10f;
-		float rightEdge = 10f;
-		float topEdge = 10f;
-		float bottomEdge = -10f;
+		float leftEdge = lefttopmostPoint.x + fieldAppearanceWidth / 4;
+		float rightEdge = rightmostPoint.x - fieldAppearanceWidth / 4;
+		float topEdge = topmostPoint.y - fieldAppearanceHeight / 4;
+		float bottomEdge = bottommostPoint.y + fieldAppearanceHeight / 4;
 
 		if (transform.position.x >= leftEdge && transform.position.x <= rightEdge && transform.position.y <= topEdge && transform.position.y >= bottomEdge)
 		{
@@ -64,7 +76,7 @@ public class CameraDrag : MonoBehaviour
 			{
 				newY = bottomEdge + 0.01f;
 			}
-			transform.position = new Vector3(newX, newY, -10);
+			transform.position = new Vector3(newX, newY, transform.position.z);
 		}
 	}
 }
