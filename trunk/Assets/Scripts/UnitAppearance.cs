@@ -60,24 +60,32 @@ public class UnitAppearance : MonoBehaviour {
 
 	public void Init(Unit u) {
 		this.u = u;
-		gameObject.name = "UnitAppeareance";
+		gameObject.name = "UnitAppeareance_" + u.Unit_class;
 		sr = gameObject.AddComponent<SpriteRenderer>();
-		string spritePath = "Sprites/" + u.Unit_class;		
+
+		string spritePath = "Sprites/" + u.Unit_class;
+
+		sprites = new Dictionary<string, Sprite>();
 		if (u.Unit_class == "fort")
 		{
 			spritePath = "Sprites/fort";
+			sprites.Add("fort", Resources.Load<Sprite>( spritePath ));
+			direction = "fort";
 		}
-		sprites = new Dictionary<string, Sprite>();
-		sprites.Add("ne", Resources.Load<Sprite>(spritePath + "_ne"));
-		sprites.Add("e", Resources.Load<Sprite>(spritePath + "_e"));
-		sprites.Add("se", Resources.Load<Sprite>(spritePath + "_se"));
-		sprites.Add("s", Resources.Load<Sprite>(spritePath + "_s"));
-		sprites.Add("sw", Resources.Load<Sprite>(spritePath + "_sw"));
-		sprites.Add("w", Resources.Load<Sprite>(spritePath + "_w"));
-		sprites.Add("nw", Resources.Load<Sprite>(spritePath + "_nw"));
-		sprites.Add("n", Resources.Load<Sprite>(spritePath + "_n"));
-
-		direction = "e";
+		else
+		{
+			
+			sprites.Add("ne", Resources.Load<Sprite>(spritePath + "_ne"));
+			sprites.Add("e", Resources.Load<Sprite>(spritePath + "_e"));
+			sprites.Add("se", Resources.Load<Sprite>(spritePath + "_se"));
+			sprites.Add("s", Resources.Load<Sprite>(spritePath + "_s"));
+			sprites.Add("sw", Resources.Load<Sprite>(spritePath + "_sw"));
+			sprites.Add("w", Resources.Load<Sprite>(spritePath + "_w"));
+			sprites.Add("nw", Resources.Load<Sprite>(spritePath + "_nw"));
+			sprites.Add("n", Resources.Load<Sprite>(spritePath + "_n"));
+			direction = "e";
+		}
+		
 		gameObject.GetComponent<SpriteRenderer>().sprite = sprites[ direction ];
 
 		Collider2D c2d = gameObject.AddComponent<BoxCollider2D>();

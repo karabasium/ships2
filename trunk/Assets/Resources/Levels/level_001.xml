@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<level width="10" height="12">
+	<cells>
+		<cell type="land" x = "2" y = "3"/>
+		<cell type="reefs" x = "3" y = "4"/>
+	</cells>
+	<units>
+		<unit class = "brig" x = "4" y = "5" player = "1"/>
+		<unit class = "brig" x = "4" y = "5" player = "2"/>
+		<unit class = "fort" x = "4" y = "3" player = "1"/>
+	</units>
+</level>
