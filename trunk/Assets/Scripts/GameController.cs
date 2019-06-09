@@ -1,9 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using System.Xml;
-using System.Xml.Serialization;
-using System.IO;
+
 
 public enum Player
 {
@@ -62,40 +60,31 @@ public class GameController : MonoBehaviour {
 
 
 	void Awake()
-	{
+	{		
 		gameState = GAME_STATE.INITIALIZATION;
 		MakeSingleton();
+
+		LevelData levelData = new LevelData("Levels/level_001");
 
 		currentPlayer = Player.PLAYER_1;
 		gameOver = false;
 
-		f = new Field(12, 16);
+		f = new Field(levelData.FieldWidth, levelData.FieldHeight);
+
 		List<Cell> cells = f.GetAllCells();
-		cells[1].CellType = CellType.LAND;
-		cells[2].CellType = CellType.LAND;
-		cells[3].CellType = CellType.LAND;
-		cells[4].CellType = CellType.LAND;
-		cells[16].CellType = CellType.LAND;
-		cells[28].CellType = CellType.LAND;
-		cells[40].CellType = CellType.LAND;
+		foreach (Cell cell in levelData.Cells)
+		{
+			cells[levelData.FieldWidth * cell.Y + cell.X].CellType = cell.CellType;
+		}
 
-		cells[50].CellType = CellType.REEFS;
+		currentWeather = new Weather();
+		currentWeather.Init();
+		currentWeather.RefreshWeather();
 
-
-		Unit fort = new Unit("fort", Player.PLAYER_1);
-		Unit u3 = new Unit("brig", Player.PLAYER_1 );
-		Unit u1 = new Unit("brig", Player.PLAYER_1);
-		Unit u2 = new Unit("brig", Player.PLAYER_1);
-
-
-		Unit u4 = new Unit("brig", Player.PLAYER_2);		
-
-		f.AddUnit(new Vector2Int(3, 3), u1);
-		f.AddUnit(new Vector2Int(3, 1), fort);
-		f.AddUnit(new Vector2Int(3, 3), u2);
-		f.AddUnit(new Vector2Int(2, 2), u3);
-
-		f.AddUnit(new Vector2Int(3, 7), u4);
+		foreach (Unit u in levelData.Units)
+		{
+			f.AddUnit(u);
+		}
 
 		fieldObject = new GameObject();
 		fa = fieldObject.AddComponent<FieldAppearance>();
@@ -103,48 +92,8 @@ public class GameController : MonoBehaviour {
 
 		clickEventsController = fieldObject.AddComponent<ClickEventsController>();
 
-		currentWeather = new Weather();
-		currentWeather.Init();
-		currentWeather.RefreshWeather();
 
 
-		Dictionary<string, List<Dictionary<string, string>>> levelData = new Dictionary<string, List<Dictionary<string, string>>>();
-		TextAsset textAsset = (TextAsset)Resources.Load("Levels/level_001");
-
-		XmlDocument xmlDoc = new XmlDocument();
-
-		xmlDoc.LoadXml(textAsset.text);
-		XmlNodeList cellNodes = xmlDoc.GetElementsByTagName("cell");
-		levelData.Add("cells", new List<Dictionary<string, string>>());
-		foreach (XmlNode node in cellNodes)
-		{
-			Debug.Log("type = " + node.Attributes["type"].Value);
-			Dictionary<string, string> cellData = new Dictionary<string, string>();
-			cellData.Add("type", node.Attributes["type"].Value);
-			cellData.Add("x", node.Attributes["x"].Value);
-			cellData.Add("y", node.Attributes["y"].Value);
-			levelData["cells"].Add(cellData);
-		}
-
-		XmlNodeList unitNodes = xmlDoc.GetElementsByTagName("unit");
-		levelData.Add("units", new List<Dictionary<string, string>>());
-		foreach (XmlNode node in unitNodes)
-		{
-			Debug.Log("class = " + node.Attributes["class"].Value);
-			Dictionary<string, string> unitData = new Dictionary<string, string>();
-			unitData.Add("class", node.Attributes["class"].Value);
-			unitData.Add("x", node.Attributes["x"].Value);
-			unitData.Add("y", node.Attributes["y"].Value);
-			levelData["units"].Add(unitData);
-		}
-
-		levelData.Add("level", new List<Dictionary<string, string>>());
-		XmlNodeList levelNodes = xmlDoc.GetElementsByTagName("level");
-		Dictionary<string, string> levelParameters = new Dictionary<string, string>();
-		levelParameters.Add("width", levelNodes[0].Attributes["width"].Value);
-		levelParameters.Add("height", levelNodes[0].Attributes["height"].Value);
-
-		levelData["level"].Add(levelParameters);
 	}
 
 
@@ -156,7 +105,7 @@ public class GameController : MonoBehaviour {
 		f.SelectRandomUnit(currentPlayer);
 		fa.UpdateField();
 
-		hud = GameObject.Find("HUD").GetComponent<HUD>();
+		hud = GameObject.Find("HUD").AddComponent<HUD>();
 		hud.Init(f, currentWeather);
 
 		CameraDrag cd = Camera.main.gameObject.AddComponent<CameraDrag>();

@@ -140,6 +140,39 @@ public class Field
 		}
 	}
 
+	public void AddUnit( Unit u)
+	{
+		Cell c = GetCell(u.Position.x, u.Position.y);
+		u.cell = c;
+
+		GameObject g = new GameObject();
+		u.GameObject = g;
+		units.Add(u);		
+
+		if (!c.isOccupied())
+		{
+			if (u.Unit_class == "fort")
+			{
+				c.SlotsOccupied = 2;
+			}
+			else
+			{
+				c.SlotsOccupied += 1;
+			}
+		}
+		else
+		{
+			Debug.Log("ERROR! Attempt to add more than 2 ships on the same cell!");
+		}
+		if (u.Unit_class == "fort")
+		{
+			foreach (Cell cell in hl.GetCellsAreaForAction(u.Position, u, Action.HEAL))
+			{
+				cell.BelongsToFort = u;
+			}
+		}
+	}
+
 	public void ResetFortCells()
 	{
 		foreach(Cell c in cells)
