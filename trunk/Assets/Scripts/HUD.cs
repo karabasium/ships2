@@ -12,6 +12,8 @@ public class HUD : MonoBehaviour {
 	private Field field;
 	private Weather weather;
 	private WeatherAppearance wa;
+	private Button nextTurnButton;
+	private Button switchModeButton;
 
 	// Use this for initialization
 	void Start () {
@@ -27,6 +29,13 @@ public class HUD : MonoBehaviour {
 		shotsCountLabel = GameObject.Find("ShipInfoShotsLabel").GetComponent<Text>();
 		wa = new WeatherAppearance( weather );
 		wa.UpdateWeatherAppearance();
+
+		nextTurnButton = GameObject.Find("EndTurnButton").GetComponent<Button>();
+		nextTurnButton.onClick.AddListener(() => NextTurn());
+
+		switchModeButton = GameObject.Find("SwitchMode").GetComponent<Button>();
+		switchModeButton.GetComponentInChildren<Text>().text = "Switch to editor";
+		switchModeButton.onClick.AddListener(() => SwitchMode());
 	}
 
 
@@ -46,6 +55,20 @@ public class HUD : MonoBehaviour {
 	public void NextTurn()
 	{
 		GameController.instance.SetNextPlayerAsActive();
+	}
+
+	public void SwitchMode()
+	{
+		if (GameController.instance.Mode == Mode.GAME)
+		{
+			GameController.instance.Mode = Mode.EDITOR;
+			switchModeButton.GetComponentInChildren<Text>().text = "Switch to Game";
+		}
+		else
+		{
+			GameController.instance.Mode = Mode.GAME;
+			switchModeButton.GetComponentInChildren<Text>().text = "Switch to Editor";
+		}
 	}
 
 	public void UpdateUIShipInfo( Unit u)

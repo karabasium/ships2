@@ -22,8 +22,6 @@ public class LevelData {
 
 		foreach (XmlNode node in cellNodes)
 		{
-			Debug.Log("type = " + node.Attributes["type"].Value);
-
 			CellType cellType = CellType.SEA;
 			if (node.Attributes["type"].Value == "land") {
 				cellType = CellType.LAND;

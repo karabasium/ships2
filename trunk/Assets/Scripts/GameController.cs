@@ -2,6 +2,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum Mode
+{
+	GAME,
+	EDITOR
+}
+
 
 public enum Player
 {
@@ -55,7 +61,7 @@ public class GameController : MonoBehaviour {
 	private HUD hud;
 	public GAME_STATE gameState;
 	public readonly float HIT_PROBABILITY = 1.0f;
-
+	private Mode mode = Mode.GAME;
 
 
 
@@ -222,5 +228,18 @@ public class GameController : MonoBehaviour {
 			return Player.PLAYER_1;
 		}
 		return Player.NONE;
+	}
+
+	public Mode Mode
+	{
+		get
+		{
+			return mode;
+		}
+
+		set
+		{
+			mode = value;
+		}
 	}
 }
