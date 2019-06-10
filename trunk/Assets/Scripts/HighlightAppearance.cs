@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 public class HighlightAppearance : MonoBehaviour {
@@ -17,9 +16,6 @@ public class HighlightAppearance : MonoBehaviour {
 	private List<GameObject> cellGameObjects;
 	private GameObject cellParent;
 	private List<Vector2Int> highlightedCellsIndexes;
-	private Color canMoveColor;
-	private Color canFireColor;
-	private Color stormCellsColor;
 	private Field field;
 	private FieldAppearance fa;
 	private GameObject cellGameObjectParent;
@@ -40,18 +36,10 @@ public class HighlightAppearance : MonoBehaviour {
 		angle_rad = Mathf.PI * (angle / 180);
 		viewAngle = 90 - 180 * Mathf.Asin(scaleY) / Mathf.PI;
 
-		cellParent = new GameObject();
-		cellParent.name = "highlightCellsParent";
-
-		canMoveColor = new Color(255f / 255f, 255f / 255f, 255f / 255f);
-		canFireColor = new Color(250f / 255f, 136f / 255f, 136f / 255f);
-		stormCellsColor = new Color(255f / 255f, 50f / 255f, 50f / 255f);
+		cellParent = new GameObject	{name = "highlightCellsParent"};
 
 		hl = field.Hl;
 		fa = GameController.instance.fa;
-
-		cellGameObjectParent = new GameObject();
-		cellGameObjectParent.name = "cellGameObject";
 	}	
 
 	public void CreateHighlightAppearance()
@@ -60,12 +48,12 @@ public class HighlightAppearance : MonoBehaviour {
 		foreach (Cell cell in hl.CanMoveCells)
 		{
 			cellGameObjects.Add( fa.AddCellAppearance(new Vector2(cell.X, cell.Y), Action.MOVE, cell) );
-			cellGameObjects[cellGameObjects.Count - 1].transform.parent = cellGameObjectParent.transform;
+			cellGameObjects[cellGameObjects.Count - 1].transform.parent = cellParent.transform;
 		}
 		foreach (Cell cell in hl.CanFireCells)
 		{
 			cellGameObjects.Add(fa.AddCellAppearance(new Vector2(cell.X, cell.Y), Action.FIRE, cell));
-			cellGameObjects[cellGameObjects.Count - 1].transform.parent = cellGameObjectParent.transform;
+			cellGameObjects[cellGameObjects.Count - 1].transform.parent = cellParent.transform;
 		}
 	}
 

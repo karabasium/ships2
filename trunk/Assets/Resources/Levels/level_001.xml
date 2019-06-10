@@ -1,12 +1,12 @@
-<?xml version="1.0" encoding="UTF-8"?>
+﻿<?xml version="1.0" encoding="UTF-8"?>
 <level width="10" height="12">
-	<cells>
-		<cell type="land" x = "2" y = "3"/>
-		<cell type="reefs" x = "3" y = "4"/>
-	</cells>
-	<units>
-		<unit class = "brig" x = "4" y = "5" player = "1"/>
-		<unit class = "brig" x = "4" y = "5" player = "2"/>
-		<unit class = "fort" x = "4" y = "3" player = "1"/>
-	</units>
+  <cells>
+    <cell x="2" y="3" type="land" />
+    <cell x="3" y="4" type="reefs" />
+  </cells>
+  <units>
+    <unit x="2" y="5" class="brig" player="1" />
+    <unit x="6" y="3" class="brig" player="2" />
+    <unit x="4" y="3" class="fort" player="1" />
+  </units>
 </level>

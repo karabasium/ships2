@@ -17,6 +17,8 @@ public class FieldAppearance : MonoBehaviour {
 	private GameObject shipsParent;
 	private List<UnitAppearance> unitsAppearances;
 	private List<CellAppearance> fortCellAppearances;
+	private GameObject reefsParentObject;
+	private GameObject landParentObject;
 	private Color canMoveColor;
 	private Color canFireColor;
 	private Color stormCellsColor;
@@ -34,6 +36,9 @@ public class FieldAppearance : MonoBehaviour {
 	public void Init(Field f)
 	{
 		this.field = f;
+
+		reefsParentObject = new GameObject() { name = "reefsParent" };
+		landParentObject = new GameObject() { name = "landParent" };
 
 		canMoveColor = new Color(255f / 255f, 255f / 255f, 255f / 255f);
 		canFireColor = new Color(250f / 255f, 136f / 255f, 136f / 255f);
@@ -62,6 +67,8 @@ public class FieldAppearance : MonoBehaviour {
 
 		hla = gameObject.AddComponent<HighlightAppearance>();
 		hla.Init(angle, scaleY, fieldZeroX, fieldZeroY, cellWidth, cellHeight, field);
+
+
 
 		CreateFortCells();
 	}
@@ -165,6 +172,7 @@ public class FieldAppearance : MonoBehaviour {
 			if (!ua)
 			{
 				ua = unit.GameObject.AddComponent<UnitAppearance>();
+				unit.GameObject.transform.parent = shipsParent.transform;
 				unitsAppearances.Add(ua);
 				ua.Init( unit );
 			}
@@ -312,10 +320,12 @@ public class FieldAppearance : MonoBehaviour {
 			{
 
 				ca.SetColor(new Color(245f / 255f, 175f / 255f, 88f / 255f));
+				ca.gameObject.transform.parent = landParentObject.transform;
 			}
 			else if (cell.CellType == CellType.REEFS)
 			{
 				ca.SetColor(new Color(255f / 255f, 0f / 255f, 0f / 255f));
+				ca.gameObject.transform.parent = reefsParentObject.transform;
 			}
 		}
 		else

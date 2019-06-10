@@ -33,9 +33,9 @@ public class HUD : MonoBehaviour {
 		nextTurnButton = GameObject.Find("EndTurnButton").GetComponent<Button>();
 		nextTurnButton.onClick.AddListener(() => NextTurn());
 
-		/*switchModeButton = GameObject.Find("SwitchMode").GetComponent<Button>();
+		switchModeButton = GameObject.Find("SwitchMode").GetComponent<Button>();
 		switchModeButton.GetComponentInChildren<Text>().text = "Switch to editor";
-		switchModeButton.onClick.AddListener(() => SwitchMode());*/
+		switchModeButton.onClick.AddListener(() => SwitchMode());
 	}
 
 
@@ -59,10 +59,12 @@ public class HUD : MonoBehaviour {
 
 	public void SwitchMode()
 	{
+		GameController.instance.levelData.Save();
 		if (GameController.instance.Mode == Mode.GAME)
 		{
 			GameController.instance.Mode = Mode.EDITOR;
 			switchModeButton.GetComponentInChildren<Text>().text = "Switch to Game";
+			
 		}
 		else
 		{

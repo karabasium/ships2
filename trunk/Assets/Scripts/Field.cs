@@ -12,71 +12,7 @@ public class Field
 	private Highlight hl;
 	private bool needHUDupdate = false;
 	private bool unitsAnimationInProgress = false;
-
-	public int Height
-	{
-		get
-		{
-			return height;
-		}
-
-		set
-		{
-			height = value;
-		}
-	}
-
-	public int Width
-	{
-		get
-		{
-			return width;
-		}
-
-		set
-		{
-			width = value;
-		}
-	}
-
-	public Highlight Hl
-	{
-		get
-		{
-			return hl;
-		}
-
-		set
-		{
-			hl = value;
-		}
-	}
-
-	public bool UnitsAnimationInProgress
-	{
-		get
-		{
-			return unitsAnimationInProgress;
-		}
-
-		set
-		{
-			unitsAnimationInProgress = value;
-		}
-	}
-
-	public bool NeedHUDupdate
-	{
-		get
-		{
-			return needHUDupdate;
-		}
-
-		set
-		{
-			needHUDupdate = value;
-		}
-	}
+	
 
 	public Field(int w, int h)
 	{
@@ -93,20 +29,6 @@ public class Field
 		Hl = new Highlight( Width, Height, cells);		
 	}
 
-	public List<Cell> GetAllCells()
-	{
-		return cells;
-	}
-
-	public Cell GetCell(int x, int y)
-	{
-		return cells[CellIndex(x,y)];
-	}
-
-	private int CellIndex(int x, int y)
-	{
-		return Width * y + x;
-	}
 
 	public void AddUnit( Vector2Int positionOnField, Unit u)
 	{
@@ -335,6 +257,86 @@ public class Field
 			{
 				RemoveUnit(unit);
 			}
+		}
+	}
+
+	public List<Cell> GetAllCells()
+	{
+		return cells;
+	}
+
+	public Cell GetCell(int x, int y)
+	{
+		return cells[CellIndex(x, y)];
+	}
+
+	private int CellIndex(int x, int y)
+	{
+		return Width * y + x;
+	}
+
+	public int Height
+	{
+		get
+		{
+			return height;
+		}
+
+		set
+		{
+			height = value;
+		}
+	}
+
+	public int Width
+	{
+		get
+		{
+			return width;
+		}
+
+		set
+		{
+			width = value;
+		}
+	}
+
+	public Highlight Hl
+	{
+		get
+		{
+			return hl;
+		}
+
+		set
+		{
+			hl = value;
+		}
+	}
+
+	public bool UnitsAnimationInProgress
+	{
+		get
+		{
+			return unitsAnimationInProgress;
+		}
+
+		set
+		{
+			unitsAnimationInProgress = value;
+		}
+	}
+
+	public bool NeedHUDupdate
+	{
+		get
+		{
+			return needHUDupdate;
+		}
+
+		set
+		{
+			needHUDupdate = value;
 		}
 	}
 }

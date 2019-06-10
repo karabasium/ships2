@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Xml;
 using UnityEngine;
 
 public enum Mode
@@ -54,7 +55,7 @@ public class GameController : MonoBehaviour {
 	public Weather currentWeather;
 	public FieldAppearance fa;
 	private WeatherAppearance wa;
-	private Field f;
+	public Field f;
 	private ClickEventsController clickEventsController;
 	public Player currentPlayer;
 	private bool gameOver;
@@ -62,6 +63,7 @@ public class GameController : MonoBehaviour {
 	public GAME_STATE gameState;
 	public readonly float HIT_PROBABILITY = 1.0f;
 	private Mode mode = Mode.GAME;
+	public LevelData levelData;
 
 
 
@@ -70,7 +72,7 @@ public class GameController : MonoBehaviour {
 		gameState = GAME_STATE.INITIALIZATION;
 		MakeSingleton();
 
-		LevelData levelData = new LevelData("Levels/level_001");
+		levelData = new LevelData("Levels/level_001");
 
 		currentPlayer = Player.PLAYER_1;
 		gameOver = false;
@@ -242,4 +244,6 @@ public class GameController : MonoBehaviour {
 			mode = value;
 		}
 	}
+
+	
 }
