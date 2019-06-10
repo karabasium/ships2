@@ -17,6 +17,9 @@ public class FieldAppearance : MonoBehaviour {
 	private GameObject shipsParent;
 	private List<UnitAppearance> unitsAppearances;
 	private List<CellAppearance> fortCellAppearances;
+	private Color canMoveColor;
+	private Color canFireColor;
+	private Color stormCellsColor;
 
 
 	void Awake()
@@ -31,6 +34,10 @@ public class FieldAppearance : MonoBehaviour {
 	public void Init(Field f)
 	{
 		this.field = f;
+
+		canMoveColor = new Color(255f / 255f, 255f / 255f, 255f / 255f);
+		canFireColor = new Color(250f / 255f, 136f / 255f, 136f / 255f);
+		stormCellsColor = new Color(255f / 255f, 50f / 255f, 50f / 255f);
 
 		cellWidth = 1.0f;
 		cellHeight = 1.0f;
@@ -251,30 +258,12 @@ public class FieldAppearance : MonoBehaviour {
 		{
 			if (cell.CellType != CellType.SEA)
 			{
-				GameObject cellGameObject = new GameObject
-				{
-					name = "landCellGameObject"
-				};
-				CellAppearance ca = cellGameObject.AddComponent<CellAppearance>();
-
-				cellGameObject.transform.parent = landCellsParent.transform;
-
-				ca.Init(angle, viewAngle, cellWidth, cellHeight, cellGameObject, Action.NONE, cell);
-				ca.SetPosition(new Vector2(cell.X, cell.Y), new Vector2(fieldZeroX, fieldZeroY));
-
-				if (cell.CellType == CellType.LAND)
-				{
-
-					ca.SetColor(new Color(245f / 255f, 175f / 255f, 88f / 255f));
-				}
-				else if (cell.CellType == CellType.REEFS)
-				{
-					ca.SetColor(new Color(255f / 255f, 0f / 255f, 0f / 255f));
-				}
+				AddCellAppearance(new Vector2(cell.X, cell.Y), Action.NONE, cell);
 			}
-
 		}
 	}
+
+	//public
 
 	private void DrawLine(Vector2 start, Vector2 end)
 	{
@@ -291,5 +280,48 @@ public class FieldAppearance : MonoBehaviour {
 		lr.SetPosition(1, new Vector3(end.x, end.y, 0));
 
 		lr.sortingLayerName = "Field";
+	}
+
+	public GameObject AddCellAppearance(Vector2 pos, Action type, Cell cell)
+	{
+		GameObject cellGameObject = new GameObject();
+		CellAppearance ca = cellGameObject.AddComponent<CellAppearance>();
+
+		ca.Init(angle, viewAngle, cellWidth, cellHeight, cellGameObject, type, cell);
+		ca.SetPosition(pos, new Vector2(fieldZeroX, fieldZeroY));
+
+		Color defaultColor = new Color(1f, 1f, 1f);
+
+		if (type == Action.MOVE)
+		{
+			ca.SetColor(canMoveColor);
+			cellGameObject.name = "move";
+		}
+		else if (type == Action.FIRE)
+		{
+			ca.SetColor(canFireColor);
+			cellGameObject.name = "fire";
+		}
+		else if (type == Action.DRIFT)
+		{
+			ca.SetColor(stormCellsColor);
+		}
+		else if (type == Action.NONE)
+		{
+			if (cell.CellType == CellType.LAND)
+			{
+
+				ca.SetColor(new Color(245f / 255f, 175f / 255f, 88f / 255f));
+			}
+			else if (cell.CellType == CellType.REEFS)
+			{
+				ca.SetColor(new Color(255f / 255f, 0f / 255f, 0f / 255f));
+			}
+		}
+		else
+		{
+			ca.SetColor(defaultColor);
+		}
+		return cellGameObject;
 	}
 }

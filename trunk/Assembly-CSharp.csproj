@@ -53,6 +53,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+     <Compile Include="Assets\Scripts\CameraDrag.cs" />
      <Compile Include="Assets\Scripts\Cell.cs" />
      <Compile Include="Assets\Scripts\CellAppearance.cs" />
      <Compile Include="Assets\Scripts\ClickEventsController.cs" />
@@ -62,11 +63,13 @@
      <Compile Include="Assets\Scripts\Highlight.cs" />
      <Compile Include="Assets\Scripts\HighlightAppearance.cs" />
      <Compile Include="Assets\Scripts\HUD.cs" />
+     <Compile Include="Assets\Scripts\LevelData.cs" />
      <Compile Include="Assets\Scripts\Unit.cs" />
      <Compile Include="Assets\Scripts\UnitAppearance.cs" />
      <Compile Include="Assets\Scripts\Utils.cs" />
      <Compile Include="Assets\Scripts\Weather.cs" />
      <Compile Include="Assets\Scripts\WeatherAppearance.cs" />
+     <None Include="Assets\Resources\Levels\level_001.xml" />
  <Reference Include="Unity.TextMeshPro.Editor">
  <HintPath>D:/Ivan/unity/isometric_ships3/ships2/trunk/Library/ScriptAssemblies/Unity.TextMeshPro.Editor.dll</HintPath>
  </Reference>

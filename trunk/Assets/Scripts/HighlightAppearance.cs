@@ -21,6 +21,8 @@ public class HighlightAppearance : MonoBehaviour {
 	private Color canFireColor;
 	private Color stormCellsColor;
 	private Field field;
+	private FieldAppearance fa;
+	private GameObject cellGameObjectParent;
 
 	public void Init(float angle, float scaleY, float fieldZeroX, float fieldZeroY, float cellWidth, float cellHeight, Field field)
 	{
@@ -46,6 +48,10 @@ public class HighlightAppearance : MonoBehaviour {
 		stormCellsColor = new Color(255f / 255f, 50f / 255f, 50f / 255f);
 
 		hl = field.Hl;
+		fa = GameController.instance.fa;
+
+		cellGameObjectParent = new GameObject();
+		cellGameObjectParent.name = "cellGameObject";
 	}	
 
 	public void CreateHighlightAppearance()
@@ -53,44 +59,13 @@ public class HighlightAppearance : MonoBehaviour {
 		ResetHighlight();
 		foreach (Cell cell in hl.CanMoveCells)
 		{
-			AddCellAppearance(new Vector2(cell.X, cell.Y), Action.MOVE, cell); //should be replaced with MOVE 
+			cellGameObjects.Add( fa.AddCellAppearance(new Vector2(cell.X, cell.Y), Action.MOVE, cell) );
+			cellGameObjects[cellGameObjects.Count - 1].transform.parent = cellGameObjectParent.transform;
 		}
 		foreach (Cell cell in hl.CanFireCells)
 		{
-			AddCellAppearance(new Vector2(cell.X, cell.Y), Action.FIRE, cell);
-		}
-	}
-
-	private void AddCellAppearance(Vector2 pos, Action type, Cell cell)
-	{
-		GameObject cellGameObject = new GameObject();
-		cellGameObject.name = "cellGameObject";
-		CellAppearance ca = cellGameObject.AddComponent<CellAppearance>();
-
-		cellGameObject.transform.parent = cellParent.transform;
-
-		cellGameObjects.Add(cellGameObject);
-
-		ca.Init(angle, viewAngle, cellWidth, cellHeight, cellGameObject, type, cell);
-		ca.SetPosition(pos, new Vector2(fieldZeroX, fieldZeroY));
-
-		Color defaultColor = new Color(1f, 1f, 1f);
-
-		if (type == Action.MOVE)
-		{
-			ca.SetColor(canMoveColor);
-		}
-		else if (type == Action.FIRE)
-		{
-			ca.SetColor(canFireColor);
-		}
-		else if (type == Action.DRIFT)
-		{
-			ca.SetColor(stormCellsColor);
-		}
-		else
-		{
-			ca.SetColor(defaultColor);
+			cellGameObjects.Add(fa.AddCellAppearance(new Vector2(cell.X, cell.Y), Action.FIRE, cell));
+			cellGameObjects[cellGameObjects.Count - 1].transform.parent = cellGameObjectParent.transform;
 		}
 	}
 
