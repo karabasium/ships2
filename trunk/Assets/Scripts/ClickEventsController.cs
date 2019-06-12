@@ -105,7 +105,8 @@ public class ClickEventsController : MonoBehaviour {
 					if (cellXY.x <= field.Width && cellXY.y <= field.Height && cellXY.x >= 0 && cellXY.y >= 0)
 					{
 						Cell c = field.GetCell(cellXY.x, cellXY.y);
-
+						c.CellType = CellType.LAND;
+						fa.DrawCells();
 					}
 				}
 			}

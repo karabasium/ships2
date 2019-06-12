@@ -17,6 +17,7 @@ public class FieldAppearance : MonoBehaviour {
 	private GameObject shipsParent;
 	private List<UnitAppearance> unitsAppearances;
 	private List<CellAppearance> fortCellAppearances;
+	private List<CellAppearance> allCellAppearances;
 	private GameObject reefsParentObject;
 	private GameObject landParentObject;
 	private Color canMoveColor;
@@ -39,6 +40,8 @@ public class FieldAppearance : MonoBehaviour {
 
 		reefsParentObject = new GameObject() { name = "reefsParent" };
 		landParentObject = new GameObject() { name = "landParent" };
+
+		allCellAppearances = new List<CellAppearance>();
 
 		canMoveColor = new Color(255f / 255f, 255f / 255f, 255f / 255f);
 		canFireColor = new Color(250f / 255f, 136f / 255f, 136f / 255f);
@@ -210,6 +213,16 @@ public class FieldAppearance : MonoBehaviour {
 		}
 	}
 
+	public void RemoveCellAppearances()
+	{
+		for (int i = allCellAppearances.Count - 1; i >= 0; i--)
+		{
+			CellAppearance ca = allCellAppearances[i];
+			allCellAppearances.Remove(ca);
+			Destroy(ca.gameObject);
+		}
+	}
+
 	private void CreateFortCells()
 	{
 		foreach (Cell cell in field.GetAllCells())
@@ -262,6 +275,12 @@ public class FieldAppearance : MonoBehaviour {
 			DrawLine(Utils.scale_y(Utils.rotate(start, angle_rad), y_scale), Utils.scale_y(Utils.rotate(end, angle_rad), y_scale));
 		}
 		GameObject landCellsParent = new GameObject();
+		DrawCells();
+	}
+
+	public void DrawCells()
+	{
+		RemoveCellAppearances();
 		foreach (Cell cell in field.GetAllCells())
 		{
 			if (cell.CellType != CellType.SEA)
@@ -270,8 +289,6 @@ public class FieldAppearance : MonoBehaviour {
 			}
 		}
 	}
-
-	//public
 
 	private void DrawLine(Vector2 start, Vector2 end)
 	{
@@ -327,11 +344,12 @@ public class FieldAppearance : MonoBehaviour {
 				ca.SetColor(new Color(255f / 255f, 0f / 255f, 0f / 255f));
 				ca.gameObject.transform.parent = reefsParentObject.transform;
 			}
+			allCellAppearances.Add(ca);
 		}
 		else
 		{
 			ca.SetColor(defaultColor);
-		}
+		}		
 		return cellGameObject;
 	}
 }
