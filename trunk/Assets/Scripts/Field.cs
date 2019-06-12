@@ -160,6 +160,10 @@ public class Field
 		if (Hl.CanFireCells.Contains(c))
 		{
 			attacker.Fire(target);
+			if (!target.IsAlive())
+			{
+				units.Remove(target);
+			}
 			Hl.ResetHighlightedCellsLists(Action.FIRE);
 		}
 		else
@@ -168,6 +172,18 @@ public class Field
 		}
 		NeedHUDupdate = true;
 		GameController.instance.gameState = GAME_STATE.FIELD_APPEARANCE_NEED_TO_UPDATE;
+	}
+
+	public void RemoveDeadUnits()
+	{
+		for (int i = units.Count - 1; i >= 0; i--)
+		{
+			Unit u = units[i];
+			if (!u.IsAlive())
+			{
+				units.Remove(u);
+			}
+		}
 	}
 
 	public void ChangeLastSelectedUnitPosition( Vector2Int new_pos)

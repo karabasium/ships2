@@ -107,14 +107,15 @@ public class GameController : MonoBehaviour {
 
 	void Start()
 	{
-		Debug.Log("Game Controller Start");
-		fa.Init(f);
-		clickEventsController.Init(fa, f);
+		hud = GameObject.Find("HUD").AddComponent<HUD>();
 		f.SelectRandomUnit(currentPlayer);
+		hud.Init(f, currentWeather);
+		clickEventsController.Init(fa, f);
+		fa.Init(f);
+			
 		fa.UpdateField();
 
-		hud = GameObject.Find("HUD").AddComponent<HUD>();
-		hud.Init(f, currentWeather);
+
 
 		CameraDrag cd = Camera.main.gameObject.AddComponent<CameraDrag>();
 		cd.Init(f, fa);

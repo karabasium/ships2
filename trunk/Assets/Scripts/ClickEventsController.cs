@@ -105,8 +105,61 @@ public class ClickEventsController : MonoBehaviour {
 					if (cellXY.x <= field.Width && cellXY.y <= field.Height && cellXY.x >= 0 && cellXY.y >= 0)
 					{
 						Cell c = field.GetCell(cellXY.x, cellXY.y);
-						c.CellType = CellType.LAND;
+						string objectType = hud.GetObjectTypeToPlace();
+						if (objectType == "land")
+							{
+							if (c.SlotsOccupied == 0)
+								{
+								c.CellType = CellType.LAND;
+								}
+							}
+						else if (objectType == "reefs")
+						{
+							if (c.SlotsOccupied == 0)
+							{
+								c.CellType = CellType.REEFS;
+							}
+						}
+						else if (objectType == "erase")
+						{
+							c.CellType = CellType.SEA;
+							if (c.SlotsOccupied > 0)
+							{
+								foreach(Unit u in field.GetUnits())
+								{
+									if (u.cell == c)
+									{
+										u.Hp = 0;										
+									}
+								}
+								field.RemoveDeadUnits();
+							}
+						}
+						else if (objectType == "brig")
+						{
+							if (c.SlotsOccupied < 2)
+							{
+								Unit u = new Unit("brig", hud.GetPlayer())
+								{
+									Position = new Vector2Int(c.X, c.Y)
+								};
+								field.AddUnit(u);
+							}
+						}
+						else if (objectType == "fort")
+						{
+							if (c.SlotsOccupied == 0)
+							{
+
+								Unit u = new Unit("fort", hud.GetPlayer())
+								{
+									Position = new Vector2Int(c.X, c.Y)
+								};
+								field.AddUnit(u);
+							}
+						}
 						fa.DrawCells();
+						fa.DrawShips();
 					}
 				}
 			}

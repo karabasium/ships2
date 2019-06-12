@@ -39,7 +39,7 @@ public class Unit  {
 			calm_move_range = 2;
 			storm_drift_range = 3;
 
-			max_hp = 5;
+			max_hp = 1;
 			fire_range = 3;
 			max_shots = 1;
 		}

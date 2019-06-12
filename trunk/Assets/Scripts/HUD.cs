@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -14,6 +15,9 @@ public class HUD : MonoBehaviour {
 	private WeatherAppearance wa;
 	private Button nextTurnButton;
 	private Button switchModeButton;
+	private ToggleGroup selectObjectInEditorToggleGroup;
+	private ToggleGroup playerSelectorInEditorToggleGroup;
+	private CanvasGroup editorCanvas;
 
 	// Use this for initialization
 	void Start () {
@@ -36,6 +40,13 @@ public class HUD : MonoBehaviour {
 		switchModeButton = GameObject.Find("SwitchMode").GetComponent<Button>();
 		switchModeButton.GetComponentInChildren<Text>().text = "Switch to editor";
 		switchModeButton.onClick.AddListener(() => SwitchMode());
+
+		selectObjectInEditorToggleGroup = GameObject.Find("ObjectSelector").GetComponent<ToggleGroup>();
+		playerSelectorInEditorToggleGroup = GameObject.Find("PlayerSelector").GetComponent<ToggleGroup>();
+
+		editorCanvas = GameObject.Find("EditorCanvas").GetComponent<CanvasGroup>();
+		editorCanvas.blocksRaycasts = false;
+		editorCanvas.alpha = 0.0f;
 	}
 
 
@@ -59,6 +70,7 @@ public class HUD : MonoBehaviour {
 
 	public void SwitchMode()
 	{
+		SwitchEditor();
 		GameController.instance.levelData.Save();
 		if (GameController.instance.Mode == Mode.GAME)
 		{
@@ -94,5 +106,43 @@ public class HUD : MonoBehaviour {
 		shotsCountLabel.text = "";
 		hpValue.text = "";
 		shotsCountValue.text = "";
+	}
+	
+	public string GetObjectTypeToPlace()
+	{
+		Toggle activeToggle = selectObjectInEditorToggleGroup.ActiveToggles().FirstOrDefault();
+		return activeToggle.gameObject.name;
+	}
+
+	public Player GetPlayer()
+	{
+		Toggle playerToggle = playerSelectorInEditorToggleGroup.ActiveToggles().FirstOrDefault();
+		string toggleName = playerToggle.gameObject.name;
+		if (toggleName == "Player1")
+		{
+			return Player.PLAYER_1;
+		}
+		else if (toggleName == "Player2")
+		{
+			return Player.PLAYER_2;
+		}
+		else
+		{
+			return Player.NONE;
+		}
+	}
+
+	public void SwitchEditor()
+	{
+		if (editorCanvas.blocksRaycasts == false)
+		{
+			editorCanvas.blocksRaycasts = true;
+			editorCanvas.alpha = 1.0f;
+		}
+		else
+		{
+			editorCanvas.blocksRaycasts = false;
+			editorCanvas.alpha = 0.0f;
+		}
 	}
 }
