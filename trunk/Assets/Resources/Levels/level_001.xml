@@ -1,6 +1,11 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <level width="10" height="12">
   <cells>
+    <cell x="4" y="1" type="land" />
+    <cell x="5" y="1" type="land" />
+    <cell x="4" y="2" type="land" />
+    <cell x="5" y="2" type="land" />
+    <cell x="6" y="2" type="land" />
     <cell x="7" y="2" type="land" />
     <cell x="8" y="2" type="land" />
     <cell x="7" y="3" type="land" />
@@ -21,5 +26,6 @@
     <unit x="1" y="6" class="brig" player="1" />
     <unit x="0" y="8" class="brig" player="1" />
     <unit x="0" y="5" class="brig" player="2" />
+    <unit x="5" y="3" class="fort" player="1" />
   </units>
 </level>

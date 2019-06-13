@@ -46,7 +46,8 @@ public enum GAME_STATE
 	INITIALIZATION,
 	NOTHING_HAPPENS,
 	ANIMATION_IN_PROGRESS,
-	FIELD_APPEARANCE_NEED_TO_UPDATE
+	FIELD_APPEARANCE_NEED_TO_UPDATE,
+	GAME_OVER
 }
 
 public class GameController : MonoBehaviour {
@@ -68,46 +69,77 @@ public class GameController : MonoBehaviour {
 
 
 	void Awake()
-	{		
-		gameState = GAME_STATE.INITIALIZATION;
+	{				
 		MakeSingleton();
+		Init();
+	}
 
-		levelData = new LevelData("Levels/level_001");
-
+	private void Init()
+	{
+		gameState = GAME_STATE.INITIALIZATION;
 		currentPlayer = Player.PLAYER_1;
 		gameOver = false;
 
-		f = new Field(levelData.FieldWidth, levelData.FieldHeight);
+		currentWeather = new Weather();
+		currentWeather.Init();
+		currentWeather.RefreshWeather();
 
+		levelData = new LevelData("Levels/level_001");
+		f = new Field(levelData.FieldWidth, levelData.FieldHeight);
 		List<Cell> cells = f.GetAllCells();
 		foreach (Cell cell in levelData.Cells)
 		{
 			cells[levelData.FieldWidth * cell.Y + cell.X].CellType = cell.CellType;
 		}
 
-		currentWeather = new Weather();
-		currentWeather.Init();
-		currentWeather.RefreshWeather();
-
 		foreach (Unit u in levelData.Units)
 		{
 			f.AddUnit(u);
 		}
 
-		fieldObject = new GameObject();
+		if (fieldObject == null)
+		{
+			fieldObject = new GameObject();
+		}
+		if (fieldObject.GetComponent<FieldAppearance>() != null)
+		{
+			Destroy(fieldObject.GetComponent<FieldAppearance>());
+		}
 		fa = fieldObject.AddComponent<FieldAppearance>();
 		Utils.fa = fa;
 
+		if (fieldObject.GetComponent<ClickEventsController>() != null)
+		{
+			Destroy(fieldObject.GetComponent<ClickEventsController>());
+		}
 		clickEventsController = fieldObject.AddComponent<ClickEventsController>();
 
+		if (GameObject.Find("HUD").GetComponent<HUD>() != null)
+		{
+			Destroy(GameObject.Find("HUD").GetComponent<HUD>());
+		}
+		hud = GameObject.Find("HUD").AddComponent<HUD>();
+
+		f.SelectRandomUnit(currentPlayer);
+		hud.Init(f, currentWeather);
+		clickEventsController.Init(fa, f);
+		fa.Init(f);
+
+		fa.UpdateField();
 
 
+		if (Camera.main.gameObject.AddComponent<CameraDrag>() != null)
+		{
+			Destroy(Camera.main.gameObject.AddComponent<CameraDrag>());
+		}
+		CameraDrag cd = Camera.main.gameObject.AddComponent<CameraDrag>();
+		cd.Init(f, fa);
 	}
 
 
 	void Start()
 	{
-		hud = GameObject.Find("HUD").AddComponent<HUD>();
+	/*	hud = GameObject.Find("HUD").AddComponent<HUD>();
 		f.SelectRandomUnit(currentPlayer);
 		hud.Init(f, currentWeather);
 		clickEventsController.Init(fa, f);
@@ -118,7 +150,7 @@ public class GameController : MonoBehaviour {
 
 
 		CameraDrag cd = Camera.main.gameObject.AddComponent<CameraDrag>();
-		cd.Init(f, fa);
+		cd.Init(f, fa);*/
 	}
 
 
@@ -139,7 +171,7 @@ public class GameController : MonoBehaviour {
 
 
 	void Update () {
-		if (!gameOver)
+		if (gameState != GAME_STATE.GAME_OVER)
 		{
 			if (WhoIsWinner() == Player.NONE)
 			{
@@ -150,16 +182,18 @@ public class GameController : MonoBehaviour {
 			}
 			else
 			{
-				gameOver = true;
+				gameState = GAME_STATE.GAME_OVER;
+				hud.ShowVictoryScreen();
 				Debug.Log("GAME OVER! Winner is player " + WhoIsWinner().ToString());
 			}
+
+			if (currentWeather.needPerformStormActions)
+			{
+				f.ReleaseUnitsSelection();
+				f.StormMoveAllShips();
+				currentWeather.needPerformStormActions = false;
+			}
 		}		
-		if(currentWeather.needPerformStormActions)
-		{
-			f.ReleaseUnitsSelection();
-			f.StormMoveAllShips();
-			currentWeather.needPerformStormActions = false;
-		}
 	}
 
 	public void SetNextPlayerAsActive()

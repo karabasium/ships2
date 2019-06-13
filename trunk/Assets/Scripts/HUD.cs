@@ -18,6 +18,8 @@ public class HUD : MonoBehaviour {
 	private ToggleGroup selectObjectInEditorToggleGroup;
 	private ToggleGroup playerSelectorInEditorToggleGroup;
 	private CanvasGroup editorCanvas;
+	private CanvasGroup victoryScreenCanvas;
+	private Button playAgain;
 
 	// Use this for initialization
 	void Start () {
@@ -47,6 +49,10 @@ public class HUD : MonoBehaviour {
 		editorCanvas = GameObject.Find("EditorCanvas").GetComponent<CanvasGroup>();
 		editorCanvas.blocksRaycasts = false;
 		editorCanvas.alpha = 0.0f;
+
+		victoryScreenCanvas = GameObject.Find("VictoryScreenCanvas").GetComponent<CanvasGroup>();
+		victoryScreenCanvas.blocksRaycasts = false;
+		victoryScreenCanvas.alpha = 0.0f;
 	}
 
 
@@ -144,5 +150,11 @@ public class HUD : MonoBehaviour {
 			editorCanvas.blocksRaycasts = false;
 			editorCanvas.alpha = 0.0f;
 		}
+	}
+
+	public void ShowVictoryScreen()
+	{
+		victoryScreenCanvas.blocksRaycasts = true;
+		victoryScreenCanvas.alpha = 1.0f;
 	}
 }
