@@ -13,6 +13,7 @@ public class FieldAppearance : MonoBehaviour {
 	public float fieldZeroX;
 	public float fieldZeroY;
 	public HighlightAppearance hla;
+	private GameObject fieldObjectsParent;
 	private GameObject gridParent;
 	private GameObject shipsParent;
 	private List<UnitAppearance> unitsAppearances;
@@ -58,10 +59,12 @@ public class FieldAppearance : MonoBehaviour {
 		angle_rad = Mathf.PI * (angle / 180);
 		viewAngle = 90 - 180 * Mathf.Asin(scaleY) / Mathf.PI;
 
-		gridParent = new GameObject();
-		shipsParent = new GameObject();
-		gridParent.name = "grid";
-		shipsParent.name = "ships";
+		fieldObjectsParent = new GameObject() { name = "fieldObjectsParent" };
+
+		gridParent = new GameObject() { name = "gridParent" };
+		gridParent.transform.parent = fieldObjectsParent.transform;
+		shipsParent = new GameObject() { name = "shipsParent" };
+		shipsParent.transform.parent = fieldObjectsParent.transform;
 
 		unitsAppearances = new List<UnitAppearance>();
 
@@ -288,6 +291,12 @@ public class FieldAppearance : MonoBehaviour {
 				AddCellAppearance(new Vector2(cell.X, cell.Y), Action.NONE, cell);
 			}
 		}
+	}
+
+	public void Clear()
+	{
+		Destroy(fieldObjectsParent);
+		Destroy(GameObject.Find("highlightCellsParent"));
 	}
 
 	private void DrawLine(Vector2 start, Vector2 end)

@@ -74,7 +74,7 @@ public class GameController : MonoBehaviour {
 		Init();
 	}
 
-	private void Init()
+	public void Init()
 	{
 		gameState = GAME_STATE.INITIALIZATION;
 		currentPlayer = Player.PLAYER_1;
@@ -139,18 +139,7 @@ public class GameController : MonoBehaviour {
 
 	void Start()
 	{
-	/*	hud = GameObject.Find("HUD").AddComponent<HUD>();
-		f.SelectRandomUnit(currentPlayer);
-		hud.Init(f, currentWeather);
-		clickEventsController.Init(fa, f);
-		fa.Init(f);
-			
-		fa.UpdateField();
 
-
-
-		CameraDrag cd = Camera.main.gameObject.AddComponent<CameraDrag>();
-		cd.Init(f, fa);*/
 	}
 
 
@@ -173,7 +162,8 @@ public class GameController : MonoBehaviour {
 	void Update () {
 		if (gameState != GAME_STATE.GAME_OVER)
 		{
-			if (WhoIsWinner() == Player.NONE)
+			Player winner = WhoIsWinner();
+			if (winner == Player.NONE)
 			{
 				if (PlayerDidAnyPossibleActions())
 				{
@@ -183,7 +173,8 @@ public class GameController : MonoBehaviour {
 			else
 			{
 				gameState = GAME_STATE.GAME_OVER;
-				hud.ShowVictoryScreen();
+				hud.ShowVictoryScreen(winner);
+				fa.Clear();
 				Debug.Log("GAME OVER! Winner is player " + WhoIsWinner().ToString());
 			}
 

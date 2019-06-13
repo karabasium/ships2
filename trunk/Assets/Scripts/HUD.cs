@@ -20,6 +20,7 @@ public class HUD : MonoBehaviour {
 	private CanvasGroup editorCanvas;
 	private CanvasGroup victoryScreenCanvas;
 	private Button playAgain;
+	private Text whoIsWinnerText;
 
 	// Use this for initialization
 	void Start () {
@@ -53,6 +54,11 @@ public class HUD : MonoBehaviour {
 		victoryScreenCanvas = GameObject.Find("VictoryScreenCanvas").GetComponent<CanvasGroup>();
 		victoryScreenCanvas.blocksRaycasts = false;
 		victoryScreenCanvas.alpha = 0.0f;
+
+		playAgain = GameObject.Find("PlayAgainButton").GetComponent<Button>();
+		playAgain.onClick.AddListener(() => PlayAgain());
+
+		whoIsWinnerText = GameObject.Find("WhoIsWinnerText").GetComponent<Text>();
 	}
 
 
@@ -152,9 +158,22 @@ public class HUD : MonoBehaviour {
 		}
 	}
 
-	public void ShowVictoryScreen()
+	public void ShowVictoryScreen( Player winner)
 	{
 		victoryScreenCanvas.blocksRaycasts = true;
 		victoryScreenCanvas.alpha = 1.0f;
+		string winnerPlayer = "Winner is Player 1!";
+		if (winner == Player.PLAYER_2)
+		{
+			winnerPlayer = "Winner is Player 2!";
+		}
+		whoIsWinnerText.text = winnerPlayer;
+	}
+
+	public void PlayAgain()
+	{
+		GameController.instance.Init();
+		victoryScreenCanvas.blocksRaycasts = false;
+		victoryScreenCanvas.alpha = 0.0f;
 	}
 }
