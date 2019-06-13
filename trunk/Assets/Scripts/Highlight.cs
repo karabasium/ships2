@@ -121,6 +121,17 @@ public class Highlight {
 								}
 								continue;
 							}
+							else if (c.BelongsToFort != null && type == Action.MOVE)
+							{
+								if (c.BelongsToFort.Player != GameController.instance.currentPlayer)
+								{
+									if (!forbiddenDirections.ContainsKey(direction))
+									{
+										forbiddenDirections.Add(direction, distance);
+									}
+									continue;
+								}
+							}
 							else if (c.CellType == CellType.REEFS)
 							{
 								if (currentWeather.currentWeatherType != Weather_type.STORM && type != Action.FIRE)
