@@ -13,6 +13,7 @@ public class CellAppearance : MonoBehaviour {
 	private float scaleFactor;
 	private float zOffset;
 	private Cell cell;
+	private Material testMaterial;
 
 	public Cell Cell
 	{
@@ -64,6 +65,8 @@ public class CellAppearance : MonoBehaviour {
 
 		cube.transform.parent = go.transform;
 		this.Cell = cell;
+
+		testMaterial = (Material) Resources.Load("Materials/fire");
 	}
 	
 	public void SetPosition( Vector2 field_pos, Vector2 field_zero_pos)
@@ -77,6 +80,12 @@ public class CellAppearance : MonoBehaviour {
 	{
 		MeshRenderer mr = cube.GetComponent<MeshRenderer>();
 		mr.material.color = color;
+	}
+
+	public void SetMaterial()
+	{
+		MeshRenderer mr = cube.GetComponent<MeshRenderer>();
+		mr.material = testMaterial;
 	}
 
 	void Update () {

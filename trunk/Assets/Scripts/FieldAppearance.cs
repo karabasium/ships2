@@ -334,6 +334,7 @@ public class FieldAppearance : MonoBehaviour {
 		else if (type == Action.FIRE)
 		{
 			ca.SetColor(canFireColor);
+			//ca.SetMaterial();
 			cellGameObject.name = "fire";
 		}
 		else if (type == Action.DRIFT)
