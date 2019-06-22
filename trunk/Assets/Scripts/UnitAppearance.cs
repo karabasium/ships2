@@ -4,7 +4,11 @@ using UnityEngine;
 
 public class UnitAppearance : MonoBehaviour {
 	private SpriteRenderer sr;
+	private SpriteRenderer mirrorSr;
 	private Dictionary<string, Sprite> sprites;
+	private Dictionary<string, Sprite> spritesMirror;
+	private GameObject mirror;
+
 	private string direction;
 	public Unit u;
 	private List<GameObject> hp_spots = new List<GameObject>();
@@ -35,7 +39,8 @@ public class UnitAppearance : MonoBehaviour {
 			if (direction != moveDirection)
 			{
 				direction = moveDirection;
-				gameObject.GetComponent<SpriteRenderer>().sprite = sprites[direction];
+				//gameObject.GetComponent<SpriteRenderer>().sprite = sprites[direction];
+				SetCorrectSpritesForNewDirection(direction);
 			}
 		}		
 
@@ -61,11 +66,22 @@ public class UnitAppearance : MonoBehaviour {
 	public void Init(Unit u) {
 		this.u = u;
 		gameObject.name = "UnitAppeareance_" + u.Unit_class;
+		mirror = new GameObject() { name = gameObject.name + "_mirror" };
+		mirror.transform.parent = gameObject.transform;
+
+
 		sr = gameObject.AddComponent<SpriteRenderer>();
+		sr.sortingLayerName = "units";
+
+		mirrorSr = mirror.AddComponent<SpriteRenderer>();
+		mirrorSr.sortingLayerName = "mirrors";
+
+		
 
 		string spritePath = "Sprites/" + u.Unit_class;
 
 		sprites = new Dictionary<string, Sprite>();
+		spritesMirror = new Dictionary<string, Sprite>();
 		if (u.Unit_class == "fort")
 		{
 			spritePath = "Sprites/fort";
@@ -83,10 +99,24 @@ public class UnitAppearance : MonoBehaviour {
 			sprites.Add("w", Resources.Load<Sprite>(spritePath + "_w"));
 			sprites.Add("nw", Resources.Load<Sprite>(spritePath + "_nw"));
 			sprites.Add("n", Resources.Load<Sprite>(spritePath + "_n"));
+
+			spritesMirror.Add("e", Resources.Load<Sprite>(spritePath + "_e_mirror"));
 			direction = "e";
 		}
 		
 		gameObject.GetComponent<SpriteRenderer>().sprite = sprites[ direction ];
+
+
+		if (spritesMirror.ContainsKey(direction))
+		{
+			mirrorSr.sprite = spritesMirror[direction];
+			Debug.Log("sprite set");
+		}
+		else
+		{
+			Debug.Log("ERROR: no mirror sprite for current direction: " + direction);
+		}
+			
 
 		Collider2D c2d = gameObject.AddComponent<BoxCollider2D>();
 		c2d.isTrigger = true;
@@ -94,6 +124,29 @@ public class UnitAppearance : MonoBehaviour {
 		moveStarted = false;
 
 		UpdateHPVisual();
+	}
+
+	private void SetCorrectSpritesForNewDirection(string direction)
+	{
+		if (sprites.ContainsKey(direction))
+		{
+			sr.sprite = sprites[direction];
+		}
+		else
+		{
+			Debug.Log("ERROR: no sprite for current direction: " + direction);
+		}
+		if (spritesMirror.ContainsKey(direction))
+		{
+			if (!mirrorSr.enabled) { mirrorSr.enabled = true; }
+			
+			mirrorSr.sprite = spritesMirror[direction];
+		}
+		else
+		{
+			Debug.Log("ERROR: no mirror sprite for current direction: " + direction);
+			mirrorSr.enabled = false;
+		}
 	}
 
 	public void PlaceUnit( Vector2 pos)
