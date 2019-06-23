@@ -53,6 +53,9 @@ TagManager:
   - name: mirrors
     uniqueID: 1849925109
     locked: 0
+  - name: shadows
+    uniqueID: 438385329
+    locked: 0
   - name: units
     uniqueID: 1791714817
     locked: 0

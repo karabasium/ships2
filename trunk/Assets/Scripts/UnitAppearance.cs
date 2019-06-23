@@ -5,8 +5,10 @@ using UnityEngine;
 public class UnitAppearance : MonoBehaviour {
 	private SpriteRenderer sr;
 	private SpriteRenderer mirrorSr;
+	private SpriteRenderer shadowSr;
 	private Dictionary<string, Sprite> sprites;
 	private Dictionary<string, Sprite> spritesMirror;
+	private Dictionary<string, Sprite> spritesShadows;
 	private GameObject mirror;
 
 	private string direction;
@@ -69,19 +71,27 @@ public class UnitAppearance : MonoBehaviour {
 		mirror = new GameObject() { name = gameObject.name + "_mirror" };
 		mirror.transform.parent = gameObject.transform;
 
+		GameObject shadow = new GameObject { name = gameObject.name + "_shadow" };
+		shadow.transform.parent = gameObject.transform;
+
 
 		sr = gameObject.AddComponent<SpriteRenderer>();
 		sr.sortingLayerName = "units";
 
 		mirrorSr = mirror.AddComponent<SpriteRenderer>();
 		mirrorSr.sortingLayerName = "mirrors";
+		mirrorSr.color = new Color(1f, 1f, 1f, 0.6f);
 
+		shadowSr = shadow.AddComponent<SpriteRenderer>();
+		shadowSr.sortingLayerName = "shadows";
+		shadowSr.color = new Color(1f, 1f, 1f, 0.85f);
 		
 
 		string spritePath = "Sprites/" + u.Unit_class;
 
 		sprites = new Dictionary<string, Sprite>();
 		spritesMirror = new Dictionary<string, Sprite>();
+		spritesShadows = new Dictionary<string, Sprite>();
 		if (u.Unit_class == "fort")
 		{
 			spritePath = "Sprites/fort";
@@ -101,6 +111,16 @@ public class UnitAppearance : MonoBehaviour {
 			sprites.Add("n", Resources.Load<Sprite>(spritePath + "_n"));
 
 			spritesMirror.Add("e", Resources.Load<Sprite>(spritePath + "_e_mirror"));
+			spritesMirror.Add("w", Resources.Load<Sprite>(spritePath + "_w_mirror"));
+			spritesMirror.Add("n", Resources.Load<Sprite>(spritePath + "_n_mirror"));
+			spritesMirror.Add("s", Resources.Load<Sprite>(spritePath + "_s_mirror"));
+			spritesMirror.Add("se", Resources.Load<Sprite>(spritePath + "_se_mirror"));
+
+			spritesShadows.Add("e", Resources.Load<Sprite>(spritePath + "_e_shadow"));
+			spritesShadows.Add("w", Resources.Load<Sprite>(spritePath + "_w_shadow"));
+			spritesShadows.Add("n", Resources.Load<Sprite>(spritePath + "_n_shadow"));
+			spritesShadows.Add("s", Resources.Load<Sprite>(spritePath + "_s_shadow"));
+			spritesShadows.Add("se", Resources.Load<Sprite>(spritePath + "_se_shadow"));
 			direction = "e";
 		}
 		
@@ -110,13 +130,20 @@ public class UnitAppearance : MonoBehaviour {
 		if (spritesMirror.ContainsKey(direction))
 		{
 			mirrorSr.sprite = spritesMirror[direction];
-			Debug.Log("sprite set");
 		}
 		else
 		{
 			Debug.Log("ERROR: no mirror sprite for current direction: " + direction);
 		}
-			
+
+		if (spritesShadows.ContainsKey(direction))
+		{
+			shadowSr.sprite = spritesShadows[direction];
+		}
+		else
+		{
+			Debug.Log("ERROR: no shadow sprite for current direction: " + direction);
+		}
 
 		Collider2D c2d = gameObject.AddComponent<BoxCollider2D>();
 		c2d.isTrigger = true;
@@ -136,6 +163,7 @@ public class UnitAppearance : MonoBehaviour {
 		{
 			Debug.Log("ERROR: no sprite for current direction: " + direction);
 		}
+
 		if (spritesMirror.ContainsKey(direction))
 		{
 			if (!mirrorSr.enabled) { mirrorSr.enabled = true; }
@@ -146,6 +174,18 @@ public class UnitAppearance : MonoBehaviour {
 		{
 			Debug.Log("ERROR: no mirror sprite for current direction: " + direction);
 			mirrorSr.enabled = false;
+		}
+
+		if (spritesShadows.ContainsKey(direction))
+		{
+			if (!shadowSr.enabled) { shadowSr.enabled = true; }
+
+			shadowSr.sprite = spritesShadows[direction];
+		}
+		else
+		{
+			Debug.Log("ERROR: no mirror sprite for current direction: " + direction);
+			shadowSr.enabled = false;
 		}
 	}
 
