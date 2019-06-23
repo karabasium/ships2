@@ -115,12 +115,17 @@ public class UnitAppearance : MonoBehaviour {
 			spritesMirror.Add("n", Resources.Load<Sprite>(spritePath + "_n_mirror"));
 			spritesMirror.Add("s", Resources.Load<Sprite>(spritePath + "_s_mirror"));
 			spritesMirror.Add("se", Resources.Load<Sprite>(spritePath + "_se_mirror"));
+			spritesMirror.Add("nw", Resources.Load<Sprite>(spritePath + "_nw_mirror"));
+			spritesMirror.Add("sw", Resources.Load<Sprite>(spritePath + "_sw_mirror"));
+			spritesMirror.Add("ne", Resources.Load<Sprite>(spritePath + "_ne_mirror"));
 
 			spritesShadows.Add("e", Resources.Load<Sprite>(spritePath + "_e_shadow"));
 			spritesShadows.Add("w", Resources.Load<Sprite>(spritePath + "_w_shadow"));
 			spritesShadows.Add("n", Resources.Load<Sprite>(spritePath + "_n_shadow"));
 			spritesShadows.Add("s", Resources.Load<Sprite>(spritePath + "_s_shadow"));
 			spritesShadows.Add("se", Resources.Load<Sprite>(spritePath + "_se_shadow"));
+			spritesShadows.Add("nw", Resources.Load<Sprite>(spritePath + "_nw_shadow"));
+			spritesShadows.Add("ne", Resources.Load<Sprite>(spritePath + "_ne_shadow"));
 			direction = "e";
 		}
 		
