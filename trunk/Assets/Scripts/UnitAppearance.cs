@@ -55,6 +55,7 @@ public class UnitAppearance : MonoBehaviour {
 		{
 			Vector3 dir = new Vector3(destination.x, destination.y, 0) - transform.position;
 			transform.Translate(dir.normalized * movementAnimationSpeed * Time.deltaTime);
+			SetSortingOrder();
 			return false;
 		}
 		else
@@ -194,9 +195,24 @@ public class UnitAppearance : MonoBehaviour {
 		}
 	}
 
-	public void PlaceUnit( Vector2 pos)
+	public void Place( Vector2 pos)
 	{
 		gameObject.transform.localPosition = pos;
+		SetSortingOrder();
+	}
+
+	public void Translate( Vector2 delta)
+	{
+		gameObject.transform.localPosition += new Vector3(delta.x, delta.y, 0);
+		SetSortingOrder();
+	}
+
+	private void SetSortingOrder()
+	{
+		Vector2 topmostPoint = Utils.GetWorldTopMostPoint();
+		
+		sr.sortingOrder = (int)((topmostPoint.y - gameObject.transform.localPosition.y) * 100);
+		Debug.Log("soring order = " + sr.sortingOrder.ToString());
 	}
 
 	public void ColorAsSelectedUnit()

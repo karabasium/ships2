@@ -96,6 +96,7 @@ public class GameController : MonoBehaviour {
 		{
 			f.AddUnit(u);
 		}
+		Utils.field = f;
 
 		if (fieldObject == null)
 		{

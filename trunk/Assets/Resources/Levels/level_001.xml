@@ -15,9 +15,9 @@
     <cell x="4" y="8" type="land" />
   </cells>
   <units>
-    <unit x="1" y="9" class="three_deck_battleship" player="1" />
-	<unit x="1" y="9" class="brig" player="1" />
-	<unit x="2" y="4" class="three_deck_battleship" player="1" />
+    <unit x="3" y="5" class="brig" player="1" />
+    <unit x="3" y="5" class="brig" player="1" />
     <unit x="8" y="5" class="brig" player="2" />
+    <unit x="5" y="3" class="brig" player="1" />
   </units>
 </level>

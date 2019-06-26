@@ -17,7 +17,6 @@ public class FieldAppearance : MonoBehaviour {
 	private GameObject gridParent;
 	private GameObject shipsParent;
 	private List<UnitAppearance> unitsAppearances;
-	private List<CellAppearance> fortCellAppearances;
 	private List<CellAppearance> allCellAppearances;
 	private GameObject reefsParentObject;
 	private GameObject landParentObject;
@@ -153,27 +152,56 @@ public class FieldAppearance : MonoBehaviour {
 		field.ReleaseUnitsSelection();
 	}
 
+	public UnitAppearance GetUnitAppearanceInCell( Cell cell)
+	{
+		Vector2Int cellPosition = new Vector2Int(cell.X, cell.Y);
+		foreach(UnitAppearance ua in unitsAppearances)
+		{
+			if (ua.u.Position == cellPosition)
+			{
+				return ua;
+			}
+		}
+		return null;
+	}
+
 	public void DrawShips()
 	{
 		RemoveDeadUnitsAppearances();
-		List<Cell> occupiedWithOneInitCells = new List<Cell>();		
+		List<Cell> occupiedWithOneUnitCells = new List<Cell>();		
 
 		foreach (Unit unit in field.GetUnits())
 		{
 			Cell cell = unit.cell;
 
-			float verticalOffset = 3 * cellHeight / 3;
+			float verticalOffset = 0;
+			float horizontalOffset = 0.5f;
 
-			if ( !occupiedWithOneInitCells.Contains(unit.cell) )
-			{				
-				verticalOffset = 9 * cellHeight / 10;
+			if ( !occupiedWithOneUnitCells.Contains(cell) )
+			{
+				//verticalOffset = 9 * cellHeight / 10;
+				verticalOffset = 0.5f;
 			}
-			else
-			{				
-				verticalOffset = 1 * cellHeight / 2;
+			else //if cell already occupied by another ship
+			{
+				UnitAppearance another_ship = GetUnitAppearanceInCell(cell);
+				if (another_ship == null)
+				{
+					Debug.Log("ERROR! No another ship appearance found for occupied cell");
+					verticalOffset = 0.5f;
+				}
+				else
+				{
+					another_ship.Translate(new Vector2(0.1f * cellWidth, -0.15f * cellHeight));
+					verticalOffset = 0.75f;
+					horizontalOffset = 0.75f;
+				}
 			}
 
-			Vector2 pos = new Vector2(fieldZeroX + cell.X * cellWidth + 3*cellWidth / 4, fieldZeroY + cell.Y * cellHeight + verticalOffset);
+			
+			
+
+			Vector2 pos = new Vector2(fieldZeroX + cell.X * cellWidth + horizontalOffset, fieldZeroY + cell.Y * cellHeight + verticalOffset);
 			UnitAppearance ua = unit.GameObject.GetComponent<UnitAppearance>();
 			if (!ua)
 			{
@@ -182,7 +210,7 @@ public class FieldAppearance : MonoBehaviour {
 				unitsAppearances.Add(ua);
 				ua.Init( unit );
 			}
-			ua.PlaceUnit(Utils.scale_y(Utils.rotate(pos, angle_rad), scaleY) );
+			ua.Place(Utils.scale_y(Utils.rotate(pos, angle_rad), scaleY) );
 			if (!field.GetSelectedUnits().Contains(unit)) //if unit is not selected
 			{
 				if (field.Hl.CanFireCells.Contains(cell) && ua.u.Player != GameController.instance.currentPlayer)
@@ -198,7 +226,7 @@ public class FieldAppearance : MonoBehaviour {
 			{
 				ua.ColorAsSelectedUnit();
 			}
-			occupiedWithOneInitCells.Add(unit.cell);
+			occupiedWithOneUnitCells.Add(unit.cell);
 		}
 	}
 
