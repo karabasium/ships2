@@ -18,10 +18,10 @@ public class UnitAppearance : MonoBehaviour {
 
 	void Update()
 	{
-		if (u.Hp != hp_spots.Count)
+		/*if (u.Hp != hp_spots.Count)
 		{
 			UpdateHPVisual();
-		}
+		}*/
 	}
 
 	public bool Move()
@@ -41,7 +41,6 @@ public class UnitAppearance : MonoBehaviour {
 			if (direction != moveDirection)
 			{
 				direction = moveDirection;
-				//gameObject.GetComponent<SpriteRenderer>().sprite = sprites[direction];
 				SetCorrectSpritesForNewDirection(direction);
 			}
 		}		
@@ -156,7 +155,7 @@ public class UnitAppearance : MonoBehaviour {
 
 		moveStarted = false;
 
-		UpdateHPVisual();
+		//UpdateHPVisual();
 	}
 
 	private void SetCorrectSpritesForNewDirection(string direction)
@@ -212,7 +211,6 @@ public class UnitAppearance : MonoBehaviour {
 		Vector2 topmostPoint = Utils.GetWorldTopMostPoint();
 		
 		sr.sortingOrder = (int)((topmostPoint.y - gameObject.transform.localPosition.y) * 100);
-		Debug.Log("soring order = " + sr.sortingOrder.ToString());
 	}
 
 	public void ColorAsSelectedUnit()
