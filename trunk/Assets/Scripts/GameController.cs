@@ -59,7 +59,6 @@ public class GameController : MonoBehaviour {
 	public Field f;
 	private ClickEventsController clickEventsController;
 	public Player currentPlayer;
-	private bool gameOver;
 	private HUD hud;
 	public GAME_STATE gameState;
 	public readonly float HIT_PROBABILITY = 1.0f;
@@ -69,7 +68,7 @@ public class GameController : MonoBehaviour {
 
 
 	void Awake()
-	{				
+	{
 		MakeSingleton();
 		Init();
 	}
@@ -78,7 +77,6 @@ public class GameController : MonoBehaviour {
 	{
 		gameState = GAME_STATE.INITIALIZATION;
 		currentPlayer = Player.PLAYER_1;
-		gameOver = false;
 
 		currentWeather = new Weather();
 		currentWeather.Init();

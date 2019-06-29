@@ -18,7 +18,6 @@ public class HighlightAppearance : MonoBehaviour {
 	private List<Vector2Int> highlightedCellsIndexes;
 	private Field field;
 	private FieldAppearance fa;
-	private GameObject cellGameObjectParent;
 
 	public void Init(float angle, float scaleY, float fieldZeroX, float fieldZeroY, float cellWidth, float cellHeight, Field field)
 	{

@@ -79,13 +79,28 @@ public class CellAppearance : MonoBehaviour {
 	public void SetColor( Color color)
 	{
 		MeshRenderer mr = cube.GetComponent<MeshRenderer>();
+
+		//Unity, why so ugly? 
+		//just changing rendering mode to transparency
+		mr.material.SetFloat("_Mode", 3);
+		mr.material.SetInt("_SrcBlend", (int)UnityEngine.Rendering.BlendMode.SrcAlpha);
+		mr.material.SetInt("_DstBlend", (int)UnityEngine.Rendering.BlendMode.OneMinusSrcAlpha);
+		mr.material.SetInt("_ZWrite", 0);
+		mr.material.DisableKeyword("_ALPHATEST_ON");
+		mr.material.EnableKeyword("_ALPHABLEND_ON");
+		mr.material.DisableKeyword("_ALPHAPREMULTIPLY_ON");
+		mr.material.renderQueue = 3000;
+		//Unity why so ugly?
+
 		mr.material.color = color;
+		
 	}
 
 	public void SetMaterial()
 	{
 		MeshRenderer mr = cube.GetComponent<MeshRenderer>();
 		mr.material = testMaterial;
+		
 	}
 
 	void Update () {

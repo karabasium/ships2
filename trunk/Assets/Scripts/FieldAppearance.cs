@@ -43,9 +43,9 @@ public class FieldAppearance : MonoBehaviour {
 
 		allCellAppearances = new List<CellAppearance>();
 
-		canMoveColor = new Color(255f / 255f, 255f / 255f, 255f / 255f);
-		canFireColor = new Color(250f / 255f, 136f / 255f, 136f / 255f);
-		stormCellsColor = new Color(255f / 255f, 50f / 255f, 50f / 255f);
+		canMoveColor = new Color(255f / 255f, 255f / 255f, 255f / 255f, 0.5f);
+		canFireColor = new Color(250f / 255f, 136f / 255f, 136f / 255f, 0.5f);
+		stormCellsColor = new Color(255f / 255f, 50f / 255f, 50f / 255f, 0.5f);
 
 		cellWidth = 1.0f;
 		cellHeight = 1.0f;
@@ -333,8 +333,8 @@ public class FieldAppearance : MonoBehaviour {
 		g.name = "grid line";
 		g.transform.parent = gridParent.transform;
 		LineRenderer lr = g.AddComponent<LineRenderer>();
-		lr.startWidth = 0.05f;
-		lr.endWidth = 0.05f;
+		lr.startWidth = 0.01f;
+		lr.endWidth = 0.01f;
 		lr.material.color = Color.black;
 		lr.positionCount = 2;
 
@@ -356,7 +356,7 @@ public class FieldAppearance : MonoBehaviour {
 
 		if (type == Action.MOVE)
 		{
-			ca.SetColor(canMoveColor);
+			ca.SetColor(canMoveColor);			
 			cellGameObject.name = "move";
 		}
 		else if (type == Action.FIRE)
