@@ -46,12 +46,12 @@ public class HighlightAppearance : MonoBehaviour {
 		ResetHighlight();
 		foreach (Cell cell in hl.CanMoveCells)
 		{
-			cellGameObjects.Add( fa.AddCellAppearance(new Vector2(cell.X, cell.Y), Action.MOVE, cell) );
+			cellGameObjects.Add( fa.AddCellAppearance( Action.MOVE, cell) );
 			cellGameObjects[cellGameObjects.Count - 1].transform.parent = cellParent.transform;
 		}
 		foreach (Cell cell in hl.CanFireCells)
 		{
-			cellGameObjects.Add(fa.AddCellAppearance(new Vector2(cell.X, cell.Y), Action.FIRE, cell));
+			cellGameObjects.Add(fa.AddCellAppearance( Action.FIRE, cell));
 			cellGameObjects[cellGameObjects.Count - 1].transform.parent = cellParent.transform;
 		}
 	}

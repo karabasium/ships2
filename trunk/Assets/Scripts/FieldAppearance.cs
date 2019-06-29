@@ -316,7 +316,7 @@ public class FieldAppearance : MonoBehaviour {
 		{
 			if (cell.CellType != CellType.SEA)
 			{
-				AddCellAppearance(new Vector2(cell.X, cell.Y), Action.NONE, cell);
+				AddCellAppearance(Action.NONE, cell);
 			}
 		}
 	}
@@ -344,13 +344,13 @@ public class FieldAppearance : MonoBehaviour {
 		lr.sortingLayerName = "Field";
 	}
 
-	public GameObject AddCellAppearance(Vector2 pos, Action type, Cell cell)
+	public GameObject AddCellAppearance(Action type, Cell cell)
 	{
 		GameObject cellGameObject = new GameObject();
 		CellAppearance ca = cellGameObject.AddComponent<CellAppearance>();
 
 		ca.Init(angle, viewAngle, cellWidth, cellHeight, cellGameObject, type, cell);
-		ca.SetPosition(pos, new Vector2(fieldZeroX, fieldZeroY));
+		ca.SetPosition(new Vector2(cell.X, cell.Y), new Vector2(fieldZeroX, fieldZeroY));
 
 		Color defaultColor = new Color(1f, 1f, 1f);
 

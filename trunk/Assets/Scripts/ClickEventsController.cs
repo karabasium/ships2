@@ -7,7 +7,9 @@ public class ClickEventsController : MonoBehaviour {
 	private Field field;
 	private FieldAppearance fa;
 	private HUD hud;
-	private XmlDocument writeToLevelxml;
+	private Cell previouslyClickedCell;
+	private Unit previouslyClickedUnit;
+
 
 	// Use this for initialization
 	void Start () {
@@ -25,8 +27,87 @@ public class ClickEventsController : MonoBehaviour {
 		writeToLevelxml.Load(textAsset.text);*/
 	}
 
-	// Update is called once per frame
+	private Cell GetClosestCell(Vector2 pos)
+	{
+		Cell closestCell = field.GetAllCells()[0];
+
+		float distance = (pos - Utils.GetCellVisualCenter(closestCell)).magnitude;
+		foreach( Cell cell in field.GetAllCells())
+		{
+			Vector2 cellCenter = Utils.GetCellVisualCenter(cell);
+			float currentDistance = (pos - cellCenter).magnitude;
+			if (currentDistance < distance)
+			{
+				closestCell = cell;
+				distance = currentDistance;
+			}
+		}
+		return closestCell;
+	}
+
 	void Update()
+	{
+		if (Input.GetMouseButtonDown(0))
+		{
+			Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+			Vector2 mousePos2D = new Vector2(mousePos.x, mousePos.y);
+
+			Cell cell = GetClosestCell(mousePos2D);
+			//fa.AddCellAppearance( Action.NONE, cell );
+			List<Unit> unitsInCell = Utils.GetUnitsInCell(cell);
+			List<Unit> currentPlayerUnits = new List<Unit>();
+			List<Unit> enemyPlayerUnits = new List<Unit>();
+			foreach (Unit u in unitsInCell)
+			{
+				if (u.Player == Player.PLAYER_1)
+				{
+					currentPlayerUnits.Add(u);
+				}
+				else if (u.Player == Player.PLAYER_2)
+				{
+					enemyPlayerUnits.Add(u);
+				}
+			}
+			Unit selectedUnit = null;
+
+			if (unitsInCell.Count == 0)
+			{
+				Vector2Int cellXY = Utils.GetFieldLogicalXY(mousePos2D);
+
+				if (cellXY.x <= field.Width && cellXY.y <= field.Height && cellXY.x >= 0 && cellXY.y >= 0) //if desired location is valid field cell
+				{
+					field.ChangeLastSelectedUnitPosition(Utils.GetFieldLogicalXY(mousePos2D));  //move unit
+				}
+			}
+			else if (unitsInCell.Count == 1 && currentPlayerUnits.Count == 1)
+			{
+				field.ReleaseUnitsSelection();
+				selectedUnit = currentPlayerUnits[0];
+				field.AddUnitToSelectedUnits( selectedUnit );
+
+			}
+			else if (unitsInCell.Count == 1 && enemyPlayerUnits.Count == 1)
+			{
+				Unit playerUnit = field.GetLastSelectedUnit();
+				Unit enemyUnit = enemyPlayerUnits[0];
+				if (previouslyClickedUnit == playerUnit)
+				{
+					field.UnitAttacksUnit(playerUnit, enemyUnit); //fire
+					Debug.Log("Fire");
+				}
+				else
+				{
+					hud.UpdateUIShipInfo(enemyUnit);
+					Debug.Log("HUD updated");
+				}
+			}
+			previouslyClickedUnit = selectedUnit;
+			previouslyClickedCell = cell;
+		}
+	}
+
+	// Update is called once per frame
+	void UpdateOld()
 	{
 		if (GameController.instance.Mode == Mode.GAME)
 		{

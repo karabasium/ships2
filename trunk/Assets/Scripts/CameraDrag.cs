@@ -22,10 +22,10 @@ public class CameraDrag : MonoBehaviour
 
 	public void Init(Field field, FieldAppearance fa)
 	{
-		rightmostPoint = Utils.GetWorldPositionByLogicalXY(new Vector2Int(field.Width - 1, 0), fa);
-		bottommostPoint = Utils.GetWorldPositionByLogicalXY(new Vector2Int(0, 0), fa);
-		lefttopmostPoint = Utils.GetWorldPositionByLogicalXY(new Vector2Int(0, field.Height-1), fa);
-		topmostPoint = Utils.GetWorldPositionByLogicalXY(new Vector2Int(field.Width-1, field.Height-1), fa);
+		rightmostPoint = Utils.GetWorldPositionByLogicalXY(new Vector2Int(field.Width - 1, 0));
+		bottommostPoint = Utils.GetWorldPositionByLogicalXY(new Vector2Int(0, 0));
+		lefttopmostPoint = Utils.GetWorldPositionByLogicalXY(new Vector2Int(0, field.Height-1));
+		topmostPoint = Utils.GetWorldPositionByLogicalXY(new Vector2Int(field.Width-1, field.Height-1));
 		fieldAppearanceHeight = Mathf.Abs(topmostPoint.y - bottommostPoint.y);
 		fieldAppearanceWidth = Mathf.Abs(rightmostPoint.x - lefttopmostPoint.x);
 	}

@@ -15,9 +15,27 @@ public class Utils {
 		return rotated_vector2;
 	}
 
+	public static List<Unit> GetUnitsInCell(Cell cell)
+	{
+		List<Unit> units = new List<Unit>();
+		foreach(Unit u in field.GetUnits())
+		{
+			if (u.cell == cell)
+			{
+				units.Add(u);
+			}
+		}
+		return units;
+	}
+
 	public static Vector2 GetWorldTopMostPoint()
 	{
-		return GetWorldPositionByLogicalXY(new Vector2Int(field.Width - 1, field.Height - 1), fa);
+		return GetWorldPositionByLogicalXY(new Vector2Int(field.Width - 1, field.Height - 1));
+	}
+
+	public static Vector2 GetCellVisualCenter( Cell cell)
+	{
+		return GetWorldPositionByLogicalXY(new Vector2Int(cell.X, cell.Y));
 	}
 
 	public static Vector2 scale_y(Vector2 v, float y_scale)
@@ -35,7 +53,7 @@ public class Utils {
 		return new Vector2Int(new_cell_x, new_cell_y);
 	}
 
-	public static Vector2 GetWorldPositionByLogicalXY( Vector2Int positionOnField, FieldAppearance fa)
+	public static Vector2 GetWorldPositionByLogicalXY( Vector2Int positionOnField)
 	{
 		Vector2 pos = new Vector2(fa.fieldZeroX + positionOnField.x * fa.cellWidth + fa.cellWidth / 2, fa.fieldZeroY + positionOnField.y * fa.cellHeight + fa.cellHeight / 2);
 		return Utils.scale_y(Utils.rotate(pos, fa.angle_rad), fa.scaleY);

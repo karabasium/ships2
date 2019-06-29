@@ -37,11 +37,11 @@ public class Unit  {
 		{
 			move_range = 5;
 			calm_move_range = 2;
-			storm_drift_range = 3;
+			storm_drift_range = 1;
 
-			max_hp = 1;
+			max_hp = 4;
 			fire_range = 3;
-			max_shots = 1;
+			max_shots = 2;
 		}
 		else if (ship_class == "three_deck_battleship")
 		{

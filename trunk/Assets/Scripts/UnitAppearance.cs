@@ -18,10 +18,10 @@ public class UnitAppearance : MonoBehaviour {
 
 	void Update()
 	{
-		/*if (u.Hp != hp_spots.Count)
+		if (u.Hp != hp_spots.Count)
 		{
 			UpdateHPVisual();
-		}*/
+		}
 	}
 
 	public bool Move()
@@ -155,7 +155,7 @@ public class UnitAppearance : MonoBehaviour {
 
 		moveStarted = false;
 
-		//UpdateHPVisual();
+		UpdateHPVisual();
 	}
 
 	private void SetCorrectSpritesForNewDirection(string direction)
