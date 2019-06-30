@@ -56,6 +56,9 @@ TagManager:
   - name: shadows
     uniqueID: 438385329
     locked: 0
+  - name: selections
+    uniqueID: 2787736263
+    locked: 0
   - name: units
     uniqueID: 1791714817
     locked: 0

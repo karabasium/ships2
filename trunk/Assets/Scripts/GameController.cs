@@ -119,7 +119,7 @@ public class GameController : MonoBehaviour {
 		}
 		hud = GameObject.Find("HUD").AddComponent<HUD>();
 
-		f.SelectRandomUnit(currentPlayer);
+		//f.SelectRandomUnit(currentPlayer);
 		hud.Init(f, currentWeather);
 		clickEventsController.Init(fa, f);
 		fa.Init(f);
@@ -201,7 +201,7 @@ public class GameController : MonoBehaviour {
 		currentWeather.needHUDUpdate = true;
 		f.ReleaseUnitsSelection();		
 		f.RefreshPlayerUnits(currentPlayer);
-		f.SelectRandomUnit(currentPlayer);
+		//f.SelectRandomUnit(currentPlayer);
 		fa.UpdateField();
 		Debug.Log("Current player = " + currentPlayer.ToString());
 	}

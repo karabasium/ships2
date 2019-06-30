@@ -6,10 +6,14 @@ public class UnitAppearance : MonoBehaviour {
 	private SpriteRenderer sr;
 	private SpriteRenderer mirrorSr;
 	private SpriteRenderer shadowSr;
+	private SpriteRenderer selectionSr;
 	private Dictionary<string, Sprite> sprites;
 	private Dictionary<string, Sprite> spritesMirror;
 	private Dictionary<string, Sprite> spritesShadows;
 	private GameObject mirror;
+	private GameObject selection;
+	private Sprite playerSelection;
+	private Sprite enemySelection;
 
 	private string direction;
 	public Unit u;
@@ -74,9 +78,18 @@ public class UnitAppearance : MonoBehaviour {
 		GameObject shadow = new GameObject { name = gameObject.name + "_shadow" };
 		shadow.transform.parent = gameObject.transform;
 
+		selection = new GameObject() { name = gameObject.name + "_selection" };
+		selection.transform.parent = gameObject.transform;
+
 
 		sr = gameObject.AddComponent<SpriteRenderer>();
 		sr.sortingLayerName = "units";
+
+		selectionSr = selection.AddComponent<SpriteRenderer>();
+		selectionSr.sortingLayerName = "selections";
+		playerSelection = Resources.Load<Sprite>("Sprites/Selectors/selection_player");
+		enemySelection = Resources.Load<Sprite>("Sprites/Selectors/selection_enemy");
+		selectionSr.enabled = false;
 
 		mirrorSr = mirror.AddComponent<SpriteRenderer>();
 		mirrorSr.sortingLayerName = "mirrors";
@@ -125,6 +138,7 @@ public class UnitAppearance : MonoBehaviour {
 			spritesShadows.Add("s", Resources.Load<Sprite>(spritePath + "_s_shadow"));
 			spritesShadows.Add("se", Resources.Load<Sprite>(spritePath + "_se_shadow"));
 			spritesShadows.Add("nw", Resources.Load<Sprite>(spritePath + "_nw_shadow"));
+			spritesShadows.Add("sw", Resources.Load<Sprite>(spritePath + "_sw_shadow"));
 			spritesShadows.Add("ne", Resources.Load<Sprite>(spritePath + "_ne_shadow"));
 			direction = "e";
 		}
@@ -189,7 +203,7 @@ public class UnitAppearance : MonoBehaviour {
 		}
 		else
 		{
-			Debug.Log("ERROR: no mirror sprite for current direction: " + direction);
+			Debug.Log("ERROR: no shadow sprite for current direction: " + direction);
 			shadowSr.enabled = false;
 		}
 	}
@@ -213,9 +227,18 @@ public class UnitAppearance : MonoBehaviour {
 		sr.sortingOrder = (int)((topmostPoint.y - gameObject.transform.localPosition.y) * 100);
 	}
 
-	public void ColorAsSelectedUnit()
+	public void VisualizeAsSelected()
 	{
-		sr.color = new Color(0.38f, 1.0f, 0.55f, 1.0f);
+		//sr.color = new Color(0.38f, 1.0f, 0.55f, 1.0f);
+		selectionSr.enabled = true;
+		if (u.Player == GameController.instance.currentPlayer)
+		{
+			selectionSr.sprite = playerSelection;
+		}
+		else
+		{
+			selectionSr.sprite = enemySelection;
+		}
 	}
 
 	public void ColorAsUnderFireUnit()
@@ -226,6 +249,7 @@ public class UnitAppearance : MonoBehaviour {
 	public void ResetColor()
 	{
 		sr.color = new Color(1.0f, 1.0f, 1.0f, 1.0f);
+		selectionSr.enabled = false;
 	}
 
 	private void UpdateHPVisual()

@@ -197,10 +197,7 @@ public class FieldAppearance : MonoBehaviour {
 					horizontalOffset = 0.75f;
 				}
 			}
-
-			
-			
-
+						
 			Vector2 pos = new Vector2(fieldZeroX + cell.X * cellWidth + horizontalOffset, fieldZeroY + cell.Y * cellHeight + verticalOffset);
 			UnitAppearance ua = unit.GameObject.GetComponent<UnitAppearance>();
 			if (!ua)
@@ -224,7 +221,7 @@ public class FieldAppearance : MonoBehaviour {
 			}
 			else //if unit is selected
 			{
-				ua.ColorAsSelectedUnit();
+				ua.VisualizeAsSelected();
 			}
 			occupiedWithOneUnitCells.Add(unit.cell);
 		}

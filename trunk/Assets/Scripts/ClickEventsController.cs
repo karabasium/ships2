@@ -9,9 +9,9 @@ public class ClickEventsController : MonoBehaviour {
 	private HUD hud;
 	private Cell previouslyClickedCell;
 	private Unit previouslyClickedUnit;
+	private SpriteRenderer selectionEnemy;
+	private SpriteRenderer selectionPlayer;
 
-
-	// Use this for initialization
 	void Start () {
 		
 	}
@@ -22,13 +22,16 @@ public class ClickEventsController : MonoBehaviour {
 		field = f;
 		hud = GameObject.Find("HUD").GetComponent<HUD>();
 
-	/*	writeToLevelxml = new XmlDocument();
-		TextAsset textAsset = (TextAsset)Resources.Load("Levels/level_001");
-		writeToLevelxml.Load(textAsset.text);*/
+		//selectionEnemy = Resources.Load<Sprite>("Sprites/Selectors/selection_player");
 	}
 
 	private Cell GetClosestCell(Vector2 pos)
 	{
+		if (!field.IsValidPosition(Utils.GetFieldLogicalXY(pos)))
+		{
+			return null;
+		}
+
 		Cell closestCell = field.GetAllCells()[0];
 
 		float distance = (pos - Utils.GetCellVisualCenter(closestCell)).magnitude;
@@ -52,57 +55,128 @@ public class ClickEventsController : MonoBehaviour {
 			Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 			Vector2 mousePos2D = new Vector2(mousePos.x, mousePos.y);
 
+			Player currentPlayer = GameController.instance.currentPlayer;
+
 			Cell cell = GetClosestCell(mousePos2D);
+
+			if (cell == null)
+			{
+				return;
+			}
+
 			//fa.AddCellAppearance( Action.NONE, cell );
 			List<Unit> unitsInCell = Utils.GetUnitsInCell(cell);
 			List<Unit> currentPlayerUnits = new List<Unit>();
 			List<Unit> enemyPlayerUnits = new List<Unit>();
 			foreach (Unit u in unitsInCell)
 			{
-				if (u.Player == Player.PLAYER_1)
+				if (u.Player == currentPlayer)
 				{
 					currentPlayerUnits.Add(u);
 				}
-				else if (u.Player == Player.PLAYER_2)
+				else if (u.Player != currentPlayer)
 				{
 					enemyPlayerUnits.Add(u);
 				}
 			}
-			Unit selectedUnit = null;
+			Unit selectedUnit = field.GetLastSelectedUnit();
 
-			if (unitsInCell.Count == 0)
+			if (selectedUnit == null) //nothing selected
 			{
-				Vector2Int cellXY = Utils.GetFieldLogicalXY(mousePos2D);
-
-				if (cellXY.x <= field.Width && cellXY.y <= field.Height && cellXY.x >= 0 && cellXY.y >= 0) //if desired location is valid field cell
+				if (unitsInCell.Count > 0)
 				{
-					field.ChangeLastSelectedUnitPosition(Utils.GetFieldLogicalXY(mousePos2D));  //move unit
+					field.AddUnitToSelectedUnits(unitsInCell[0]);
 				}
 			}
-			else if (unitsInCell.Count == 1 && currentPlayerUnits.Count == 1)
+			else //some unit is selected
 			{
-				field.ReleaseUnitsSelection();
-				selectedUnit = currentPlayerUnits[0];
-				field.AddUnitToSelectedUnits( selectedUnit );
+				if (selectedUnit.Player == currentPlayer) // if selected unit is current player's unit
+				{
+					if (unitsInCell.Count == 0) // if no units in clicked cell
+					{
+						if (field.CanPerformActionOnCell(selectedUnit, cell, Action.MOVE)) // if possible to move there
+						{
+							field.TryMove(selectedUnit, Utils.GetFieldLogicalXY(mousePos2D));  // then try move unit there
+						}
+						else
+						{
+							field.ReleaseUnitsSelection();
+						}
+					}
+					else // if there are some units in cell
+					{
+						if (unitsInCell.Count == 1 && unitsInCell[0].Player == currentPlayer) // if cell is not empty and only 1 PLAYER's unit there
+						{
+							//code below should have ui selector for action
 
-			}
-			else if (unitsInCell.Count == 1 && enemyPlayerUnits.Count == 1)
-			{
-				Unit playerUnit = field.GetLastSelectedUnit();
-				Unit enemyUnit = enemyPlayerUnits[0];
-				if (previouslyClickedUnit == playerUnit)
-				{
-					field.UnitAttacksUnit(playerUnit, enemyUnit); //fire
-					Debug.Log("Fire");
+							//if (field.CanPerformActionOnCell(selectedUnit, cell, Action.MOVE)) // if possible to move there
+							//{
+							//	field.TryMove(selectedUnit, Utils.GetFieldLogicalXY(mousePos2D)); // then move 
+							//}
+							//else //if impossible to move
+							{
+								field.AddUnitToSelectedUnits(unitsInCell[0]); // select unit in this cell
+							}
+						}
+						else if (unitsInCell.Count == 1 && unitsInCell[0].Player != currentPlayer) // if cell is not empty and only 1 ENEMY's unit there
+						{
+							if (field.CanPerformActionOnCell(selectedUnit, cell, Action.FIRE)) // if possible to fire
+							{
+								field.UnitAttacksUnit(selectedUnit, unitsInCell[0]); //then fire
+							}
+							else //if impossible to fire
+							{
+								if (field.CanPerformActionOnCell(selectedUnit, cell, Action.MOVE)) //if possible to move
+								{
+									field.TryMove(selectedUnit, Utils.GetFieldLogicalXY(mousePos2D)); // then move
+								}
+								else // if impossible to move nor fire
+								{
+									field.AddUnitToSelectedUnits(unitsInCell[0]); //select ENEMY unit in this cell
+								}
+							}
+						}
+						else if (unitsInCell.Count == 2 && currentPlayerUnits.Count == 2)
+						{
+							field.AddUnitToSelectedUnits(unitsInCell[0]);
+
+						}
+						else if (unitsInCell.Count == 2 && enemyPlayerUnits.Count == 2)
+						{
+							if (field.CanPerformActionOnCell(selectedUnit, cell, Action.FIRE)) // if possible to fire
+							{
+								field.UnitAttacksUnit(selectedUnit, unitsInCell[0]); //then fire
+							}
+							else //if impossible to fire
+							{
+								field.AddUnitToSelectedUnits(unitsInCell[0]); //select ENEMY unit in this cell
+							}
+						}
+						else if (unitsInCell.Count == 2 && enemyPlayerUnits.Count == 1 && currentPlayerUnits.Count == 1)
+						{
+							if (field.CanPerformActionOnCell(selectedUnit, cell, Action.FIRE)) // if possible to fire
+							{
+								field.UnitAttacksUnit(selectedUnit, enemyPlayerUnits[0]); //then fire
+							}
+							else //if impossible to fire
+							{
+								field.AddUnitToSelectedUnits(currentPlayerUnits[0]); //select ENEMY unit in this cell
+							}
+						}
+					}
 				}
-				else
+				else //if selected  unit is enemy unit
 				{
-					hud.UpdateUIShipInfo(enemyUnit);
-					Debug.Log("HUD updated");
+					if (unitsInCell.Count > 0) //if there are any units in clicked cell
+					{
+						field.AddUnitToSelectedUnits(unitsInCell[0]);
+					}
+					else //if clicked cell is empty
+					{
+						field.ReleaseUnitsSelection(); //release selection
+					}
 				}
-			}
-			previouslyClickedUnit = selectedUnit;
-			previouslyClickedCell = cell;
+			}			
 		}
 	}
 

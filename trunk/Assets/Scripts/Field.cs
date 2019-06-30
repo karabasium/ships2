@@ -164,7 +164,10 @@ public class Field
 			{
 				units.Remove(target);
 			}
-			Hl.ResetHighlightedCellsLists(Action.FIRE);
+			if (attacker.Shots == 0)
+			{
+				Hl.ResetHighlightedCellsLists(Action.FIRE);
+			}
 		}
 		else
 		{
@@ -205,6 +208,54 @@ public class Field
 		{
 			Debug.Log("ChangeLastSelectedUnitPosition: Can't move here");
 		}
+	}
+
+	public bool IsValidPosition(Vector2Int pos)
+	{
+		if (pos.x <= Width && pos.y <= Height && pos.x >= 0 && pos.y >= 0) //if desired location is valid field cell
+		{
+			return true;
+		}
+		return false;
+	}
+
+	public bool CanPerformActionOnCell(Unit u, Cell cell, Action actionType)
+	{
+		if (actionType == Action.MOVE && u.MovementDone)
+		{
+			return false;
+		}
+		else if (actionType == Action.FIRE && u.FireDone)
+		{
+			Debug.Log("fire done");
+			return false;
+		}
+
+		if (Hl.GetCellsAreaForAction(u.Position, u, actionType).Contains(cell))
+		{
+			return true;
+		}
+		return false;
+	}
+
+	public bool TryMove(Unit u, Vector2Int new_pos)
+	{
+		if (IsValidPosition(new_pos)) //if desired location is valid field cell
+		{
+			Cell c = cells[CellIndex(new_pos.x, new_pos.y)];
+			if (Hl.CanMoveCells.Contains(c))
+			{
+				u.Move(c);
+				Hl.ResetHighlightedCellsLists();
+				Hl.CreateHighlightedCellsLists(u);
+				return true;
+			}
+			else
+			{
+				Debug.Log("TryMove: Can't move here");
+			}
+		}
+		return false;
 	}
 
 	public void RemoveUnit(Unit u)
