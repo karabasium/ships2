@@ -7,10 +7,7 @@ public class ClickEventsController : MonoBehaviour {
 	private Field field;
 	private FieldAppearance fa;
 	private HUD hud;
-	private Cell previouslyClickedCell;
-	private Unit previouslyClickedUnit;
-	private SpriteRenderer selectionEnemy;
-	private SpriteRenderer selectionPlayer;
+
 
 	void Start () {
 		
@@ -21,8 +18,6 @@ public class ClickEventsController : MonoBehaviour {
 		this.fa = fa;
 		field = f;
 		hud = GameObject.Find("HUD").GetComponent<HUD>();
-
-		//selectionEnemy = Resources.Load<Sprite>("Sprites/Selectors/selection_player");
 	}
 
 	private Cell GetClosestCell(Vector2 pos)

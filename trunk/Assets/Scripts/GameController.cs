@@ -59,7 +59,7 @@ public class GameController : MonoBehaviour {
 	public Field f;
 	private ClickEventsController clickEventsController;
 	public Player currentPlayer;
-	private HUD hud;
+	public HUD hud;
 	public GAME_STATE gameState;
 	public readonly float HIT_PROBABILITY = 1.0f;
 	private Mode mode = Mode.GAME;

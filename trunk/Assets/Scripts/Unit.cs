@@ -7,7 +7,7 @@ public class Unit  {
 	private readonly int max_hp;
 	private int hp;
 	private int shots;
-	private readonly int damage_per_shot;
+	private int damage_per_shot;
 	private readonly int max_shots;
 	private readonly float hitProbability = 0.5f;
 
@@ -41,7 +41,7 @@ public class Unit  {
 
 			max_hp = 4;
 			fire_range = 3;
-			max_shots = 2;
+			max_shots = 3;
 		}
 		else if (ship_class == "three_deck_battleship")
 		{
@@ -95,33 +95,30 @@ public class Unit  {
 	public void Fire( Unit enemy  )
 	{
 		Debug.Log("UNIT: fire!");
-		for (int i = 0; i<Shots; i++)
-		{
-			float rnd = Random.Range(0.0f, 1.0f);
-			//rnd = 0f; //always hit
-			//rnd = 1f; //always miss
-			//Debug.Log("rnd = " + rnd.ToString());
-			//Debug.Log("HIT_PROBABILITY = " + HIT_PROBABILITY.ToString());
-			//Debug.Log("rnd < HIT_PROBABILITY = " + (rnd < HIT_PROBABILITY).ToString());
+		damage_per_shot = GameController.instance.hud.GetShotsCountUserSelected();
 
-			if (enemy.IsAlive())
+		float rnd = Random.Range(0.0f, 1.0f);
+		//rnd = 0f; //always hit
+		//rnd = 1f; //always miss
+		//Debug.Log("rnd = " + rnd.ToString());
+		//Debug.Log("HIT_PROBABILITY = " + HIT_PROBABILITY.ToString());
+		//Debug.Log("rnd < HIT_PROBABILITY = " + (rnd < HIT_PROBABILITY).ToString());
+
+		if (enemy.IsAlive())
+		{
+			if (rnd < hitProbability)
 			{
-				if (rnd < hitProbability)
-				{
-					enemy.GetDamage(damage_per_shot);
-					Debug.Log("Hit!");
-				}
-				else
-				{
-					Debug.Log("Miss!");
-				}
-				Shots -= 1;
+				enemy.GetDamage(damage_per_shot);
+				Debug.Log("Hit!");
 			}
 			else
 			{
-				break;
+				Debug.Log("Miss!");
 			}
+			Shots -= damage_per_shot;
 		}
+
+
 		if (Shots == 0)
 		{
 			FireDone = true;

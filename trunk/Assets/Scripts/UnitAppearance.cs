@@ -243,6 +243,7 @@ public class UnitAppearance : MonoBehaviour {
 
 	public void ColorAsUnderFireUnit()
 	{
+		ResetColor();
 		sr.color = new Color(1.0f, 102f/255f, 102f/255f, 1.0f);
 	}
 

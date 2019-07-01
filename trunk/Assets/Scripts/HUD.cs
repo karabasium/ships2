@@ -7,7 +7,10 @@ using UnityEngine.UI;
 public class HUD : MonoBehaviour {
 	private Text hpValue;
 	private Text hpLabel;
-	private Text shotsCountValue;
+	private GameObject shotToggle1;
+	private GameObject shotToggle2;
+	private GameObject shotToggle3;
+	private List<Toggle> shotsToggle;
 	private Text shotsCountLabel;
 	public bool needUpdate;
 	private Field field;
@@ -23,7 +26,7 @@ public class HUD : MonoBehaviour {
 	private Text whoIsWinnerText;
 
 	// Use this for initialization
-	void Start () {
+	void Start () {		
 	}
 
 	public void Init(Field field, Weather weather)
@@ -32,7 +35,6 @@ public class HUD : MonoBehaviour {
 		this.weather = weather;
 		hpValue = GameObject.Find("ShipHPValue").GetComponent<Text>();
 		hpLabel = GameObject.Find("ShipInfoHPLabel").GetComponent<Text>();
-		shotsCountValue = GameObject.Find("ShipShotsCountValue").GetComponent<Text>();
 		shotsCountLabel = GameObject.Find("ShipInfoShotsLabel").GetComponent<Text>();
 		wa = new WeatherAppearance( weather );
 		wa.UpdateWeatherAppearance();
@@ -47,6 +49,15 @@ public class HUD : MonoBehaviour {
 		selectObjectInEditorToggleGroup = GameObject.Find("ObjectSelector").GetComponent<ToggleGroup>();
 		playerSelectorInEditorToggleGroup = GameObject.Find("PlayerSelector").GetComponent<ToggleGroup>();
 
+		shotToggle1 = GameObject.Find("shot1");
+		shotToggle2 = GameObject.Find("shot2");
+		shotToggle3 = GameObject.Find("shot3");
+
+		shotsToggle = new List<Toggle>();
+		shotsToggle.Add(shotToggle1.GetComponent<Toggle>());
+		shotsToggle.Add(shotToggle2.GetComponent<Toggle>());
+		shotsToggle.Add(shotToggle3.GetComponent<Toggle>());
+
 		editorCanvas = GameObject.Find("EditorCanvas").GetComponent<CanvasGroup>();
 		editorCanvas.blocksRaycasts = false;
 		editorCanvas.alpha = 0.0f;
@@ -59,6 +70,8 @@ public class HUD : MonoBehaviour {
 		playAgain.onClick.AddListener(() => PlayAgain());
 
 		whoIsWinnerText = GameObject.Find("WhoIsWinnerText").GetComponent<Text>();
+
+		ResetUIShipInfo();
 	}
 
 
@@ -107,8 +120,56 @@ public class HUD : MonoBehaviour {
 		hpLabel.text = "HP";		
 		hpValue.text = u.Hp.ToString();
 		shotsCountLabel.text = "Shots count";
-		shotsCountValue.text = u.Shots.ToString();
 
+		if (u.Shots == 0)
+		{
+			shotToggle1.gameObject.SetActive(false);
+			shotToggle2.gameObject.SetActive(false);
+			shotToggle3.gameObject.SetActive(false);
+		}
+		else if (u.Shots == 1)
+		{
+			shotToggle1.gameObject.SetActive(true);			
+			shotToggle2.gameObject.SetActive(false);
+			shotToggle3.gameObject.SetActive(false);
+
+			shotToggle1.GetComponent<Toggle>().isOn = true;
+			shotToggle1.GetComponent<Toggle>().enabled = false;
+		}
+		else if (u.Shots == 2)
+		{
+			shotToggle1.gameObject.SetActive(true);
+			shotToggle2.gameObject.SetActive(true);
+			shotToggle3.gameObject.SetActive(false);
+
+			shotToggle1.GetComponent<Toggle>().isOn = true;
+			shotToggle1.GetComponent<Toggle>().enabled = false;
+			shotToggle2.GetComponent<Toggle>().isOn = false;
+		}
+		else if (u.Shots == 3)
+		{
+			shotToggle1.gameObject.SetActive(true);
+			shotToggle2.gameObject.SetActive(true);
+			shotToggle3.gameObject.SetActive(true);
+
+			shotToggle1.GetComponent<Toggle>().isOn = true;
+			shotToggle1.GetComponent<Toggle>().enabled = false;
+			shotToggle2.GetComponent<Toggle>().isOn = false;
+			shotToggle3.GetComponent<Toggle>().isOn = false;
+		}
+	}
+
+	public int GetShotsCountUserSelected()
+	{
+		int shots = 0;
+		foreach(Toggle t in shotsToggle)
+		{
+			if (t.isOn)
+			{
+				shots++;
+			}
+		}
+		return shots;
 	}
 
 
@@ -117,7 +178,9 @@ public class HUD : MonoBehaviour {
 		hpLabel.text = "";
 		shotsCountLabel.text = "";
 		hpValue.text = "";
-		shotsCountValue.text = "";
+		shotToggle1.gameObject.SetActive(false);
+		shotToggle2.gameObject.SetActive(false);
+		shotToggle3.gameObject.SetActive(false);
 	}
 	
 	public string GetObjectTypeToPlace()
