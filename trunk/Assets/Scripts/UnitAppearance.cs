@@ -105,6 +105,13 @@ public class UnitAppearance : MonoBehaviour {
 		sprites = new Dictionary<string, Sprite>();
 		spritesMirror = new Dictionary<string, Sprite>();
 		spritesShadows = new Dictionary<string, Sprite>();
+
+
+		string playerColor = "";
+		if (u.Player == Player.PLAYER_2){
+			playerColor = "_red";
+		}
+
 		if (u.Unit_class == "fort")
 		{
 			spritePath = "Sprites/fort";
@@ -114,14 +121,14 @@ public class UnitAppearance : MonoBehaviour {
 		else
 		{
 			
-			sprites.Add("ne", Resources.Load<Sprite>(spritePath + "_ne"));
-			sprites.Add("e", Resources.Load<Sprite>(spritePath + "_e"));
-			sprites.Add("se", Resources.Load<Sprite>(spritePath + "_se"));
-			sprites.Add("s", Resources.Load<Sprite>(spritePath + "_s"));
-			sprites.Add("sw", Resources.Load<Sprite>(spritePath + "_sw"));
-			sprites.Add("w", Resources.Load<Sprite>(spritePath + "_w"));
-			sprites.Add("nw", Resources.Load<Sprite>(spritePath + "_nw"));
-			sprites.Add("n", Resources.Load<Sprite>(spritePath + "_n"));
+			sprites.Add("ne", Resources.Load<Sprite>(spritePath + "_ne"+ playerColor));
+			sprites.Add("e", Resources.Load<Sprite>(spritePath + "_e" + playerColor));
+			sprites.Add("se", Resources.Load<Sprite>(spritePath + "_se" + playerColor));
+			sprites.Add("s", Resources.Load<Sprite>(spritePath + "_s" + playerColor));
+			sprites.Add("sw", Resources.Load<Sprite>(spritePath + "_sw" + playerColor));
+			sprites.Add("w", Resources.Load<Sprite>(spritePath + "_w" + playerColor));
+			sprites.Add("nw", Resources.Load<Sprite>(spritePath + "_nw" + playerColor));
+			sprites.Add("n", Resources.Load<Sprite>(spritePath + "_n" + playerColor));
 
 			spritesMirror.Add("e", Resources.Load<Sprite>(spritePath + "_e_mirror"));
 			spritesMirror.Add("w", Resources.Load<Sprite>(spritePath + "_w_mirror"));

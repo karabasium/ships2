@@ -61,7 +61,7 @@ public class Utils {
 
 	public static Vector2 GetUnitWorldPositionByLogicalXY(Vector2Int positionOnField, FieldAppearance fa)
 	{
-		Vector2 pos = new Vector2(fa.fieldZeroX + positionOnField.x * fa.cellWidth + 3 * fa.cellWidth / 4, fa.fieldZeroY + positionOnField.y * fa.cellHeight + 9 * fa.cellHeight / 10);
+		Vector2 pos = new Vector2(fa.fieldZeroX + positionOnField.x * fa.cellWidth + 1 * fa.cellWidth / 2, fa.fieldZeroY + positionOnField.y * fa.cellHeight + 1 * fa.cellHeight / 2);
 
 		return Utils.scale_y(Utils.rotate(pos, fa.angle_rad), fa.scaleY);
 	}
