@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Xml;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class ClickEventsController : MonoBehaviour {
 	private Field field;
@@ -47,6 +48,12 @@ public class ClickEventsController : MonoBehaviour {
 	{
 		if (Input.GetMouseButtonDown(0))
 		{
+
+			if (EventSystem.current.IsPointerOverGameObject()) // prevent interacting with objects below ui elements
+			{
+				return;
+			}
+
 			Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 			Vector2 mousePos2D = new Vector2(mousePos.x, mousePos.y);
 
