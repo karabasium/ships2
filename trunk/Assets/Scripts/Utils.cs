@@ -71,6 +71,11 @@ public class Utils {
 		return fieldWidth * pos.y + pos.x;
 	}
 
+	public static GameObject GetUnitGameObject(Unit u)
+	{
+		return fa.GetUnitAppearanceInCell(u.cell).gameObject;
+	}
+
 	public static Cell GetOuterMostCell(Cell cellFrom, List<Cell> cellsTo)
 	{
 		if (cellsTo.Count == 0)

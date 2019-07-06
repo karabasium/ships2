@@ -110,6 +110,24 @@ public class HUD : MonoBehaviour {
 		}
 	}
 
+	public void AttachButtonToUnit(Unit u)
+	{
+		GameObject canvasObject = new GameObject();
+		Canvas c = canvasObject.AddComponent<Canvas>();
+		c.renderMode = RenderMode.WorldSpace;
+		RectTransform rt = c.GetComponent<RectTransform>();
+		rt.sizeDelta = new Vector2(2, 2);
+
+		GameObject unitGameObject = Utils.GetUnitGameObject(u);
+
+		c.transform.parent = unitGameObject.transform;
+		c.transform.position = unitGameObject.transform.position;
+
+		GameObject button = (GameObject)Instantiate(Resources.Load("Prefabs/AttachedButton"));
+		button.transform.parent = c.transform;
+		button.transform.position = c.transform.position;
+	}
+
 	public void UpdateUIShipInfo( Unit u)
 	{
 		if (u == null)

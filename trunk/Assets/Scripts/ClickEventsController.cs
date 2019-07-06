@@ -88,6 +88,9 @@ public class ClickEventsController : MonoBehaviour {
 				if (unitsInCell.Count > 0)
 				{
 					field.AddUnitToSelectedUnits(unitsInCell[0]);
+					//hud.testCanvas.gameObject.transform.parent = fa.GetUnitAppearanceInCell(cell).gameObject.transform;
+					//hud.testCanvas.gameObject.transform.position = fa.GetUnitAppearanceInCell(cell).gameObject.transform.position;
+					hud.AttachButtonToUnit(unitsInCell[0]);
 				}
 			}
 			else //some unit is selected
