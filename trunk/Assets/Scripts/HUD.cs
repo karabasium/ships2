@@ -112,20 +112,33 @@ public class HUD : MonoBehaviour {
 
 	public void AttachButtonToUnit(Unit u)
 	{
-		GameObject canvasObject = new GameObject();
+		GameObject canvasObject = new GameObject() { name = "attachedButtonCanvas"};
 		Canvas c = canvasObject.AddComponent<Canvas>();
 		c.renderMode = RenderMode.WorldSpace;
+		GraphicRaycaster gr = canvasObject.AddComponent<GraphicRaycaster>();
+
 		RectTransform rt = c.GetComponent<RectTransform>();
 		rt.sizeDelta = new Vector2(2, 2);
 
 		GameObject unitGameObject = Utils.GetUnitGameObject(u);
+		Collider2D collider = unitGameObject.GetComponent<Collider2D>();
+		float height = collider.bounds.size.y;
 
 		c.transform.parent = unitGameObject.transform;
-		c.transform.position = unitGameObject.transform.position;
+		c.transform.position = unitGameObject.transform.position + new Vector3(0,height,0);
+		c.sortingLayerName = "HUD";
 
 		GameObject button = (GameObject)Instantiate(Resources.Load("Prefabs/AttachedButton"));
 		button.transform.parent = c.transform;
 		button.transform.position = c.transform.position;
+
+		Button b = button.GetComponent<Button>();
+		b.onClick.AddListener(DoSomething);
+	}
+
+	private void DoSomething()
+	{
+		Debug.Log("Button clicked");
 	}
 
 	public void UpdateUIShipInfo( Unit u)

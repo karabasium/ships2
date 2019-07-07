@@ -44,9 +44,6 @@ TagManager:
   - name: Background
     uniqueID: 1469291991
     locked: 0
-  - name: HUD
-    uniqueID: 930206595
-    locked: 0
   - name: Field
     uniqueID: 53996367
     locked: 0
@@ -61,4 +58,7 @@ TagManager:
     locked: 0
   - name: units
     uniqueID: 1791714817
+    locked: 0
+  - name: HUD
+    uniqueID: 930206595
     locked: 0
