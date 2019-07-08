@@ -21,7 +21,8 @@ public enum Weather_type
 {
 	WIND,
 	STORM,
-	CALM
+	CALM,
+	UNDEFINED
 }
 
 public enum Action
@@ -79,8 +80,7 @@ public class GameController : MonoBehaviour {
 		currentPlayer = Player.PLAYER_1;
 
 		currentWeather = new Weather();
-		currentWeather.Init();
-		currentWeather.RefreshWeather();
+		currentWeather.Init();		
 
 		levelData = new LevelData("Levels/level_001");
 		f = new Field(levelData.FieldWidth, levelData.FieldHeight);
@@ -196,12 +196,10 @@ public class GameController : MonoBehaviour {
 		else
 		{
 			currentPlayer = Player.PLAYER_1;
-		}
-		currentWeather.RefreshWeather();
+		}		
 		currentWeather.needHUDUpdate = true;
 		f.ReleaseUnitsSelection();		
-		f.RefreshPlayerUnits(currentPlayer);
-		//f.SelectRandomUnit(currentPlayer);
+		f.RefreshPlayerUnits(currentPlayer);		
 		fa.UpdateField();
 		Debug.Log("Current player = " + currentPlayer.ToString());
 	}

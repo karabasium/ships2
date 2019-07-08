@@ -32,6 +32,7 @@ public class Weather
 
 		needHUDUpdate = false;
 		needPerformStormActions = false;
+		currentWeatherType = Weather_type.UNDEFINED;
 	}
 
 	public int DistanceToCurrentWind(int dirX, int dirY)
@@ -51,11 +52,11 @@ public class Weather
 		return System.Math.Min(len1, len2);
 	}
 
-	public void RefreshWeather()
+	public Weather_type RefreshWeather()
 	{
-		currentWeatherType = (Weather_type)Random.Range(0, System.Enum.GetValues(typeof(Weather_type)).Length);
+		currentWeatherType = (Weather_type)Random.Range(0, System.Enum.GetValues(typeof(Weather_type)).Length - 1);
 
-		currentWeatherType = Weather_type.CALM; // FOR DEBUG ONLY!!!
+		//currentWeatherType = Weather_type.CALM; // FOR DEBUG ONLY!!!
 
 		Debug.Log("WEATHER: " + currentWeatherType.ToString());
 		if (currentWeatherType == Weather_type.WIND || currentWeatherType == Weather_type.STORM)
@@ -78,5 +79,7 @@ public class Weather
 			}
 		}
 		needHUDUpdate = true;
+		return currentWeatherType;
 	}
+	
 }

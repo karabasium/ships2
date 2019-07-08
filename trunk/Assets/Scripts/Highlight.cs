@@ -49,7 +49,14 @@ public class Highlight {
 		int x = positionOnField.x;
 		int y = positionOnField.y;
 		Weather currentWeather = GameController.instance.currentWeather;
+
+		if (currentWeather.currentWeatherType == Weather_type.UNDEFINED && type == Action.MOVE)
+		{
+			return new List<Cell>();
+		}
+
 		int radius = 0;
+
 
 		if (type == Action.MOVE)
 		{

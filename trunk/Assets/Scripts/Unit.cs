@@ -28,6 +28,8 @@ public class Unit  {
 	private bool movementAnimationInProgress;
 	private readonly string ship_class;
 	private List<Cell> fortCells;
+
+	private Weather_type weatherType;
 	
 	public Unit( string ship_class, Player player )
 	{
@@ -73,6 +75,7 @@ public class Unit  {
 		cell = null;
 		hitProbability = GameController.instance.HIT_PROBABILITY;
 		movementAnimationInProgress = false;
+		WeatherType = Weather_type.UNDEFINED;
 		Refresh();
 	}
 
@@ -351,6 +354,19 @@ public class Unit  {
 		set
 		{
 			_cell = value;
+		}
+	}
+
+	public Weather_type WeatherType
+	{
+		get
+		{
+			return weatherType;
+		}
+
+		set
+		{
+			weatherType = value;
 		}
 	}
 }

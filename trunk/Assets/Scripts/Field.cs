@@ -309,9 +309,12 @@ public class Field
 		Debug.Log("StormMoveAllShips");
 		foreach (Unit u in GetAlivePlayerUnits(GameController.instance.currentPlayer))
 		{
-			List<Cell> cellsToMove = Hl.GetCellsAreaForAction(u.GetPosition(), u, Action.MOVE);
-			Cell cell = Utils.GetOuterMostCell( u.cell, cellsToMove);
-			u.Move( cell );
+			if (u.WeatherType == Weather_type.STORM)
+			{
+				List<Cell> cellsToMove = Hl.GetCellsAreaForAction(u.GetPosition(), u, Action.MOVE);
+				Cell cell = Utils.GetOuterMostCell(u.cell, cellsToMove);
+				u.Move(cell);
+			}
 		}
 	}
 

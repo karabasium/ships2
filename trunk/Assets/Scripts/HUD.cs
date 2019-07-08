@@ -128,17 +128,19 @@ public class HUD : MonoBehaviour {
 		c.transform.position = unitGameObject.transform.position + new Vector3(0,height,0);
 		c.sortingLayerName = "HUD";
 
-		GameObject button = (GameObject)Instantiate(Resources.Load("Prefabs/AttachedButton"));
+		GameObject button = (GameObject)Instantiate(Resources.Load("Prefabs/AttachedButtonChangeWeather"));
 		button.transform.parent = c.transform;
 		button.transform.position = c.transform.position;
 
 		Button b = button.GetComponent<Button>();
-		b.onClick.AddListener(DoSomething);
+		b.onClick.AddListener(() => DoSomething(u) );
 	}
 
-	private void DoSomething()
+	private void DoSomething(Unit u)
 	{
-		Debug.Log("Button clicked");
+		Debug.Log("Change weather");
+		u.WeatherType = weather.RefreshWeather();
+		GameController.instance.gameState = GAME_STATE.FIELD_APPEARANCE_NEED_TO_UPDATE;
 	}
 
 	public void UpdateUIShipInfo( Unit u)
