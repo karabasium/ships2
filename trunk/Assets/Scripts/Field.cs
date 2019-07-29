@@ -131,6 +131,10 @@ public class Field
 
 		selectedUnits.Add(u);
 		Hl.CreateHighlightedCellsLists(u);
+		if (u.Player == GameController.instance.currentPlayer)
+		{
+			GameController.instance.hud.ShowUnitAttachedButton(u);
+		}
 		NeedHUDupdate = true;
 		GameController.instance.gameState = GAME_STATE.FIELD_APPEARANCE_NEED_TO_UPDATE;
 	}
@@ -144,6 +148,7 @@ public class Field
 	{
 		selectedUnits = new List<Unit>();
 		Hl.ResetHighlightedCellsLists();
+		GameController.instance.hud.HideAllUnitsAttachedButtons();
 		NeedHUDupdate = true;
 		GameController.instance.gameState = GAME_STATE.FIELD_APPEARANCE_NEED_TO_UPDATE;
 	}

@@ -110,9 +110,26 @@ public class HUD : MonoBehaviour {
 		}
 	}
 
-	public void AttachButtonToUnit(Unit u)
+	public void ShowUnitAttachedButton(Unit u)
 	{
-		GameObject canvasObject = new GameObject() { name = "attachedButtonCanvas"};
+		GameObject unitGameObject = Utils.GetUnitGameObject(u);
+		Canvas c = unitGameObject.GetComponentInChildren<Canvas>();
+		if (c != null)
+		{
+			c.enabled = true;
+			Debug.Log("Canvas enabled");
+		}
+		else
+		{
+			Button b = AttachButtonToUnit( unitGameObject );
+			b.onClick.AddListener(() => ChangeWeather(u));
+			Debug.Log("Canvas created");
+		}
+	}
+
+	private Button AttachButtonToUnit(GameObject unitGameObject)
+	{
+		GameObject canvasObject = new GameObject() { name = "attachedButtonCanvas" };
 		Canvas c = canvasObject.AddComponent<Canvas>();
 		c.renderMode = RenderMode.WorldSpace;
 		GraphicRaycaster gr = canvasObject.AddComponent<GraphicRaycaster>();
@@ -120,12 +137,12 @@ public class HUD : MonoBehaviour {
 		RectTransform rt = c.GetComponent<RectTransform>();
 		rt.sizeDelta = new Vector2(2, 2);
 
-		GameObject unitGameObject = Utils.GetUnitGameObject(u);
+
 		Collider2D collider = unitGameObject.GetComponent<Collider2D>();
 		float height = collider.bounds.size.y;
 
 		c.transform.parent = unitGameObject.transform;
-		c.transform.position = unitGameObject.transform.position + new Vector3(0,height,0);
+		c.transform.position = unitGameObject.transform.position + new Vector3(0, height, 0);
 		c.sortingLayerName = "HUD";
 
 		GameObject button = (GameObject)Instantiate(Resources.Load("Prefabs/AttachedButtonChangeWeather"));
@@ -133,10 +150,29 @@ public class HUD : MonoBehaviour {
 		button.transform.position = c.transform.position;
 
 		Button b = button.GetComponent<Button>();
-		b.onClick.AddListener(() => DoSomething(u) );
+		return b;		
 	}
 
-	private void DoSomething(Unit u)
+	public void HideUnitAttachedButton(Unit u)
+	{
+		GameObject unitGameObject = Utils.GetUnitGameObject(u);
+		Canvas c = unitGameObject.GetComponentInChildren<Canvas>();
+		if (c != null)
+		{
+			c.enabled = false;
+			Debug.Log("Canvas disabled");
+		}				
+	}
+
+	public void HideAllUnitsAttachedButtons()
+	{
+		foreach(Unit u in field.GetAlivePlayerUnits(GameController.instance.currentPlayer))
+		{
+			HideUnitAttachedButton(u);
+		}
+	}
+
+	private void ChangeWeather(Unit u)
 	{
 		Debug.Log("Change weather");
 		u.WeatherType = weather.RefreshWeather();

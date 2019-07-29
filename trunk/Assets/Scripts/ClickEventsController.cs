@@ -83,14 +83,12 @@ public class ClickEventsController : MonoBehaviour {
 			}
 			Unit selectedUnit = field.GetLastSelectedUnit();
 
-			if (selectedUnit == null) //nothing selected
+			if (selectedUnit == null) //nothing selected yet
 			{
 				if (unitsInCell.Count > 0)
 				{
-					field.AddUnitToSelectedUnits(unitsInCell[0]);
-					//hud.testCanvas.gameObject.transform.parent = fa.GetUnitAppearanceInCell(cell).gameObject.transform;
-					//hud.testCanvas.gameObject.transform.position = fa.GetUnitAppearanceInCell(cell).gameObject.transform.position;
-					hud.AttachButtonToUnit(unitsInCell[0]);
+					Unit unitToSelect = unitsInCell[0];
+					field.AddUnitToSelectedUnits(unitToSelect); //select unit
 				}
 			}
 			else //some unit is selected
