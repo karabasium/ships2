@@ -29,7 +29,7 @@ public class Unit  {
 	private readonly string ship_class;
 	private List<Cell> fortCells;
 
-	private Weather_type weatherType;
+	public Weather weather;
 	
 	public Unit( string ship_class, Player player )
 	{
@@ -75,7 +75,7 @@ public class Unit  {
 		cell = null;
 		hitProbability = GameController.instance.HIT_PROBABILITY;
 		movementAnimationInProgress = false;
-		WeatherType = Weather_type.UNDEFINED;
+		weather = new Weather();
 		Refresh();
 	}
 
@@ -84,6 +84,7 @@ public class Unit  {
 		MovementDone = false;
 		FireDone = false;
 		Shots = max_shots;
+		weather.currentWeatherType = Weather_type.UNDEFINED;
 	}
 
 	public void GetDamage( int dmg )
@@ -147,9 +148,10 @@ public class Unit  {
 		MovementAnimationInProgress = true;
 		if ( GameController.instance.gameState != GAME_STATE.ANIMATION_IN_PROGRESS)
 		{
-			GameController.instance.gameState = GAME_STATE.ANIMATION_IN_PROGRESS;
+			GameController.instance.ChangeState(GAME_STATE.ANIMATION_IN_PROGRESS);
 			Debug.Log("Current game state is " + GameController.instance.gameState.ToString());
-		}		
+		}
+		weather.currentWeatherType = Weather_type.UNDEFINED;
 	}
 
 	public void SetPosition( Vector2Int new_pos)
@@ -354,19 +356,6 @@ public class Unit  {
 		set
 		{
 			_cell = value;
-		}
-	}
-
-	public Weather_type WeatherType
-	{
-		get
-		{
-			return weatherType;
-		}
-
-		set
-		{
-			weatherType = value;
 		}
 	}
 }

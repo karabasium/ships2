@@ -18,8 +18,7 @@ public class Weather
 	public bool needHUDUpdate;
 	public bool needPerformStormActions;
 
-
-	public void Init()
+	public Weather()
 	{
 		dirs.Add(new int[] { -1, 1 });
 		dirs.Add(new int[] { 0, 1 });
@@ -34,6 +33,22 @@ public class Weather
 		needPerformStormActions = false;
 		currentWeatherType = Weather_type.UNDEFINED;
 	}
+
+	/*public void Init()
+	{
+		dirs.Add(new int[] { -1, 1 });
+		dirs.Add(new int[] { 0, 1 });
+		dirs.Add(new int[] { 1, 1 });
+		dirs.Add(new int[] { 1, 0 });
+		dirs.Add(new int[] { 1, -1 });
+		dirs.Add(new int[] { 0, -1 });
+		dirs.Add(new int[] { -1, -1 });
+		dirs.Add(new int[] { -1, 0 });
+
+		needHUDUpdate = false;
+		needPerformStormActions = false;
+		currentWeatherType = Weather_type.UNDEFINED;
+	}*/
 
 	public int DistanceToCurrentWind(int dirX, int dirY)
 	{

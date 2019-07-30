@@ -136,7 +136,7 @@ public class Field
 			GameController.instance.hud.ShowUnitAttachedButton(u);
 		}
 		NeedHUDupdate = true;
-		GameController.instance.gameState = GAME_STATE.FIELD_APPEARANCE_NEED_TO_UPDATE;
+		GameController.instance.ChangeState(GAME_STATE.FIELD_APPEARANCE_NEED_TO_UPDATE);
 	}
 
 	public List<Unit> GetSelectedUnits()
@@ -150,7 +150,7 @@ public class Field
 		Hl.ResetHighlightedCellsLists();
 		GameController.instance.hud.HideAllUnitsAttachedButtons();
 		NeedHUDupdate = true;
-		GameController.instance.gameState = GAME_STATE.FIELD_APPEARANCE_NEED_TO_UPDATE;
+		GameController.instance.ChangeState(GAME_STATE.FIELD_APPEARANCE_NEED_TO_UPDATE);
 	}
 
 	public void UnselectUnit( Unit u)
@@ -179,7 +179,7 @@ public class Field
 			Debug.Log("Can't fire this cell");
 		}
 		NeedHUDupdate = true;
-		GameController.instance.gameState = GAME_STATE.FIELD_APPEARANCE_NEED_TO_UPDATE;
+		GameController.instance.ChangeState(GAME_STATE.FIELD_APPEARANCE_NEED_TO_UPDATE);
 	}
 
 	public void RemoveDeadUnits()
@@ -266,7 +266,7 @@ public class Field
 	public void RemoveUnit(Unit u)
 	{
 		units.Remove(u);
-		GameController.instance.gameState = GAME_STATE.FIELD_APPEARANCE_NEED_TO_UPDATE;
+		GameController.instance.ChangeState(GAME_STATE.FIELD_APPEARANCE_NEED_TO_UPDATE);
 	}
 
 	public Unit GetLastSelectedUnit()
@@ -309,7 +309,7 @@ public class Field
 		NeedHUDupdate = true;
 	}
 
-	public void StormMoveAllShips( )
+	/*public void StormMoveAllShips( )
 	{
 		Debug.Log("StormMoveAllShips");
 		foreach (Unit u in GetAlivePlayerUnits(GameController.instance.currentPlayer))
@@ -321,6 +321,12 @@ public class Field
 				u.Move(cell);
 			}
 		}
+	}*/
+	public void StormDriftsUnit(Unit u)
+	{
+		List<Cell> cellsToMove = Hl.GetCellsAreaForAction(u.GetPosition(), u, Action.MOVE);
+		Cell cell = Utils.GetOuterMostCell(u.cell, cellsToMove);
+		u.Move(cell);
 	}
 
 	private void KillUnitsDestroyedByStorm()

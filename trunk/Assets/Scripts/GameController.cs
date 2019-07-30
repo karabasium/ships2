@@ -54,9 +54,7 @@ public enum GAME_STATE
 public class GameController : MonoBehaviour {
 	public static GameController instance;
 	private GameObject fieldObject;
-	public Weather currentWeather;
 	public FieldAppearance fa;
-	private WeatherAppearance wa;
 	public Field f;
 	private ClickEventsController clickEventsController;
 	public Player currentPlayer;
@@ -76,11 +74,8 @@ public class GameController : MonoBehaviour {
 
 	public void Init()
 	{
-		gameState = GAME_STATE.INITIALIZATION;
-		currentPlayer = Player.PLAYER_1;
-
-		currentWeather = new Weather();
-		currentWeather.Init();		
+		ChangeState(GAME_STATE.INITIALIZATION);
+		currentPlayer = Player.PLAYER_1;		
 
 		levelData = new LevelData("Levels/level_001");
 		f = new Field(levelData.FieldWidth, levelData.FieldHeight);
@@ -120,7 +115,7 @@ public class GameController : MonoBehaviour {
 		hud = GameObject.Find("HUD").AddComponent<HUD>();
 
 		//f.SelectRandomUnit(currentPlayer);
-		hud.Init(f, currentWeather);
+		hud.Init(f);
 		clickEventsController.Init(fa, f);
 		fa.Init(f);
 
@@ -171,17 +166,10 @@ public class GameController : MonoBehaviour {
 			}
 			else
 			{
-				gameState = GAME_STATE.GAME_OVER;
+				ChangeState(GAME_STATE.GAME_OVER);
 				hud.ShowVictoryScreen(winner);
 				fa.Clear();
 				Debug.Log("GAME OVER! Winner is player " + WhoIsWinner().ToString());
-			}
-
-			if (currentWeather.needPerformStormActions)
-			{
-				f.ReleaseUnitsSelection();
-				f.StormMoveAllShips();
-				currentWeather.needPerformStormActions = false;
 			}
 		}		
 	}
@@ -197,7 +185,6 @@ public class GameController : MonoBehaviour {
 		{
 			currentPlayer = Player.PLAYER_1;
 		}		
-		currentWeather.needHUDUpdate = true;
 		f.ReleaseUnitsSelection();		
 		f.RefreshPlayerUnits(currentPlayer);		
 		fa.UpdateField();
@@ -268,5 +255,9 @@ public class GameController : MonoBehaviour {
 		}
 	}
 
-	
+	public void ChangeState( GAME_STATE new_game_state)
+	{
+		gameState = new_game_state;
+		Debug.Log("Game state: " + gameState.ToString());
+	}
 }

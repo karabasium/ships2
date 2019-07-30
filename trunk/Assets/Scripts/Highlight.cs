@@ -48,7 +48,7 @@ public class Highlight {
 	{
 		int x = positionOnField.x;
 		int y = positionOnField.y;
-		Weather currentWeather = GameController.instance.currentWeather;
+		Weather currentWeather = u.weather;
 
 		if (currentWeather.currentWeatherType == Weather_type.UNDEFINED && type == Action.MOVE)
 		{
@@ -205,14 +205,16 @@ public class Highlight {
 
 	public void CreateHighlightedCellsLists(Unit u)
 	{
-		
-		if (!u.MovementDone && GameController.instance.currentWeather.currentWeatherType != Weather_type.STORM)
+		Debug.Log("CreateHighlightedCellsLists");
+		if (!u.MovementDone && u.weather.currentWeatherType != Weather_type.STORM)
 		{
 			CanMoveCells = GetCellsAreaForAction(u.GetPosition(), u, Action.MOVE);
+			Debug.Log("can move cells count = " + CanMoveCells.Count.ToString());
 		}
 		if (!u.FireDone)
 		{
 			CanFireCells = GetCellsAreaForAction(u.GetPosition(), u, Action.FIRE);
+			Debug.Log("can fire cells count = " + CanFireCells.Count.ToString());
 		}
 	}
 

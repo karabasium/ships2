@@ -82,13 +82,15 @@ public class FieldAppearance : MonoBehaviour {
 	{
 		if (GameController.instance.gameState == GAME_STATE.FIELD_APPEARANCE_NEED_TO_UPDATE)
 		{
+			Debug.Log("Field Appearances need to update");
 			UpdateField();
-			GameController.instance.gameState = GAME_STATE.NOTHING_HAPPENS;
+			GameController.instance.ChangeState(GAME_STATE.NOTHING_HAPPENS);
 			return;
 		}
 		else if (GameController.instance.gameState == GAME_STATE.ANIMATION_IN_PROGRESS)
 		{
 			List<Unit> unitsToAnimate = GetUnitsNeedAnimation();
+			Debug.Log("units to animate count = " + unitsToAnimate.Count.ToString());
 			if (unitsToAnimate.Count > 0)
 			{
 				bool animationCompleted = true;
@@ -100,7 +102,7 @@ public class FieldAppearance : MonoBehaviour {
 
 				if (animationCompleted)
 				{
-					GameController.instance.gameState = GAME_STATE.FIELD_APPEARANCE_NEED_TO_UPDATE;
+					GameController.instance.ChangeState(GAME_STATE.FIELD_APPEARANCE_NEED_TO_UPDATE);
 				}
 			}
 		}
@@ -135,7 +137,7 @@ public class FieldAppearance : MonoBehaviour {
 	public void UpdateField()
 	{
 		DrawShips();
-		DrawHighlights();		
+		DrawHighlights();	
 	}
 
 	private void DrawHighlights()
