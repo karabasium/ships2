@@ -129,7 +129,10 @@ public class Field
 			ReleaseUnitsSelection();
 		}
 
-		selectedUnits.Add(u);
+		if (!selectedUnits.Contains(u))
+		{
+			selectedUnits.Add(u);
+		}
 		Hl.CreateHighlightedCellsLists(u);
 		if (u.Player == GameController.instance.currentPlayer)
 		{
@@ -156,7 +159,10 @@ public class Field
 	public void UnselectUnit( Unit u)
 	{
 		selectedUnits.Remove(u);
+		GameController.instance.hud.HideUnitAttachedButton(u);
 		Hl.ResetHighlightedCellsLists();
+		NeedHUDupdate = true;
+		GameController.instance.ChangeState(GAME_STATE.FIELD_APPEARANCE_NEED_TO_UPDATE);
 	}
 
 	public void UnitAttacksUnit( Unit attacker, Unit target)

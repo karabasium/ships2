@@ -170,17 +170,27 @@ public class HUD : MonoBehaviour {
 		}
 	}
 
-	private void ChangeWeather(Unit u)
+	private void ChangeWeather(Unit u1)
 	{
 		Debug.Log("Change weather");
-		Weather_type wt = u.weather.RefreshWeather();
-		if (wt == Weather_type.STORM)
+		Weather w = new Weather();
+		w.RefreshWeather();
+		Unit lastSelected = field.GetLastSelectedUnit();
+		foreach (Unit u in field.GetSelectedUnits())
 		{
-			field.StormDriftsUnit(u);
+			if (u.weather.currentWeatherType == Weather_type.UNDEFINED && !u.MovementDone)
+			{
+				Weather_type wt = u.weather.RefreshWeather(w);
+				if (wt == Weather_type.STORM)
+				{
+					field.StormDriftsUnit(u);
+				}
+				HideUnitAttachedButton(u);
+			}
 		}
-		UpdateWeatherAppearance( u.weather );
-		field.Hl.CreateHighlightedCellsLists(u);
-		HideUnitAttachedButton(u);
+		field.ReleaseUnitsSelection();
+		field.AddUnitToSelectedUnits(lastSelected);
+		UpdateWeatherAppearance(w);
 		GameController.instance.ChangeState(GAME_STATE.FIELD_APPEARANCE_NEED_TO_UPDATE);
 	}
 
@@ -191,6 +201,9 @@ public class HUD : MonoBehaviour {
 			ResetUIShipInfo();
 			return;
 		}
+
+		UpdateWeatherAppearance(u.weather);
+
 		hpLabel.text = "HP";		
 		hpValue.text = u.Hp.ToString();
 		shotsCountLabel.text = "Shots count";

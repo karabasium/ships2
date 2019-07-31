@@ -91,7 +91,7 @@ public class ClickEventsController : MonoBehaviour {
 					field.AddUnitToSelectedUnits(unitToSelect); //select unit
 				}
 			}
-			else //some unit is selected
+			else //some unit is already selected
 			{
 				if (selectedUnit.Player == currentPlayer) // if selected unit is current player's unit
 				{
@@ -117,8 +117,13 @@ public class ClickEventsController : MonoBehaviour {
 							//	field.TryMove(selectedUnit, Utils.GetFieldLogicalXY(mousePos2D)); // then move 
 							//}
 							//else //if impossible to move
+							if (field.GetSelectedUnits().Contains( unitsInCell[0] ) )
 							{
-								field.AddUnitToSelectedUnits(unitsInCell[0]); // select unit in this cell
+								field.UnselectUnit( unitsInCell[0] );
+							}
+							else
+							{
+								field.AddUnitToSelectedUnits(unitsInCell[0], false); // select unit in this cell
 							}
 						}
 						else if (unitsInCell.Count == 1 && unitsInCell[0].Player != currentPlayer) // if cell is not empty and only 1 ENEMY's unit there

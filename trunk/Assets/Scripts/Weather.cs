@@ -34,22 +34,6 @@ public class Weather
 		currentWeatherType = Weather_type.UNDEFINED;
 	}
 
-	/*public void Init()
-	{
-		dirs.Add(new int[] { -1, 1 });
-		dirs.Add(new int[] { 0, 1 });
-		dirs.Add(new int[] { 1, 1 });
-		dirs.Add(new int[] { 1, 0 });
-		dirs.Add(new int[] { 1, -1 });
-		dirs.Add(new int[] { 0, -1 });
-		dirs.Add(new int[] { -1, -1 });
-		dirs.Add(new int[] { -1, 0 });
-
-		needHUDUpdate = false;
-		needPerformStormActions = false;
-		currentWeatherType = Weather_type.UNDEFINED;
-	}*/
-
 	public int DistanceToCurrentWind(int dirX, int dirY)
 	{
 		int dirIndex = -100;
@@ -67,16 +51,30 @@ public class Weather
 		return System.Math.Min(len1, len2);
 	}
 
-	public Weather_type RefreshWeather()
+	public Weather_type RefreshWeather( Weather w = null)
 	{
-		currentWeatherType = (Weather_type)Random.Range(0, System.Enum.GetValues(typeof(Weather_type)).Length - 1);
+		if (w == null)
+		{
+			currentWeatherType = (Weather_type)Random.Range(0, System.Enum.GetValues(typeof(Weather_type)).Length - 1);
+		}
+		else
+		{
+			currentWeatherType = w.currentWeatherType;
+		}
 
 		//currentWeatherType = Weather_type.CALM; // FOR DEBUG ONLY!!!
 
 		Debug.Log("WEATHER: " + currentWeatherType.ToString());
 		if (currentWeatherType == Weather_type.WIND || currentWeatherType == Weather_type.STORM)
 		{
-			curWindIndex = Random.Range(0, dirs.Count - 1);
+			if (w == null)
+			{
+				curWindIndex = Random.Range(0, dirs.Count - 1);
+			}
+			else
+			{
+				curWindIndex = w.curWindIndex;
+			}
 			//curWindIndex = 0;  // FOR DEBUG ONLY!!!
 			curWind = dirs[curWindIndex];
 
@@ -96,5 +94,4 @@ public class Weather
 		needHUDUpdate = true;
 		return currentWeatherType;
 	}
-	
 }
