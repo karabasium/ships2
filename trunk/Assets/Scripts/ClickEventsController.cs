@@ -123,7 +123,16 @@ public class ClickEventsController : MonoBehaviour {
 							}
 							else
 							{
-								field.AddUnitToSelectedUnits(unitsInCell[0], false); // select unit in this cell
+								//if both units don't have defined weather than select them all to have possibility to define weather for all units
+								if (unitsInCell[0].weather.currentWeatherType == Weather_type.UNDEFINED && selectedUnit.weather.currentWeatherType == Weather_type.UNDEFINED && !unitsInCell[0].MovementDone && !selectedUnit.MovementDone)
+								{ 
+									field.AddUnitToSelectedUnits(unitsInCell[0], false); // select unit in this cell
+								}
+								else //unselect current unit and select clicked unit
+								{
+									field.UnselectUnit(selectedUnit);
+									field.AddUnitToSelectedUnits(unitsInCell[0], false);
+								}
 							}
 						}
 						else if (unitsInCell.Count == 1 && unitsInCell[0].Player != currentPlayer) // if cell is not empty and only 1 ENEMY's unit there
