@@ -385,7 +385,7 @@ public class HUD : MonoBehaviour {
 		}
 		else
 		{
-			weatherName.text = "Armageddon";
+			weatherName.text = "";
 		}
 	}
 }
