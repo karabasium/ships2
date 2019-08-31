@@ -44,6 +44,8 @@ public class ClickEventsController : MonoBehaviour {
 		return closestCell;
 	}
 
+
+
 	void Update()
 	{
 		if (Input.GetMouseButtonDown(0))
@@ -66,7 +68,12 @@ public class ClickEventsController : MonoBehaviour {
 				return;
 			}
 
-			//fa.AddCellAppearance( Action.NONE, cell );
+			if (GameController.instance.Mode == Mode.EDITOR)
+			{
+				HandleEditorClicks();
+				return;
+			}
+
 			List<Unit> unitsInCell = Utils.GetUnitsInCell(cell);
 			List<Unit> currentPlayerUnits = new List<Unit>();
 			List<Unit> enemyPlayerUnits = new List<Unit>();
@@ -197,144 +204,80 @@ public class ClickEventsController : MonoBehaviour {
 		}
 	}
 
-	// Update is called once per frame
-	void UpdateOld()
+
+	void HandleEditorClicks()
 	{
-		if (GameController.instance.Mode == Mode.GAME)
+		if (Input.GetMouseButtonDown(0))
 		{
+			Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+			Vector2 mousePos2D = new Vector2(mousePos.x, mousePos.y);
 
-			if (GameController.instance.gameState == GAME_STATE.ANIMATION_IN_PROGRESS)
+			RaycastHit2D hit = Physics2D.Raycast(mousePos2D, Vector2.zero);
+
+			if (hit.collider == null) // if clicked on field
 			{
-				return;
-			}
+				Vector2Int cellXY = Utils.GetFieldLogicalXY(mousePos2D);
 
-			if (Input.GetMouseButtonDown(0))
-			{
-				Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-				Vector2 mousePos2D = new Vector2(mousePos.x, mousePos.y);
-
-				RaycastHit2D hit = Physics2D.Raycast(mousePos2D, Vector2.zero);
-
-				if (hit.collider != null) // if clicked on unit
+				if (cellXY.x <= field.Width && cellXY.y <= field.Height && cellXY.x >= 0 && cellXY.y >= 0)
 				{
-					Unit u = hit.collider.gameObject.GetComponent<UnitAppearance>().u;
-
-					if (field.GetLastSelectedUnit() == null || u.Player == GameController.instance.currentPlayer) //click on Player's unit
+					Cell c = field.GetCell(cellXY.x, cellXY.y);
+					string objectType = hud.GetObjectTypeToPlace();
+					if (objectType == "land")
 					{
-						if (field.GetSelectedUnits().Contains(u)) //unselect unit if clicked again
+						if (c.SlotsOccupied == 0)
 						{
-							field.ReleaseUnitsSelection();
-						}
-						else //select unit
-						{
-							field.ReleaseUnitsSelection();
-							field.AddUnitToSelectedUnits(u);
+							c.CellType = CellType.LAND;
 						}
 					}
-					else //click on Enemy unit
+					else if (objectType == "reefs")
 					{
-						Unit playerUnit = field.GetLastSelectedUnit();
-						Unit enemyUnit = u;
-						field.UnitAttacksUnit(playerUnit, enemyUnit); //fire
-						if (!enemyUnit.IsAlive())
+						if (c.SlotsOccupied == 0)
 						{
-							field.RemoveUnit(enemyUnit);
+							c.CellType = CellType.REEFS;
 						}
 					}
-				}
-				else //click in the field
-				{
-					Vector2Int cellXY = Utils.GetFieldLogicalXY(mousePos2D);
-
-					if (cellXY.x <= field.Width && cellXY.y <= field.Height && cellXY.x >= 0 && cellXY.y >= 0) //if desired location is valid field cell
+					else if (objectType == "erase")
 					{
-						Cell c = field.GetCell(cellXY.x, cellXY.y);
-						if (!c.isOccupied())
+						c.CellType = CellType.SEA;
+						if (c.SlotsOccupied > 0)
 						{
-							field.ChangeLastSelectedUnitPosition(Utils.GetFieldLogicalXY(mousePos2D));  //move unit
-						}
-						else
-						{
-							Debug.Log("Can't place unit on already occupied cell");
-						}
-					}
-				}
-			}
-		}
-		else if (GameController.instance.Mode == Mode.EDITOR)
-		{
-			if (Input.GetMouseButtonDown(0))
-			{
-				Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-				Vector2 mousePos2D = new Vector2(mousePos.x, mousePos.y);
-
-				RaycastHit2D hit = Physics2D.Raycast(mousePos2D, Vector2.zero);
-
-				if (hit.collider == null) // if clicked on field
-				{
-					Vector2Int cellXY = Utils.GetFieldLogicalXY(mousePos2D);
-
-					if (cellXY.x <= field.Width && cellXY.y <= field.Height && cellXY.x >= 0 && cellXY.y >= 0)
-					{
-						Cell c = field.GetCell(cellXY.x, cellXY.y);
-						string objectType = hud.GetObjectTypeToPlace();
-						if (objectType == "land")
+							foreach (Unit u in field.GetUnits())
 							{
-							if (c.SlotsOccupied == 0)
+								if (u.cell == c)
 								{
-								c.CellType = CellType.LAND;
+									u.Hp = 0;
 								}
 							}
-						else if (objectType == "reefs")
-						{
-							if (c.SlotsOccupied == 0)
-							{
-								c.CellType = CellType.REEFS;
-							}
+							field.RemoveDeadUnits();
 						}
-						else if (objectType == "erase")
-						{
-							c.CellType = CellType.SEA;
-							if (c.SlotsOccupied > 0)
-							{
-								foreach(Unit u in field.GetUnits())
-								{
-									if (u.cell == c)
-									{
-										u.Hp = 0;										
-									}
-								}
-								field.RemoveDeadUnits();
-							}
-						}
-						else if (objectType == "brig")
-						{
-							if (c.SlotsOccupied < 2)
-							{
-								Unit u = new Unit("brig", hud.GetPlayer())
-								{
-									Position = new Vector2Int(c.X, c.Y)
-								};
-								field.AddUnit(u);
-							}
-						}
-						else if (objectType == "fort")
-						{
-							if (c.SlotsOccupied == 0)
-							{
-
-								Unit u = new Unit("fort", hud.GetPlayer())
-								{
-									Position = new Vector2Int(c.X, c.Y)
-								};
-								field.AddUnit(u);
-							}
-						}
-						fa.DrawCells();
-						fa.DrawShips();
 					}
+					else if (objectType == "brig")
+					{
+						if (c.SlotsOccupied < 2)
+						{
+							Unit u = new Unit("brig", hud.GetPlayer())
+							{
+								Position = new Vector2Int(c.X, c.Y)
+							};
+							field.AddUnit(u);
+						}
+					}
+					else if (objectType == "fort")
+					{
+						if (c.SlotsOccupied == 0)
+						{
+
+							Unit u = new Unit("fort", hud.GetPlayer())
+							{
+								Position = new Vector2Int(c.X, c.Y)
+							};
+							field.AddUnit(u);
+						}
+					}
+					fa.DrawCells();
+					fa.DrawShips();
 				}
 			}
-		}
+		}	
 	}
 }

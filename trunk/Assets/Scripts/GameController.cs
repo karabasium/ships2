@@ -122,9 +122,9 @@ public class GameController : MonoBehaviour {
 		fa.UpdateField();
 
 
-		if (Camera.main.gameObject.AddComponent<CameraDrag>() != null)
+		if (Camera.main.gameObject.GetComponent<CameraDrag>() != null)
 		{
-			Destroy(Camera.main.gameObject.AddComponent<CameraDrag>());
+			Destroy(Camera.main.gameObject.GetComponent<CameraDrag>());
 		}
 		CameraDrag cd = Camera.main.gameObject.AddComponent<CameraDrag>();
 		cd.Init(f, fa);

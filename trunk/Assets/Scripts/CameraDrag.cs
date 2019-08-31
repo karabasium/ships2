@@ -49,12 +49,17 @@ public class CameraDrag : MonoBehaviour
 			return;
 		}
 
+		/*float x = 4;
 
+		float leftEdge = lefttopmostPoint.x + fieldAppearanceWidth / x;
+		float rightEdge = rightmostPoint.x - fieldAppearanceWidth / x;
+		float topEdge = topmostPoint.y - fieldAppearanceHeight / x;
+		float bottomEdge = bottommostPoint.y + fieldAppearanceHeight / x;*/
 
-		float leftEdge = lefttopmostPoint.x + fieldAppearanceWidth / 4;
-		float rightEdge = rightmostPoint.x - fieldAppearanceWidth / 4;
-		float topEdge = topmostPoint.y - fieldAppearanceHeight / 4;
-		float bottomEdge = bottommostPoint.y + fieldAppearanceHeight / 4;
+		float leftEdge = lefttopmostPoint.x + 4;
+		float rightEdge = rightmostPoint.x - 4;
+		float topEdge = topmostPoint.y - 4;
+		float bottomEdge = bottommostPoint.y + 3;
 
 		if (transform.position.x >= leftEdge && transform.position.x <= rightEdge && transform.position.y <= topEdge && transform.position.y >= bottomEdge)
 		{

@@ -10,14 +10,24 @@
     <cell x="8" y="2" type="land" />
     <cell x="7" y="3" type="land" />
     <cell x="8" y="3" type="land" />
+    <cell x="1" y="7" type="land" />
     <cell x="6" y="7" type="land" />
     <cell x="7" y="7" type="land" />
+    <cell x="1" y="8" type="land" />
+    <cell x="2" y="8" type="land" />
     <cell x="4" y="8" type="land" />
+    <cell x="2" y="9" type="land" />
+    <cell x="3" y="9" type="land" />
+    <cell x="4" y="9" type="land" />
+    <cell x="5" y="9" type="land" />
+    <cell x="3" y="10" type="land" />
+    <cell x="4" y="10" type="land" />
   </cells>
   <units>
     <unit x="3" y="5" class="brig" player="1" />
     <unit x="3" y="4" class="brig" player="1" />
     <unit x="8" y="5" class="brig" player="2" />
     <unit x="5" y="3" class="brig" player="1" />
+    <unit x="2" y="7" class="fort" player="1" />
   </units>
 </level>
