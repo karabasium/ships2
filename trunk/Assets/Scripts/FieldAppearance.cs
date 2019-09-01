@@ -23,7 +23,34 @@ public class FieldAppearance : MonoBehaviour {
 	private Color canMoveColor;
 	private Color canFireColor;
 	private Color stormCellsColor;
+	private float width;
+	private float height;
 
+	public float Width
+	{
+		get
+		{
+			return width;
+		}
+
+		set
+		{
+			width = value;
+		}
+	}
+
+	public float Height
+	{
+		get
+		{
+			return height;
+		}
+
+		set
+		{
+			height = value;
+		}
+	}
 
 	void Awake()
 	{
@@ -73,7 +100,11 @@ public class FieldAppearance : MonoBehaviour {
 		hla = gameObject.AddComponent<HighlightAppearance>();
 		hla.Init(angle, scaleY, fieldZeroX, fieldZeroY, cellWidth, cellHeight, field);
 
+		Height = Mathf.Abs(Utils.GetWorldPositionByLogicalXY(new Vector2Int(field.Width - 1, field.Height - 1)).y - Utils.GetWorldPositionByLogicalXY(new Vector2Int(0, 0)).y);
+		Width = Mathf.Abs(Utils.GetWorldPositionByLogicalXY(new Vector2Int(field.Width - 1, 0)).x - Utils.GetWorldPositionByLogicalXY(new Vector2Int(0, field.Height - 1)).x);
 
+		Background back = new Background();
+		back.Init(Width, Height);
 
 		CreateFortCells();
 	}
