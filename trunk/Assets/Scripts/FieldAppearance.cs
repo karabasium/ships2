@@ -23,6 +23,7 @@ public class FieldAppearance : MonoBehaviour {
 	private Color canMoveColor;
 	private Color canFireColor;
 	private Color stormCellsColor;
+	private Vector2 topLeftPoint_position;
 	private float width;
 	private float height;
 
@@ -49,6 +50,19 @@ public class FieldAppearance : MonoBehaviour {
 		set
 		{
 			height = value;
+		}
+	}
+
+	public Vector2 TopLeftPoint_position
+	{
+		get
+		{
+			return topLeftPoint_position;
+		}
+
+		set
+		{
+			topLeftPoint_position = value;
 		}
 	}
 
@@ -100,11 +114,19 @@ public class FieldAppearance : MonoBehaviour {
 		hla = gameObject.AddComponent<HighlightAppearance>();
 		hla.Init(angle, scaleY, fieldZeroX, fieldZeroY, cellWidth, cellHeight, field);
 
-		Height = Mathf.Abs(Utils.GetWorldPositionByLogicalXY(new Vector2Int(field.Width - 1, field.Height - 1)).y - Utils.GetWorldPositionByLogicalXY(new Vector2Int(0, 0)).y);
-		Width = Mathf.Abs(Utils.GetWorldPositionByLogicalXY(new Vector2Int(field.Width - 1, 0)).x - Utils.GetWorldPositionByLogicalXY(new Vector2Int(0, field.Height - 1)).x);
+		Vector2 topMostPoint = Utils.GetWorldPositionByLogicalXY(new Vector2Int(field.Width - 1, field.Height - 1));
+		Vector2 bottomMostPoint = Utils.GetWorldPositionByLogicalXY(new Vector2Int(0, 0));
+		Vector2 leftMostPoint = Utils.GetWorldPositionByLogicalXY(new Vector2Int(0, field.Height - 1));
+		Vector2 rightMostPoint = Utils.GetWorldPositionByLogicalXY(new Vector2Int(field.Width - 1, 0));
+
+		Height = Mathf.Abs(topMostPoint.y - bottomMostPoint.y);
+		Width = Mathf.Abs(leftMostPoint.x - rightMostPoint.x);
+
+		Vector2 BoundingFrameTopLeftPoint_position = new Vector2(leftMostPoint.x, topMostPoint.y);
+		Debug.Log("BoundingFrameTopLeftPoint_position = " + BoundingFrameTopLeftPoint_position.ToString());
 
 		Background back = new Background();
-		back.Init(Width, Height);
+		back.Init(Width, Height, BoundingFrameTopLeftPoint_position);
 
 		CreateFortCells();
 	}
