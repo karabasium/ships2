@@ -63,7 +63,7 @@ public class GameController : MonoBehaviour {
 	public readonly float HIT_PROBABILITY = 1.0f;
 	private Mode mode = Mode.GAME;
 	public LevelData levelData;
-
+	public CameraDrag cd;
 
 
 	void Awake()
@@ -126,7 +126,7 @@ public class GameController : MonoBehaviour {
 		{
 			Destroy(Camera.main.gameObject.GetComponent<CameraDrag>());
 		}
-		CameraDrag cd = Camera.main.gameObject.AddComponent<CameraDrag>();
+		cd = Camera.main.gameObject.AddComponent<CameraDrag>();
 		cd.Init(f, fa);
 	}
 

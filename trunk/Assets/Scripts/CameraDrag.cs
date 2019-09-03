@@ -14,6 +14,62 @@ public class CameraDrag : MonoBehaviour
 	private Vector2 lefttopmostPoint;
 	private float fieldAppearanceWidth;
 	private float fieldAppearanceHeight;
+	private float topOffset;
+	private float bottomOffset;
+	private float leftOffset;
+	private float rightOffset;
+
+	public float TopOffset
+	{
+		get
+		{
+			return topOffset;
+		}
+
+		set
+		{
+			topOffset = value;
+		}
+	}
+
+	public float BottomOffset
+	{
+		get
+		{
+			return bottomOffset;
+		}
+
+		set
+		{
+			bottomOffset = value;
+		}
+	}
+
+	public float LeftOffset
+	{
+		get
+		{
+			return leftOffset;
+		}
+
+		set
+		{
+			leftOffset = value;
+		}
+	}
+
+	public float RightOffset
+	{
+		get
+		{
+			return rightOffset;
+		}
+
+		set
+		{
+			rightOffset = value;
+		}
+	}
 
 	void Start()
 	{
@@ -28,6 +84,12 @@ public class CameraDrag : MonoBehaviour
 		topmostPoint = Utils.GetWorldPositionByLogicalXY(new Vector2Int(field.Width-1, field.Height-1));
 		fieldAppearanceHeight = Mathf.Abs(topmostPoint.y - bottommostPoint.y);
 		fieldAppearanceWidth = Mathf.Abs(rightmostPoint.x - lefttopmostPoint.x);
+
+		
+		LeftOffset = 4;
+		RightOffset = 4;
+		TopOffset = 4;
+		BottomOffset = 3;
 	}
 
 
@@ -49,10 +111,10 @@ public class CameraDrag : MonoBehaviour
 			return;
 		}
 
-		float leftEdge = lefttopmostPoint.x + 4;
-		float rightEdge = rightmostPoint.x - 4;
-		float topEdge = topmostPoint.y - 4;
-		float bottomEdge = bottommostPoint.y + 3;
+		float leftEdge = lefttopmostPoint.x + LeftOffset;
+		float rightEdge = rightmostPoint.x - RightOffset;
+		float topEdge = topmostPoint.y - TopOffset;
+		float bottomEdge = bottommostPoint.y + BottomOffset;
 
 		if (transform.position.x >= leftEdge && transform.position.x <= rightEdge && transform.position.y <= topEdge && transform.position.y >= bottomEdge)
 		{

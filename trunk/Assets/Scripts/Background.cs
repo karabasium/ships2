@@ -16,9 +16,19 @@ public class Background : MonoBehaviour {
 		float tileHeight = tileSprite.bounds.size.y;
 		float tileWidth = tileSprite.bounds.size.x;
 
+		CameraDrag cd = GameController.instance.cd;
 
-		int x_tiles_count = (int)Mathf.Ceil(width / tileWidth);
-		int y_tiles_count = (int)Mathf.Ceil(height / tileHeight);
+		float LeftOffset = 4;
+		float RightOffset = 4;
+		float TopOffset = 4;
+		float BottomOffset = 3;
+
+		float frameWidth = width + LeftOffset + RightOffset;
+		float frameHeight = height + TopOffset + BottomOffset;
+
+
+		int x_tiles_count = (int)Mathf.Ceil(frameWidth / tileWidth);
+		int y_tiles_count = (int)Mathf.Ceil(frameHeight / tileHeight);
 
 		//Debug.Log("Background needs x = " + x_tiles_count.ToString() + ". y = " + y_tiles_count.ToString());
 		
@@ -26,7 +36,7 @@ public class Background : MonoBehaviour {
 		{
 			for (int j = 0; j < y_tiles_count; j++)
 			{
-				Vector2 center = new Vector2(BoundingFrameTopLeftPoint_position.x + i * tileWidth + tileWidth / 2, BoundingFrameTopLeftPoint_position.y - j*tileHeight - tileHeight / 2);
+				Vector2 center = new Vector2(BoundingFrameTopLeftPoint_position.x - LeftOffset + i * tileWidth + tileWidth / 2, BoundingFrameTopLeftPoint_position.y + TopOffset - j*tileHeight - tileHeight / 2);
 				CreateTile(center);
 			}
 		}
