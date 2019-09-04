@@ -9,9 +9,9 @@ public class Background : MonoBehaviour {
 
 	public void Init(float width, float height, Vector2 BoundingFrameTopLeftPoint_position, float LeftOffset, float RightOffset, float TopOffset, float BottomOffset)
 	{
-		backgroundTilesHolder = new GameObject() { name = "Background2" };
+		backgroundTilesHolder = new GameObject() { name = "BackgroundField" };
 
-		tileSprite = Resources.Load<Sprite>("Sprites/sea");
+		tileSprite = Resources.Load<Sprite>("Sprites/wood2");
 
 		float tileHeight = tileSprite.bounds.size.y;
 		float tileWidth = tileSprite.bounds.size.x;
@@ -42,7 +42,7 @@ public class Background : MonoBehaviour {
 		GameObject tile = new GameObject { name = "sea tile" };
 		SpriteRenderer sr = tile.AddComponent<SpriteRenderer>();
 		sr.sprite = tileSprite;
-		sr.sortingLayerName = "Background";
+		sr.sortingLayerName = "Default";
 		tile.transform.parent = backgroundTilesHolder.transform;
 		tile.transform.position += new Vector3(pos.x, pos.y, 2);
 

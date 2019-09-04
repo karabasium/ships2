@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
-<level width="30" height="30">
+<level width="20" height="22">
   <cells>
     <cell x="4" y="1" type="land" />
     <cell x="5" y="1" type="land" />
