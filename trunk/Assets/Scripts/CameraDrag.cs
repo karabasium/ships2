@@ -19,58 +19,6 @@ public class CameraDrag : MonoBehaviour
 	private float leftOffset;
 	private float rightOffset;
 
-	public float TopOffset
-	{
-		get
-		{
-			return topOffset;
-		}
-
-		set
-		{
-			topOffset = value;
-		}
-	}
-
-	public float BottomOffset
-	{
-		get
-		{
-			return bottomOffset;
-		}
-
-		set
-		{
-			bottomOffset = value;
-		}
-	}
-
-	public float LeftOffset
-	{
-		get
-		{
-			return leftOffset;
-		}
-
-		set
-		{
-			leftOffset = value;
-		}
-	}
-
-	public float RightOffset
-	{
-		get
-		{
-			return rightOffset;
-		}
-
-		set
-		{
-			rightOffset = value;
-		}
-	}
-
 	void Start()
 	{
 
@@ -86,10 +34,10 @@ public class CameraDrag : MonoBehaviour
 		fieldAppearanceWidth = Mathf.Abs(rightmostPoint.x - lefttopmostPoint.x);
 
 		
-		LeftOffset = 4;
-		RightOffset = 4;
-		TopOffset = 4;
-		BottomOffset = 3;
+		leftOffset = fa.LEFT_OFFSET;
+		rightOffset = fa.RIGHT_OFFSET;
+		topOffset = fa.TOP_OFFSET;
+		bottomOffset = fa.BOTTOM_OFFSET;
 	}
 
 
@@ -111,10 +59,10 @@ public class CameraDrag : MonoBehaviour
 			return;
 		}
 
-		float leftEdge = lefttopmostPoint.x + LeftOffset;
-		float rightEdge = rightmostPoint.x - RightOffset;
-		float topEdge = topmostPoint.y - TopOffset;
-		float bottomEdge = bottommostPoint.y + BottomOffset;
+		float leftEdge = lefttopmostPoint.x + leftOffset;
+		float rightEdge = rightmostPoint.x - rightOffset;
+		float topEdge = topmostPoint.y - topOffset;
+		float bottomEdge = bottommostPoint.y + bottomOffset;
 
 		if (transform.position.x >= leftEdge && transform.position.x <= rightEdge && transform.position.y <= topEdge && transform.position.y >= bottomEdge)
 		{

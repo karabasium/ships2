@@ -7,7 +7,7 @@ public class Background : MonoBehaviour {
 	private List<GameObject> backgroundTiles;
 	private Sprite tileSprite;
 
-	public void Init(float width, float height, Vector2 BoundingFrameTopLeftPoint_position)
+	public void Init(float width, float height, Vector2 BoundingFrameTopLeftPoint_position, float LeftOffset, float RightOffset, float TopOffset, float BottomOffset)
 	{
 		backgroundTilesHolder = new GameObject() { name = "Background2" };
 
@@ -17,11 +17,6 @@ public class Background : MonoBehaviour {
 		float tileWidth = tileSprite.bounds.size.x;
 
 		CameraDrag cd = GameController.instance.cd;
-
-		float LeftOffset = 4;
-		float RightOffset = 4;
-		float TopOffset = 4;
-		float BottomOffset = 3;
 
 		float frameWidth = width + LeftOffset + RightOffset;
 		float frameHeight = height + TopOffset + BottomOffset;

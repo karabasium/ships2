@@ -26,6 +26,10 @@ public class FieldAppearance : MonoBehaviour {
 	private Vector2 topLeftPoint_position;
 	private float width;
 	private float height;
+	public float LEFT_OFFSET = 4;
+	public float RIGHT_OFFSET = 4;
+	public float TOP_OFFSET = 4;
+	public float BOTTOM_OFFSET = 3;
 
 	public float Width
 	{
@@ -126,7 +130,7 @@ public class FieldAppearance : MonoBehaviour {
 		Debug.Log("BoundingFrameTopLeftPoint_position = " + BoundingFrameTopLeftPoint_position.ToString());
 
 		Background back = new Background();
-		back.Init(Width, Height, BoundingFrameTopLeftPoint_position);
+		back.Init(Width, Height, BoundingFrameTopLeftPoint_position, LEFT_OFFSET, RIGHT_OFFSET, TOP_OFFSET, BOTTOM_OFFSET);
 
 		CreateFortCells();
 	}
