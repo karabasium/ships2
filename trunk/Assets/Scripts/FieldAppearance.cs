@@ -111,6 +111,7 @@ public class FieldAppearance : MonoBehaviour {
 		shipsParent.transform.parent = fieldObjectsParent.transform;
 
 		unitsAppearances = new List<UnitAppearance>();
+		CreateLandCells();
 
 		DrawField(cellHeight, cellWidth, angle, scaleY);
 		DrawShips();
@@ -133,6 +134,22 @@ public class FieldAppearance : MonoBehaviour {
 		back.Init(Width, Height, BoundingFrameTopLeftPoint_position, LEFT_OFFSET, RIGHT_OFFSET, TOP_OFFSET, BOTTOM_OFFSET);
 
 		CreateFortCells();
+	}
+
+	private void CreateLandCells()
+	{
+		for (int x = 0; x < field.Width; x++)
+		{
+			for (int y = 0; y < field.Height; y++)
+			{
+				RaycastHit2D hit = Physics2D.Raycast(Utils.GetWorldPositionByLogicalXY(new Vector2Int(x, y)), Vector2.zero);
+				if (hit.collider != null)
+				{
+					Debug.Log("hit.collider = " + hit.collider.ToString());
+					field.GetCell(x, y).CellType = CellType.LAND;
+				}
+			}
+		}
 	}
 
 	void Update()
