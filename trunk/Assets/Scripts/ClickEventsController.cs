@@ -8,7 +8,9 @@ public class ClickEventsController : MonoBehaviour {
 	private Field field;
 	private FieldAppearance fa;
 	private HUD hud;
-
+	private float distance;
+	bool dragging = false;
+	private GameObject dragGameObject;
 
 	void Start () {
 		
@@ -70,7 +72,43 @@ public class ClickEventsController : MonoBehaviour {
 
 			if (GameController.instance.Mode == Mode.EDITOR)
 			{
-				HandleEditorClicks();
+				if (Input.GetMouseButtonUp(0)){
+					Debug.Log("GetMouseButtonUp");
+				}
+				if (Input.GetMouseButtonDown(0))
+				{					
+					Debug.Log("GetMouseButtonDown");
+					Vector3 mousePosClick = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+					Vector2 mousePos2DClick = new Vector2(mousePos.x, mousePos.y);
+
+					RaycastHit2D hit = Physics2D.Raycast(mousePos2DClick, Vector2.zero);
+
+					if (hit.collider.gameObject != null)
+					{
+						if (!dragging)
+						{
+							dragGameObject = hit.collider.gameObject;
+							distance = Vector3.Distance(dragGameObject.transform.position, Camera.main.transform.position);
+							dragging = true;
+							Debug.Log("start drag");
+						}
+					}
+					else
+					{
+						AddOrRemoveObjects(Utils.GetFieldLogicalXY(mousePos2DClick));
+					}
+				}
+				else if (Input.GetMouseButtonUp(0) && dragging)
+				{
+					dragging = false;
+					Debug.Log("stop drag");
+				}
+				if (dragging)
+				{
+					Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+					Vector3 rayPoint = ray.GetPoint(distance);
+					dragGameObject.transform.position = rayPoint;
+				}
 				return;
 			}
 
@@ -205,79 +243,70 @@ public class ClickEventsController : MonoBehaviour {
 	}
 
 
-	void HandleEditorClicks()
+	void AddOrRemoveObjects(Vector2Int cellXY)
 	{
-		if (Input.GetMouseButtonDown(0))
-		{
-			Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-			Vector2 mousePos2D = new Vector2(mousePos.x, mousePos.y);
+			
 
-			RaycastHit2D hit = Physics2D.Raycast(mousePos2D, Vector2.zero);
-
-			if (hit.collider == null) // if clicked on field
-			{
-				Vector2Int cellXY = Utils.GetFieldLogicalXY(mousePos2D);
-
-				if (cellXY.x <= field.Width && cellXY.y <= field.Height && cellXY.x >= 0 && cellXY.y >= 0)
-				{
-					Cell c = field.GetCell(cellXY.x, cellXY.y);
-					string objectType = hud.GetObjectTypeToPlace();
-					if (objectType == "land")
+					if (cellXY.x <= field.Width && cellXY.y <= field.Height && cellXY.x >= 0 && cellXY.y >= 0)
 					{
-						if (c.SlotsOccupied == 0)
+						Cell c = field.GetCell(cellXY.x, cellXY.y);
+						string objectType = hud.GetObjectTypeToPlace();
+						if (objectType == "land")
 						{
-							c.CellType = CellType.LAND;
-						}
-					}
-					else if (objectType == "reefs")
-					{
-						if (c.SlotsOccupied == 0)
-						{
-							c.CellType = CellType.REEFS;
-						}
-					}
-					else if (objectType == "erase")
-					{
-						c.CellType = CellType.SEA;
-						if (c.SlotsOccupied > 0)
-						{
-							foreach (Unit u in field.GetUnits())
+							if (c.SlotsOccupied == 0)
 							{
-								if (u.cell == c)
-								{
-									u.Hp = 0;
-								}
+								c.CellType = CellType.LAND;
 							}
-							field.RemoveDeadUnits();
 						}
-					}
-					else if (objectType == "brig")
-					{
-						if (c.SlotsOccupied < 2)
+						else if (objectType == "reefs")
 						{
-							Unit u = new Unit("brig", hud.GetPlayer())
+							if (c.SlotsOccupied == 0)
 							{
-								Position = new Vector2Int(c.X, c.Y)
-							};
-							field.AddUnit(u);
+								c.CellType = CellType.REEFS;
+							}
 						}
-					}
-					else if (objectType == "fort")
-					{
-						if (c.SlotsOccupied == 0)
+						else if (objectType == "erase")
 						{
+							c.CellType = CellType.SEA;
+							if (c.SlotsOccupied > 0)
+							{
+								foreach (Unit u in field.GetUnits())
+								{
+									if (u.cell == c)
+									{
+										u.Hp = 0;
+									}
+								}
+								field.RemoveDeadUnits();
+							}
+						}
+						else if (objectType == "brig")
+						{
+							if (c.SlotsOccupied < 2)
+							{
+								Unit u = new Unit("brig", hud.GetPlayer())
+								{
+									Position = new Vector2Int(c.X, c.Y)
+								};
+								field.AddUnit(u);
+							}
+						}
+						else if (objectType == "fort")
+						{
+							if (c.SlotsOccupied == 0)
+							{
 
-							Unit u = new Unit("fort", hud.GetPlayer())
-							{
-								Position = new Vector2Int(c.X, c.Y)
-							};
-							field.AddUnit(u);
+								Unit u = new Unit("fort", hud.GetPlayer())
+								{
+									Position = new Vector2Int(c.X, c.Y)
+								};
+								field.AddUnit(u);
+							}
 						}
-					}
-					fa.DrawCells();
-					fa.DrawShips();
-				}
-			}
-		}	
+						fa.DrawCells();
+						fa.DrawShips();
+					}				
+			
+		
 	}
 }

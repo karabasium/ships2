@@ -1,6 +1,11 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <level width="10" height="12">
   <cells>
+    <cell x="6" y="5" type="land" />
+    <cell x="6" y="6" type="land" />
+    <cell x="7" y="6" type="land" />
+    <cell x="6" y="7" type="land" />
+    <cell x="7" y="7" type="land" />
   </cells>
   <units>
     <unit x="3" y="5" class="brig" player="1" />

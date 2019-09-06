@@ -43,6 +43,10 @@ public class CameraDrag : MonoBehaviour
 
 	void Update()
 	{
+		if (GameController.instance.Mode == Mode.EDITOR)
+		{
+			return;
+		}
 		if (Input.GetMouseButton(0))
 		{
 			if (clickOrigin == Vector3.zero)

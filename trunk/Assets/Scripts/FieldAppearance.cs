@@ -130,7 +130,8 @@ public class FieldAppearance : MonoBehaviour {
 		Vector2 BoundingFrameTopLeftPoint_position = new Vector2(leftMostPoint.x, topMostPoint.y);
 		Debug.Log("BoundingFrameTopLeftPoint_position = " + BoundingFrameTopLeftPoint_position.ToString());
 
-		Background back = new Background();
+		GameObject backGameObject = new GameObject() { name = "back game object" };
+		Background back = backGameObject.AddComponent<Background>();
 		back.Init(Width, Height, BoundingFrameTopLeftPoint_position, LEFT_OFFSET, RIGHT_OFFSET, TOP_OFFSET, BOTTOM_OFFSET);
 
 		CreateFortCells();
