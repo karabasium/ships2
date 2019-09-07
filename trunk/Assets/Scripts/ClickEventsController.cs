@@ -46,9 +46,7 @@ public class ClickEventsController : MonoBehaviour {
 		return closestCell;
 	}
 
-
-
-	void Update()
+	private void HandleGameClicks()
 	{
 		if (Input.GetMouseButtonDown(0))
 		{
@@ -70,47 +68,7 @@ public class ClickEventsController : MonoBehaviour {
 				return;
 			}
 
-			if (GameController.instance.Mode == Mode.EDITOR)
-			{
-				if (Input.GetMouseButtonUp(0)){
-					Debug.Log("GetMouseButtonUp");
-				}
-				if (Input.GetMouseButtonDown(0))
-				{					
-					Debug.Log("GetMouseButtonDown");
-					Vector3 mousePosClick = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-					Vector2 mousePos2DClick = new Vector2(mousePos.x, mousePos.y);
 
-					RaycastHit2D hit = Physics2D.Raycast(mousePos2DClick, Vector2.zero);
-
-					if (hit.collider.gameObject != null)
-					{
-						if (!dragging)
-						{
-							dragGameObject = hit.collider.gameObject;
-							distance = Vector3.Distance(dragGameObject.transform.position, Camera.main.transform.position);
-							dragging = true;
-							Debug.Log("start drag");
-						}
-					}
-					else
-					{
-						AddOrRemoveObjects(Utils.GetFieldLogicalXY(mousePos2DClick));
-					}
-				}
-				else if (Input.GetMouseButtonUp(0) && dragging)
-				{
-					dragging = false;
-					Debug.Log("stop drag");
-				}
-				if (dragging)
-				{
-					Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-					Vector3 rayPoint = ray.GetPoint(distance);
-					dragGameObject.transform.position = rayPoint;
-				}
-				return;
-			}
 
 			List<Unit> unitsInCell = Utils.GetUnitsInCell(cell);
 			List<Unit> currentPlayerUnits = new List<Unit>();
@@ -162,15 +120,15 @@ public class ClickEventsController : MonoBehaviour {
 							//	field.TryMove(selectedUnit, Utils.GetFieldLogicalXY(mousePos2D)); // then move 
 							//}
 							//else //if impossible to move
-							if (field.GetSelectedUnits().Contains( unitsInCell[0] ) )
+							if (field.GetSelectedUnits().Contains(unitsInCell[0]))
 							{
-								field.UnselectUnit( unitsInCell[0] );
+								field.UnselectUnit(unitsInCell[0]);
 							}
 							else
 							{
 								//if both units don't have defined weather than select them all to have possibility to define weather for all units
 								if (unitsInCell[0].weather.currentWeatherType == Weather_type.UNDEFINED && selectedUnit.weather.currentWeatherType == Weather_type.UNDEFINED && !unitsInCell[0].MovementDone && !selectedUnit.MovementDone)
-								{ 
+								{
 									field.AddUnitToSelectedUnits(unitsInCell[0], false); // select unit in this cell
 								}
 								else //unselect current unit and select clicked unit
@@ -238,7 +196,66 @@ public class ClickEventsController : MonoBehaviour {
 						field.ReleaseUnitsSelection(); //release selection
 					}
 				}
-			}			
+			}
+		}
+	}
+
+	private void HandleEditorClicks()
+	{
+		if (Input.GetMouseButtonUp(0))
+			{
+				Debug.Log("GetMouseButtonUp");
+			}
+			if (Input.GetMouseButtonDown(0))
+			{
+				Debug.Log("GetMouseButtonDown");
+				Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+				Vector2 mousePos2D = new Vector2(mousePos.x, mousePos.y);
+
+				RaycastHit2D hit = Physics2D.Raycast(mousePos2D, Vector2.zero);
+
+				if (hit.collider == null)
+				{
+					return;
+				}
+
+				if (hit.collider.gameObject != null)
+				{
+					if (!dragging)
+					{
+						dragGameObject = hit.collider.gameObject;
+						distance = Vector3.Distance(dragGameObject.transform.position, Camera.main.transform.position);
+						dragging = true;
+						Debug.Log("start drag");
+					}
+				}
+				else
+				{
+					AddOrRemoveObjects(Utils.GetFieldLogicalXY(mousePos2D));
+				}
+			}
+			else if (Input.GetMouseButtonUp(0) && dragging)
+			{
+				dragging = false;
+				Debug.Log("stop drag");
+			}
+			if (dragging)
+			{
+				Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+				Vector3 rayPoint = ray.GetPoint(distance);
+				dragGameObject.transform.position = rayPoint;
+			}
+	}
+
+	void Update()
+	{
+		if (GameController.instance.Mode == Mode.EDITOR)
+		{
+			HandleEditorClicks();
+		}
+		else
+		{
+			HandleGameClicks();
 		}
 	}
 
