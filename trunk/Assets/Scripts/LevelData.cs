@@ -8,6 +8,18 @@ public class LevelData {
 	private List<Cell> cells;
 	private List<Unit> units;
 	private string path;
+	public List<LevelInfo> landAppearancesInfo = new List<LevelInfo>();
+
+	public struct LevelInfo
+	{
+		public string Name;
+		public Vector2 Position;
+		public LevelInfo( string name, Vector2 position)
+		{
+			Name = name;
+			Position = position;
+		}
+	}
 
 	public LevelData( string levelPath )
 	{
@@ -71,8 +83,18 @@ public class LevelData {
 			Units.Add(u);
 		}
 
+		XmlNodeList landAppearances = xmlDoc.GetElementsByTagName("landAppearance");
+		foreach (XmlNode node in landAppearances)
+		{
+			string objName = node.Attributes["prefab_name"].Value;
+			//GameObject g = (GameObject)Resources.Load("Prefabs/" + objName);
+			Vector2 pos = new Vector2(System.Convert.ToSingle(node.Attributes["world_x"].Value), System.Convert.ToSingle(node.Attributes["world_y"].Value));
+			LevelInfo levelInfo = new LevelInfo(objName, pos);
+			landAppearancesInfo.Add(levelInfo);
+			Debug.Log("Land Object info loaded");
+		}
+
 		XmlNodeList levelNodes = xmlDoc.GetElementsByTagName("level");
-		Dictionary<string, string> levelParameters = new Dictionary<string, string>();
 		FieldWidth = System.Convert.ToUInt16( levelNodes[0].Attributes["width"].Value);
 		FieldHeight = System.Convert.ToUInt16(levelNodes[0].Attributes["height"].Value);
 	}
@@ -130,6 +152,18 @@ public class LevelData {
 			{
 				unitNode.SetAttribute("player", "2");
 			}
+		}
+
+		XmlElement landAppearanceNodes = xmlDoc.CreateElement("landAppearances");
+		levelElement.AppendChild(landAppearanceNodes);
+		foreach (GameObject g in GameController.instance.fa.LandObjects)
+		{
+			XmlElement landAppearanceNode = xmlDoc.CreateElement("landAppearance");
+			landAppearanceNodes.AppendChild(landAppearanceNode);
+			Vector2 undistortedPos = Utils.TransformToUndistorted(g.transform.position);
+			landAppearanceNode.SetAttribute("world_x", undistortedPos.x.ToString());
+			landAppearanceNode.SetAttribute("world_y", undistortedPos.y.ToString());
+			landAppearanceNode.SetAttribute("prefab_name", g.name);
 		}
 
 		xmlDoc.Save( path );

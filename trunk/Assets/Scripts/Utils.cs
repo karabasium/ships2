@@ -59,6 +59,16 @@ public class Utils {
 		return Utils.scale_y(Utils.rotate(pos, fa.angle_rad), fa.scaleY);
 	}
 
+	public static Vector2 TransformToUndistorted( Vector2 distortedPos)
+	{
+		return Utils.rotate(Utils.scale_y(distortedPos, 1 / fa.scaleY), -fa.angle_rad);
+	}
+
+	public static Vector2 DistortPosition( Vector2 undistortedPos)
+	{
+		return Utils.scale_y(Utils.rotate(undistortedPos, fa.angle_rad), fa.scaleY);
+	}
+
 	public static Vector2 GetUnitWorldPositionByLogicalXY(Vector2Int positionOnField, FieldAppearance fa)
 	{
 		Vector2 pos = new Vector2(fa.fieldZeroX + positionOnField.x * fa.cellWidth + 1 * fa.cellWidth / 2, fa.fieldZeroY + positionOnField.y * fa.cellHeight + 1 * fa.cellHeight / 2);

@@ -30,6 +30,7 @@ public class FieldAppearance : MonoBehaviour {
 	public float RIGHT_OFFSET = 4;
 	public float TOP_OFFSET = 4;
 	public float BOTTOM_OFFSET = 3;
+	private List<GameObject> landObjects;
 
 	public float Width
 	{
@@ -67,6 +68,19 @@ public class FieldAppearance : MonoBehaviour {
 		set
 		{
 			topLeftPoint_position = value;
+		}
+	}
+
+	public List<GameObject> LandObjects
+	{
+		get
+		{
+			return landObjects;
+		}
+
+		set
+		{
+			landObjects = value;
 		}
 	}
 
@@ -111,7 +125,7 @@ public class FieldAppearance : MonoBehaviour {
 		shipsParent.transform.parent = fieldObjectsParent.transform;
 
 		unitsAppearances = new List<UnitAppearance>();
-		UpdateLandCells();
+		
 
 		DrawField(cellHeight, cellWidth, angle, scaleY);
 		DrawShips();
@@ -135,6 +149,31 @@ public class FieldAppearance : MonoBehaviour {
 		back.Init(Width, Height, BoundingFrameTopLeftPoint_position, LEFT_OFFSET, RIGHT_OFFSET, TOP_OFFSET, BOTTOM_OFFSET);
 
 		CreateFortCells();
+
+		for (int i=0; i<GameController.instance.levelData.landAppearancesInfo.Count; i++)
+		{
+			Vector2 distortedPos = Utils.DistortPosition( GameController.instance.levelData.landAppearancesInfo[i].Position );
+			string name = GameController.instance.levelData.landAppearancesInfo[i].Name;
+
+			CreateLandObject(name, distortedPos);
+		}
+		LandObjects = new List<GameObject>(GameObject.FindGameObjectsWithTag("land"));
+		UpdateLandCells();
+	}
+
+	private GameObject CreateLandObject(string spriteName, Vector2 position)
+	{
+		GameObject g = new GameObject();
+		g.name = spriteName;
+		g.transform.position = position;
+		g.transform.parent = landParentObject.transform;
+		SpriteRenderer sp = g.AddComponent<SpriteRenderer>();
+		sp.sprite = Resources.Load<Sprite>("Sprites/" + spriteName);
+		sp.sortingLayerName = "Field";
+		PolygonCollider2D pgc = g.AddComponent<PolygonCollider2D>();
+		pgc.isTrigger = true;
+		g.tag = "land";
+		return g;
 	}
 
 	public void UpdateLandCells()

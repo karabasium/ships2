@@ -1,11 +1,19 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <level width="10" height="12">
   <cells>
-    <cell x="6" y="5" type="land" />
-    <cell x="6" y="6" type="land" />
-    <cell x="7" y="6" type="land" />
-    <cell x="6" y="7" type="land" />
-    <cell x="7" y="7" type="land" />
+    <cell x="1" y="0" type="land" />
+    <cell x="1" y="1" type="land" />
+    <cell x="2" y="1" type="land" />
+    <cell x="1" y="2" type="land" />
+    <cell x="2" y="2" type="land" />
+    <cell x="1" y="3" type="land" />
+    <cell x="2" y="3" type="land" />
+    <cell x="5" y="8" type="land" />
+    <cell x="5" y="9" type="land" />
+    <cell x="6" y="9" type="land" />
+    <cell x="5" y="10" type="land" />
+    <cell x="6" y="10" type="land" />
+    <cell x="6" y="11" type="land" />
   </cells>
   <units>
     <unit x="3" y="5" class="brig" player="1" />
@@ -14,4 +22,8 @@
     <unit x="5" y="3" class="brig" player="1" />
     <unit x="2" y="7" class="fort" player="1" />
   </units>
+  <landAppearances>
+    <landAppearance world_x="2.044687" world_y="5.026208" prefab_name="Land_01" />
+    <landAppearance world_x="-2.175812" world_y="-2.927035" prefab_name="Land_01" />
+  </landAppearances>
 </level>
