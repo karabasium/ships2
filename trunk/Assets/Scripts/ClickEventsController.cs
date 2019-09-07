@@ -238,6 +238,8 @@ public class ClickEventsController : MonoBehaviour {
 			{
 				dragging = false;
 				Debug.Log("stop drag");
+				fa.UpdateLandCells();
+				fa.DrawCells();
 			}
 			if (dragging)
 			{

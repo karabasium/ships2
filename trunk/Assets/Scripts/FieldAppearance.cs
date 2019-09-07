@@ -111,7 +111,7 @@ public class FieldAppearance : MonoBehaviour {
 		shipsParent.transform.parent = fieldObjectsParent.transform;
 
 		unitsAppearances = new List<UnitAppearance>();
-		CreateLandCells();
+		UpdateLandCells();
 
 		DrawField(cellHeight, cellWidth, angle, scaleY);
 		DrawShips();
@@ -137,17 +137,28 @@ public class FieldAppearance : MonoBehaviour {
 		CreateFortCells();
 	}
 
-	private void CreateLandCells()
+	public void UpdateLandCells()
 	{
 		for (int x = 0; x < field.Width; x++)
 		{
 			for (int y = 0; y < field.Height; y++)
 			{
 				RaycastHit2D hit = Physics2D.Raycast(Utils.GetWorldPositionByLogicalXY(new Vector2Int(x, y)), Vector2.zero);
+				Cell cell = field.GetCell(x, y);
 				if (hit.collider != null)
 				{
-					Debug.Log("hit.collider = " + hit.collider.ToString());
-					field.GetCell(x, y).CellType = CellType.LAND;
+					if (hit.collider.name.ToLower().Contains("land"))
+					{
+						Debug.Log("hit.collider = " + hit.collider.ToString());
+						cell.CellType = CellType.LAND;
+					}
+				}
+				else
+				{
+					if (cell.CellType == CellType.LAND)
+					{
+						cell.CellType = CellType.SEA;
+					}
 				}
 			}
 		}
