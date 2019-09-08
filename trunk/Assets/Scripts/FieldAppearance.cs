@@ -335,20 +335,23 @@ public class FieldAppearance : MonoBehaviour {
 				ua.Init( unit );
 			}
 			ua.Place(Utils.scale_y(Utils.rotate(pos, angle_rad), scaleY) );
-			if (!field.GetSelectedUnits().Contains(unit)) //if unit is not selected
+			if (GameController.instance.Mode != Mode.EDITOR)
 			{
-				if (field.Hl.CanFireCells.Contains(cell) && unit.Player != GameController.instance.currentPlayer && field.GetLastSelectedUnit().Player == GameController.instance.currentPlayer)
+				if (!field.GetSelectedUnits().Contains(unit)) //if unit is not selected
 				{
-					ua.ColorAsUnderFireUnit();
+					if (field.Hl.CanFireCells.Contains(cell) && unit.Player != GameController.instance.currentPlayer && field.GetLastSelectedUnit().Player == GameController.instance.currentPlayer)
+					{
+						ua.ColorAsUnderFireUnit();
+					}
+					else
+					{
+						ua.ResetColor();
+					}
 				}
-				else
+				else //if unit is selected
 				{
-					ua.ResetColor();
+					ua.VisualizeAsSelected();
 				}
-			}
-			else //if unit is selected
-			{
-				ua.VisualizeAsSelected();
 			}
 			occupiedWithOneUnitCells.Add(unit.cell);
 		}

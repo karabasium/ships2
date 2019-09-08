@@ -254,7 +254,7 @@ public class Field
 		if (IsValidPosition(new_pos)) //if desired location is valid field cell
 		{
 			Cell c = cells[CellIndex(new_pos.x, new_pos.y)];
-			if (Hl.CanMoveCells.Contains(c))
+			if (Hl.CanMoveCells.Contains(c) || GameController.instance.Mode == Mode.EDITOR)
 			{
 				u.Move(c);
 				Hl.ResetHighlightedCellsLists();

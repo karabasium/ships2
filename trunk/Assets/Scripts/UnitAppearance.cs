@@ -72,6 +72,7 @@ public class UnitAppearance : MonoBehaviour {
 	public void Init(Unit u) {
 		this.u = u;
 		gameObject.name = "UnitAppeareance_" + u.Unit_class;
+		gameObject.tag = "unit";
 		mirror = new GameObject() { name = gameObject.name + "_mirror" };
 		mirror.transform.parent = gameObject.transform;
 

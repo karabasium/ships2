@@ -202,51 +202,59 @@ public class ClickEventsController : MonoBehaviour {
 
 	private void HandleEditorClicks()
 	{
-		if (Input.GetMouseButtonUp(0))
+		if (Input.GetMouseButtonDown(0))
+		{
+			Debug.Log("GetMouseButtonDown");
+			Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+			Vector2 mousePos2D = new Vector2(mousePos.x, mousePos.y);
+
+			RaycastHit2D hit = Physics2D.Raycast(mousePos2D, Vector2.zero);
+
+			if (hit.collider == null)
 			{
-				Debug.Log("GetMouseButtonUp");
+				return;
 			}
-			if (Input.GetMouseButtonDown(0))
+
+			if (hit.collider.gameObject != null)
 			{
-				Debug.Log("GetMouseButtonDown");
-				Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-				Vector2 mousePos2D = new Vector2(mousePos.x, mousePos.y);
-
-				RaycastHit2D hit = Physics2D.Raycast(mousePos2D, Vector2.zero);
-
-				if (hit.collider == null)
+				if (!dragging)
 				{
-					return;
-				}
-
-				if (hit.collider.gameObject != null)
-				{
-					if (!dragging)
-					{
-						dragGameObject = hit.collider.gameObject;
-						distance = Vector3.Distance(dragGameObject.transform.position, Camera.main.transform.position);
-						dragging = true;
-						Debug.Log("start drag");
-					}
-				}
-				else
-				{
-					AddOrRemoveObjects(Utils.GetFieldLogicalXY(mousePos2D));
+					dragGameObject = hit.collider.gameObject;
+					distance = Vector3.Distance(dragGameObject.transform.position, Camera.main.transform.position);
+					dragging = true;
+					Debug.Log("start drag");
 				}
 			}
-			else if (Input.GetMouseButtonUp(0) && dragging)
+			else
 			{
-				dragging = false;
-				Debug.Log("stop drag");
+				AddOrRemoveObjects(Utils.GetFieldLogicalXY(mousePos2D));
+			}
+		}
+		else if (Input.GetMouseButtonUp(0) && dragging)
+		{
+			dragging = false;
+			Debug.Log("stop drag");
+			if (dragGameObject.tag == "land")
+			{
 				fa.UpdateLandCells();
 				fa.DrawCells();
 			}
-			if (dragging)
+			else if (dragGameObject.tag == "unit")
 			{
 				Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 				Vector3 rayPoint = ray.GetPoint(distance);
-				dragGameObject.transform.position = rayPoint;
+				Vector2Int newPos = Utils.GetFieldLogicalXY( rayPoint );
+				field.TryMove(dragGameObject.GetComponent<UnitAppearance>().u, newPos);
+				fa.DrawShips();
+				Debug.Log("unit moved in editor");
 			}
+		}
+		if (dragging)
+		{
+			Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+			Vector3 rayPoint = ray.GetPoint(distance);
+			dragGameObject.transform.position = rayPoint;
+		}
 	}
 
 	void Update()

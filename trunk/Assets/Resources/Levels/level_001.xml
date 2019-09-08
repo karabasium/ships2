@@ -1,29 +1,26 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <level width="10" height="12">
   <cells>
-    <cell x="1" y="0" type="land" />
-    <cell x="1" y="1" type="land" />
-    <cell x="2" y="1" type="land" />
-    <cell x="1" y="2" type="land" />
-    <cell x="2" y="2" type="land" />
-    <cell x="1" y="3" type="land" />
-    <cell x="2" y="3" type="land" />
+    <cell x="6" y="1" type="land" />
+    <cell x="7" y="1" type="land" />
+    <cell x="7" y="2" type="land" />
+    <cell x="8" y="2" type="land" />
+    <cell x="7" y="3" type="land" />
     <cell x="5" y="8" type="land" />
-    <cell x="5" y="9" type="land" />
+    <cell x="6" y="8" type="land" />
     <cell x="6" y="9" type="land" />
     <cell x="5" y="10" type="land" />
     <cell x="6" y="10" type="land" />
-    <cell x="6" y="11" type="land" />
   </cells>
   <units>
-    <unit x="3" y="5" class="brig" player="1" />
-    <unit x="3" y="4" class="brig" player="1" />
-    <unit x="8" y="5" class="brig" player="2" />
-    <unit x="5" y="3" class="brig" player="1" />
+    <unit x="4" y="5" class="brig" player="1" />
+    <unit x="1" y="2" class="brig" player="1" />
+    <unit x="7" y="5" class="brig" player="2" />
+    <unit x="4" y="2" class="brig" player="1" />
     <unit x="2" y="7" class="fort" player="1" />
   </units>
   <landAppearances>
-    <landAppearance world_x="2.044687" world_y="5.026208" prefab_name="Land_01" />
-    <landAppearance world_x="-2.175812" world_y="-2.927035" prefab_name="Land_01" />
+    <landAppearance world_x="2.198363" world_y="4.688134" prefab_name="Land_01" />
+    <landAppearance world_x="3.419527" world_y="-2.827825" prefab_name="Land_01" />
   </landAppearances>
 </level>
