@@ -1,26 +1,34 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <level width="10" height="12">
   <cells>
-    <cell x="6" y="1" type="land" />
-    <cell x="7" y="1" type="land" />
-    <cell x="7" y="2" type="land" />
-    <cell x="8" y="2" type="land" />
-    <cell x="7" y="3" type="land" />
-    <cell x="5" y="8" type="land" />
+    <cell x="3" y="4" type="reefs" />
+    <cell x="8" y="6" type="reefs" />
+    <cell x="6" y="7" type="land" />
+    <cell x="7" y="7" type="land" />
+    <cell x="2" y="8" type="land" />
+    <cell x="3" y="8" type="land" />
     <cell x="6" y="8" type="land" />
-    <cell x="6" y="9" type="land" />
-    <cell x="5" y="10" type="land" />
-    <cell x="6" y="10" type="land" />
+    <cell x="7" y="8" type="land" />
+    <cell x="2" y="9" type="land" />
+    <cell x="3" y="9" type="land" />
+    <cell x="7" y="9" type="land" />
+    <cell x="2" y="10" type="land" />
+    <cell x="3" y="10" type="land" />
+    <cell x="7" y="10" type="land" />
   </cells>
   <units>
-    <unit x="4" y="5" class="brig" player="1" />
-    <unit x="1" y="2" class="brig" player="1" />
-    <unit x="7" y="5" class="brig" player="2" />
-    <unit x="4" y="2" class="brig" player="1" />
-    <unit x="2" y="7" class="fort" player="1" />
+    <unit x="5" y="10" class="brig" player="1" />
+    <unit x="5" y="8" class="brig" player="1" />
+    <unit x="5" y="2" class="brig" player="2" />
+    <unit x="5" y="9" class="brig" player="1" />
+    <unit x="6" y="9" class="fort" player="1" />
+    <unit x="5" y="5" class="brig" player="1" />
+    <unit x="1" y="9" class="brig" player="1" />
+    <unit x="3" y="1" class="brig" player="2" />
+    <unit x="8" y="1" class="fort" player="2" />
   </units>
   <landAppearances>
-    <landAppearance world_x="2.198363" world_y="4.688134" prefab_name="Land_01" />
-    <landAppearance world_x="3.419527" world_y="-2.827825" prefab_name="Land_01" />
+    <landAppearance world_x="3.179489" world_y="4.038086" prefab_name="Land_01" />
+    <landAppearance world_x="-1.301624" world_y="4.349551" prefab_name="Land_01" />
   </landAppearances>
 </level>

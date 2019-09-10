@@ -202,6 +202,11 @@ public class ClickEventsController : MonoBehaviour {
 
 	private void HandleEditorClicks()
 	{
+		if (EventSystem.current.IsPointerOverGameObject()) // prevent interacting with objects below ui elements
+		{
+			return;
+		}
+
 		if (Input.GetMouseButtonDown(0))
 		{
 			Debug.Log("GetMouseButtonDown");
@@ -212,6 +217,7 @@ public class ClickEventsController : MonoBehaviour {
 
 			if (hit.collider == null)
 			{
+				AddOrRemoveObjects(Utils.GetFieldLogicalXY(mousePos2D));
 				return;
 			}
 
@@ -224,10 +230,6 @@ public class ClickEventsController : MonoBehaviour {
 					dragging = true;
 					Debug.Log("start drag");
 				}
-			}
-			else
-			{
-				AddOrRemoveObjects(Utils.GetFieldLogicalXY(mousePos2D));
 			}
 		}
 		else if (Input.GetMouseButtonUp(0) && dragging)

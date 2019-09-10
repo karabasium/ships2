@@ -102,8 +102,8 @@ public class FieldAppearance : MonoBehaviour {
 
 		allCellAppearances = new List<CellAppearance>();
 
-		canMoveColor = new Color(255f / 255f, 255f / 255f, 255f / 255f, 0.5f);
-		canFireColor = new Color(250f / 255f, 136f / 255f, 136f / 255f, 0.5f);
+		canMoveColor = new Color(255f / 255f, 255f / 255f, 255f / 255f, 0.9f);
+		canFireColor = new Color(250f / 255f, 136f / 255f, 136f / 255f, 0.9f);
 		stormCellsColor = new Color(255f / 255f, 50f / 255f, 50f / 255f, 0.5f);
 
 		cellWidth = 1.0f;
@@ -501,7 +501,7 @@ public class FieldAppearance : MonoBehaviour {
 			if (cell.CellType == CellType.LAND)
 			{
 
-				ca.SetColor(new Color(245f / 255f, 175f / 255f, 88f / 255f));
+				ca.SetColor(new Color(245f / 255f, 175f / 255f, 88f / 255f, 0f));
 				ca.gameObject.transform.parent = landParentObject.transform;
 			}
 			else if (cell.CellType == CellType.REEFS)
