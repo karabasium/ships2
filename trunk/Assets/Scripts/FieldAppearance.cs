@@ -30,7 +30,7 @@ public class FieldAppearance : MonoBehaviour {
 	public float RIGHT_OFFSET = 4;
 	public float TOP_OFFSET = 4;
 	public float BOTTOM_OFFSET = 3;
-	private List<GameObject> landObjects;
+	private List<GameObject> landObjects = new List<GameObject>();
 
 	public float Width
 	{
@@ -161,10 +161,12 @@ public class FieldAppearance : MonoBehaviour {
 		UpdateLandCells();
 	}
 
-	private GameObject CreateLandObject(string spriteName, Vector2 position)
+	public GameObject CreateLandObject(string spriteName, Vector2 position)
 	{
-		GameObject g = new GameObject();
-		g.name = spriteName;
+		GameObject g = new GameObject
+		{
+			name = spriteName
+		};
 		g.transform.position = position;
 		g.transform.parent = landParentObject.transform;
 		SpriteRenderer sp = g.AddComponent<SpriteRenderer>();
@@ -173,6 +175,7 @@ public class FieldAppearance : MonoBehaviour {
 		PolygonCollider2D pgc = g.AddComponent<PolygonCollider2D>();
 		pgc.isTrigger = true;
 		g.tag = "land";
+		LandObjects.Add(g);
 		return g;
 	}
 

@@ -282,10 +282,7 @@ public class ClickEventsController : MonoBehaviour {
 						string objectType = hud.GetObjectTypeToPlace();
 						if (objectType == "land")
 						{
-							if (c.SlotsOccupied == 0)
-							{
-								c.CellType = CellType.LAND;
-							}
+							fa.CreateLandObject("Land_01", Camera.main.ScreenToWorldPoint(Input.mousePosition));
 						}
 						else if (objectType == "reefs")
 						{

@@ -88,7 +88,8 @@ public class LevelData {
 		{
 			string objName = node.Attributes["prefab_name"].Value;
 			//GameObject g = (GameObject)Resources.Load("Prefabs/" + objName);
-			Vector2 pos = new Vector2(System.Convert.ToSingle(node.Attributes["world_x"].Value), System.Convert.ToSingle(node.Attributes["world_y"].Value));
+			Debug.Log(objName);
+			Vector2 pos = new Vector2(System.Convert.ToSingle(node.Attributes["world_x"].Value, System.Globalization.CultureInfo.InvariantCulture), System.Convert.ToSingle(node.Attributes["world_y"].Value, System.Globalization.CultureInfo.InvariantCulture));
 			LevelInfo levelInfo = new LevelInfo(objName, pos);
 			landAppearancesInfo.Add(levelInfo);
 			Debug.Log("Land Object info loaded");
