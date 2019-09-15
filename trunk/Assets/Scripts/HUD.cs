@@ -76,7 +76,8 @@ public class HUD : MonoBehaviour {
 	void Update () {
 		if (field.NeedHUDupdate)
 		{
-			UpdateUIShipInfo(field.GetLastSelectedUnit());
+			Unit u = field.GetLastSelectedUnit();
+			UpdateUIShipInfo(u);
 			field.NeedHUDupdate = false;
 		}
 	}
@@ -216,12 +217,16 @@ public class HUD : MonoBehaviour {
 		}
 		else if (u.Shots == 1)
 		{
-			shotToggle1.gameObject.SetActive(true);			
+			shotToggle1.gameObject.SetActive(true);
 			shotToggle2.gameObject.SetActive(false);
 			shotToggle3.gameObject.SetActive(false);
 
 			shotToggle1.GetComponent<Toggle>().isOn = true;
 			shotToggle1.GetComponent<Toggle>().enabled = false;
+			shotToggle2.GetComponent<Toggle>().isOn = false;
+			shotToggle3.GetComponent<Toggle>().isOn = false;
+
+
 		}
 		else if (u.Shots == 2)
 		{
@@ -232,6 +237,7 @@ public class HUD : MonoBehaviour {
 			shotToggle1.GetComponent<Toggle>().isOn = true;
 			shotToggle1.GetComponent<Toggle>().enabled = false;
 			shotToggle2.GetComponent<Toggle>().isOn = false;
+			shotToggle3.GetComponent<Toggle>().isOn = false;
 		}
 		else if (u.Shots == 3)
 		{

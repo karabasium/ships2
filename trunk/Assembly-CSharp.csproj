@@ -80,6 +80,7 @@
     <Compile Include="Assets\Scripts\Weather.cs" />
     <Compile Include="Assets\Scripts\WeatherAppearance.cs" />
     <None Include="Assets\Resources\Levels\level_001.xml" />
+    <None Include="Assets\Resources\Levels\level_002.xml" />
     <Reference Include="Unity.Timeline.Editor">
       <HintPath>D:/GameJamm/ships_isometric3/trunk/trunk/Library/ScriptAssemblies/Unity.Timeline.Editor.dll</HintPath>
     </Reference>

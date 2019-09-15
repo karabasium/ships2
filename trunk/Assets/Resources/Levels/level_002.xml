@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<level width="30" height="30">
+  <cells>
+    <cell x="2" y="4" type="reefs" />
+    <cell x="3" y="4" type="reefs" />
+    <cell x="4" y="4" type="reefs" />
+    <cell x="2" y="5" type="reefs" />
+    <cell x="4" y="5" type="reefs" />
+    <cell x="2" y="6" type="reefs" />
+    <cell x="3" y="6" type="reefs" />
+    <cell x="4" y="6" type="reefs" />
+  </cells>
+  <units>
+    <unit x="3" y="5" class="brig" player="1" />
+    <unit x="6" y="2" class="brig" player="2" />
+  </units>
+  <landAppearances />
+</level>

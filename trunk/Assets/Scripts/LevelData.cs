@@ -162,8 +162,8 @@ public class LevelData {
 			XmlElement landAppearanceNode = xmlDoc.CreateElement("landAppearance");
 			landAppearanceNodes.AppendChild(landAppearanceNode);
 			Vector2 undistortedPos = Utils.TransformToUndistorted(g.transform.position);
-			landAppearanceNode.SetAttribute("world_x", undistortedPos.x.ToString());
-			landAppearanceNode.SetAttribute("world_y", undistortedPos.y.ToString());
+			landAppearanceNode.SetAttribute("world_x", undistortedPos.x.ToString(System.Globalization.CultureInfo.InvariantCulture));
+			landAppearanceNode.SetAttribute("world_y", undistortedPos.y.ToString(System.Globalization.CultureInfo.InvariantCulture));
 			landAppearanceNode.SetAttribute("prefab_name", g.name);
 		}
 

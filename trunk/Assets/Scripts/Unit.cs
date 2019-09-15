@@ -38,12 +38,12 @@ public class Unit  {
 		if (ship_class == "brig")
 		{
 			move_range = 5;
-			calm_move_range = 2;
-			storm_drift_range = 1;
+			calm_move_range = 1;
+			storm_drift_range = 2;
 
-			max_hp = 4;
+			max_hp = 3;
 			fire_range = 3;
-			max_shots = 3;
+			max_shots = 1;
 		}
 		else if (ship_class == "three_deck_battleship")
 		{

@@ -77,7 +77,7 @@ public class GameController : MonoBehaviour {
 		ChangeState(GAME_STATE.INITIALIZATION);
 		currentPlayer = Player.PLAYER_1;		
 
-		levelData = new LevelData("Levels/level_001");
+		levelData = new LevelData("Levels/level_002");
 		f = new Field(levelData.FieldWidth, levelData.FieldHeight);
 		List<Cell> cells = f.GetAllCells();
 		foreach (Cell cell in levelData.Cells)

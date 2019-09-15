@@ -1,46 +1,183 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <level width="30" height="30">
   <cells>
+    <cell x="8" y="0" type="reefs" />
+    <cell x="19" y="0" type="reefs" />
+    <cell x="1" y="1" type="land" />
+    <cell x="2" y="1" type="land" />
+    <cell x="1" y="2" type="land" />
+    <cell x="2" y="2" type="land" />
     <cell x="15" y="2" type="land" />
+    <cell x="17" y="2" type="reefs" />
+    <cell x="27" y="2" type="land" />
+    <cell x="28" y="2" type="land" />
+    <cell x="1" y="3" type="land" />
+    <cell x="2" y="3" type="land" />
     <cell x="15" y="3" type="land" />
     <cell x="16" y="3" type="land" />
+    <cell x="27" y="3" type="land" />
+    <cell x="28" y="3" type="land" />
     <cell x="3" y="4" type="reefs" />
     <cell x="15" y="4" type="land" />
     <cell x="16" y="4" type="land" />
-    <cell x="14" y="5" type="land" />
-    <cell x="15" y="5" type="land" />
+    <cell x="27" y="4" type="land" />
+    <cell x="28" y="4" type="land" />
     <cell x="8" y="6" type="reefs" />
-    <cell x="15" y="6" type="land" />
-    <cell x="6" y="7" type="land" />
-    <cell x="7" y="7" type="land" />
-    <cell x="14" y="7" type="land" />
-    <cell x="15" y="7" type="land" />
-    <cell x="2" y="8" type="land" />
-    <cell x="3" y="8" type="land" />
-    <cell x="6" y="8" type="land" />
-    <cell x="7" y="8" type="land" />
-    <cell x="2" y="9" type="land" />
-    <cell x="3" y="9" type="land" />
-    <cell x="7" y="9" type="land" />
+    <cell x="24" y="6" type="land" />
+    <cell x="25" y="6" type="land" />
+    <cell x="9" y="7" type="land" />
+    <cell x="10" y="7" type="land" />
+    <cell x="12" y="7" type="reefs" />
+    <cell x="21" y="7" type="reefs" />
+    <cell x="24" y="7" type="land" />
+    <cell x="25" y="7" type="land" />
+    <cell x="29" y="7" type="reefs" />
+    <cell x="10" y="8" type="land" />
+    <cell x="11" y="8" type="land" />
+    <cell x="12" y="8" type="reefs" />
+    <cell x="24" y="8" type="land" />
+    <cell x="25" y="8" type="land" />
+    <cell x="10" y="9" type="land" />
+    <cell x="11" y="9" type="land" />
     <cell x="2" y="10" type="land" />
     <cell x="3" y="10" type="land" />
-    <cell x="7" y="10" type="land" />
+    <cell x="19" y="10" type="land" />
+    <cell x="20" y="10" type="land" />
+    <cell x="2" y="11" type="land" />
+    <cell x="3" y="11" type="land" />
+    <cell x="19" y="11" type="land" />
+    <cell x="20" y="11" type="land" />
+    <cell x="27" y="11" type="reefs" />
+    <cell x="2" y="12" type="land" />
+    <cell x="3" y="12" type="land" />
+    <cell x="19" y="12" type="land" />
+    <cell x="20" y="12" type="land" />
+    <cell x="21" y="12" type="reefs" />
+    <cell x="1" y="13" type="reefs" />
+    <cell x="9" y="13" type="reefs" />
+    <cell x="9" y="14" type="land" />
+    <cell x="10" y="14" type="land" />
+    <cell x="17" y="14" type="reefs" />
+    <cell x="9" y="15" type="land" />
+    <cell x="10" y="15" type="land" />
+    <cell x="21" y="15" type="land" />
+    <cell x="22" y="15" type="land" />
+    <cell x="9" y="16" type="land" />
+    <cell x="10" y="16" type="land" />
+    <cell x="22" y="16" type="land" />
+    <cell x="23" y="16" type="land" />
+    <cell x="27" y="16" type="land" />
+    <cell x="28" y="16" type="land" />
+    <cell x="4" y="17" type="reefs" />
+    <cell x="22" y="17" type="land" />
+    <cell x="23" y="17" type="land" />
+    <cell x="27" y="17" type="land" />
+    <cell x="28" y="17" type="land" />
+    <cell x="27" y="18" type="land" />
+    <cell x="28" y="18" type="land" />
+    <cell x="12" y="19" type="land" />
+    <cell x="13" y="19" type="land" />
+    <cell x="8" y="20" type="land" />
+    <cell x="9" y="20" type="land" />
+    <cell x="13" y="20" type="land" />
+    <cell x="14" y="20" type="land" />
+    <cell x="6" y="21" type="reefs" />
+    <cell x="8" y="21" type="land" />
+    <cell x="9" y="21" type="land" />
+    <cell x="13" y="21" type="land" />
+    <cell x="21" y="21" type="reefs" />
+    <cell x="28" y="21" type="reefs" />
+    <cell x="8" y="22" type="land" />
+    <cell x="9" y="22" type="land" />
+    <cell x="14" y="22" type="reefs" />
+    <cell x="8" y="23" type="land" />
+    <cell x="9" y="23" type="land" />
+    <cell x="27" y="23" type="land" />
+    <cell x="8" y="24" type="land" />
+    <cell x="9" y="24" type="land" />
+    <cell x="27" y="24" type="land" />
+    <cell x="8" y="25" type="land" />
+    <cell x="9" y="25" type="land" />
+    <cell x="27" y="25" type="land" />
+    <cell x="28" y="25" type="land" />
+    <cell x="2" y="26" type="land" />
+    <cell x="17" y="26" type="reefs" />
+    <cell x="25" y="26" type="land" />
+    <cell x="26" y="26" type="land" />
+    <cell x="2" y="27" type="land" />
+    <cell x="3" y="27" type="land" />
+    <cell x="9" y="27" type="reefs" />
+    <cell x="19" y="27" type="reefs" />
+    <cell x="25" y="27" type="land" />
+    <cell x="26" y="27" type="land" />
+    <cell x="2" y="28" type="land" />
+    <cell x="3" y="28" type="land" />
+    <cell x="24" y="28" type="reefs" />
+    <cell x="25" y="28" type="land" />
+    <cell x="26" y="28" type="land" />
   </cells>
   <units>
-    <unit x="5" y="10" class="brig" player="1" />
-    <unit x="5" y="8" class="brig" player="1" />
-    <unit x="13" y="4" class="brig" player="2" />
-    <unit x="5" y="9" class="brig" player="1" />
-    <unit x="6" y="9" class="fort" player="1" />
-    <unit x="7" y="5" class="brig" player="1" />
-    <unit x="1" y="9" class="brig" player="1" />
-    <unit x="13" y="3" class="brig" player="2" />
+    <unit x="3" y="5" class="brig" player="1" />
+    <unit x="6" y="2" class="brig" player="1" />
+    <unit x="12" y="5" class="brig" player="2" />
+    <unit x="3" y="1" class="brig" player="1" />
+    <unit x="3" y="2" class="fort" player="1" />
+    <unit x="6" y="0" class="brig" player="1" />
+    <unit x="6" y="1" class="brig" player="1" />
+    <unit x="13" y="2" class="brig" player="2" />
     <unit x="14" y="3" class="fort" player="2" />
+    <unit x="26" y="3" class="fort" player="2" />
+    <unit x="26" y="25" class="fort" player="2" />
+    <unit x="26" y="17" class="fort" player="2" />
+    <unit x="11" y="15" class="fort" player="1" />
+    <unit x="2" y="25" class="fort" player="1" />
+    <unit x="4" y="10" class="fort" player="1" />
+    <unit x="9" y="1" class="brig" player="2" />
+    <unit x="14" y="5" class="brig" player="2" />
+    <unit x="26" y="4" class="brig" player="2" />
+    <unit x="25" y="4" class="brig" player="2" />
+    <unit x="28" y="0" class="brig" player="2" />
+    <unit x="28" y="0" class="brig" player="2" />
+    <unit x="27" y="0" class="brig" player="2" />
+    <unit x="24" y="20" class="brig" player="2" />
+    <unit x="18" y="13" class="brig" player="2" />
+    <unit x="21" y="19" class="brig" player="2" />
+    <unit x="23" y="20" class="brig" player="2" />
+    <unit x="19" y="13" class="brig" player="2" />
+    <unit x="22" y="23" class="brig" player="2" />
+    <unit x="22" y="24" class="brig" player="2" />
+    <unit x="24" y="22" class="brig" player="2" />
+    <unit x="29" y="25" class="brig" player="2" />
+    <unit x="13" y="8" class="brig" player="1" />
+    <unit x="14" y="8" class="brig" player="1" />
+    <unit x="17" y="7" class="brig" player="1" />
+    <unit x="13" y="15" class="brig" player="1" />
+    <unit x="7" y="8" class="brig" player="1" />
+    <unit x="8" y="8" class="brig" player="1" />
+    <unit x="7" y="3" class="brig" player="1" />
+    <unit x="7" y="6" class="brig" player="1" />
+    <unit x="3" y="5" class="brig" player="1" />
+    <unit x="4" y="21" class="brig" player="1" />
+    <unit x="5" y="22" class="brig" player="1" />
+    <unit x="6" y="22" class="brig" player="1" />
+    <unit x="4" y="22" class="brig" player="1" />
   </units>
   <landAppearances>
-    <landAppearance world_x="3.179489" world_y="4.038086" prefab_name="Land_01" />
-    <landAppearance world_x="-1.301624" world_y="4.349551" prefab_name="Land_01" />
+    <landAppearance world_x="-2.245405" world_y="-2.331799" prefab_name="Land_01" />
+    <landAppearance world_x="-0.983914" world_y="6.689559" prefab_name="Land_01" />
     <landAppearance world_x="11.5133" world_y="-1.738714" prefab_name="Land_01" />
-    <landAppearance world_x="11.19878" world_y="1.638328" prefab_name="Land_01" />
+    <landAppearance world_x="15.7912" world_y="6.43977" prefab_name="Land_01" />
+    <landAppearance world_x="-1.471371" world_y="22.23355" prefab_name="Land_01" />
+    <landAppearance world_x="6.049135" world_y="10.87607" prefab_name="Land_01" />
+    <landAppearance world_x="21.74909" world_y="22.60856" prefab_name="Land_01" />
+    <landAppearance world_x="23.56507" world_y="19.97734" prefab_name="Land_01" />
+    <landAppearance world_x="23.80962" world_y="12.33429" prefab_name="Land_01" />
+    <landAppearance world_x="18.445" world_y="11.39505" prefab_name="Land_01" />
+    <landAppearance world_x="23.93713" world_y="-1.57863" prefab_name="Land_01" />
+    <landAppearance world_x="21.13463" world_y="2.914342" prefab_name="Land_01" />
+    <landAppearance world_x="4.795632" world_y="16.51211" prefab_name="Land_01" />
+    <landAppearance world_x="4.797518" world_y="19.52837" prefab_name="Land_01" />
+    <landAppearance world_x="9.346263" world_y="15.29631" prefab_name="Land_01" />
+    <landAppearance world_x="6.499794" world_y="3.517606" prefab_name="Land_01" />
   </landAppearances>
 </level>
